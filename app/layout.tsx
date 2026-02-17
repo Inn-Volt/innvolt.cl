@@ -10,6 +10,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "INNVOLT | Electricidad, Automatización y Control",
+  icons: {
+    icon: '/icon.svg', // Esto le dice al navegador que use el rayo amarillo
+  },
   description: "Especialistas en instalaciones eléctricas integrales, certificación SEC, domótica y redes de seguridad en Santiago de Chile.",
   keywords: ["electricidad", "automatización", "SEC", "TE1", "domótica", "cámaras de seguridad", "Chile"],
 };
