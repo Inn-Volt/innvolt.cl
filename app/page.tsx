@@ -1,76 +1,57 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { Bolt, ShieldCheck, Zap, Factory, CheckCircle, ArrowRight, Phone, Mail, Instagram, Linkedin, HardHat, MapPin, MessageCircle } from 'lucide-react';
+import { ShieldCheck, Zap, CheckCircle, ArrowRight, Phone, Mail, Instagram, MapPin } from 'lucide-react';
 
 export default function InnVoltPro() {
   const formRef = useRef<HTMLFormElement>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
 
-    // 1. Recopilar datos para WhatsApp
-    const formData = new FormData(formRef.current);
-    const nombre = formData.get('user_name');
-    const empresa = formData.get('user_company');
-    const asunto = formData.get('user_subject');
-    const mensaje = formData.get('message');
+    setFormStatus('loading');
 
-    // 2. Configuración EmailJS (Tus IDs reales mantenidos intactos)
-    const serviceID = 'service_2eu64xv';
+    const serviceID  = 'service_2eu64xv';
     const templateID = 'template_yq0u1gc';
-    const publicKey = '06SfJx0u03W8m5lC-';
+    const publicKey  = '06SfJx0u03W8m5lC-';
 
     try {
-      // Enviar Correo
       await emailjs.sendForm(serviceID, templateID, formRef.current, publicKey);
-      
-      // 3. Abrir WhatsApp con los datos formateados
-      const textoWA = `*NUEVO PROYECTO INNVOLT*%0A%0A*Nombre:* ${nombre}%0A*Empresa:* ${empresa}%0A*Servicio:* ${asunto}%0A*Mensaje:* ${mensaje}`;
-      const urlWA = `https://wa.me/56989203902?text=${textoWA}`;
-      
-      window.open(urlWA, '_blank');
-      
       formRef.current.reset();
-      alert("¡Mensaje enviado con éxito! Se ha abierto el chat de WhatsApp para atención inmediata.");
+      setFormStatus('success');
+      setTimeout(() => setFormStatus('idle'), 5000);
     } catch (error) {
       console.error('Error:', error);
-      alert("Hubo un error al enviar el correo, pero puedes contactarnos directamente al WhatsApp +56989203902");
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
     }
   };
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#ffc600] overflow-x-hidden">
       
-      {/* 1. BOTÓN FLOTANTE WHATSAPP */}
+      {/* BOTÓN FLOTANTE WHATSAPP */}
       <a 
         href="https://wa.me/56989203902" 
         target="_blank" 
         rel="noopener noreferrer" 
         className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
       >
-        <img 
-          src="/whatsapp.svg" 
-          alt="WhatsApp" 
-          width={28} 
-          height={28} 
-          className="w-6 h-6 md:w-7 md:h-7"
-        />
+        <img src="/whatsapp.svg" alt="WhatsApp" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
         <span className="hidden md:block font-black text-sm text-black uppercase">WhatsApp</span>
       </a>
 
-      {/* 2. NAV CON RAYO */}
+      {/* NAV */}
       <nav className="fixed w-full z-50 bg-[#1e293b]/95 backdrop-blur-md border-b border-white/5 py-3 md:py-4">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
           <div className="flex items-center gap-2 md:gap-3"> 
             <Zap className="text-[#ffc600] fill-[#ffc600]" size={28} />
-            <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black text-white tracking-tighter italic leading-none">
-                INN<span className="text-[#ffc600]">VOLT</span>
-              </span>
-            </div>
+            <span className="text-xl md:text-2xl font-black text-white tracking-tighter italic leading-none">
+              INN<span className="text-[#ffc600]">VOLT</span>
+            </span>
           </div>
           <div className="flex items-center gap-4 md:gap-10 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-300">
             <a href="#servicios" className="hidden lg:block hover:text-[#ffc600] transition-all">Servicios</a>
@@ -82,7 +63,7 @@ export default function InnVoltPro() {
         </div>
       </nav>
 
-      {/* 3. HERO SECTION */}
+      {/* HERO */}
       <section className="relative min-h-screen flex items-center pt-24 md:pt-20 bg-[#1e293b] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#1e293b] via-[#1e293b]/80 to-transparent z-10" />
@@ -92,7 +73,6 @@ export default function InnVoltPro() {
             alt="InnVolt Hero"
           />
         </div>
-
         <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20 w-full">
           <div className="lg:col-span-7 space-y-6 md:space-y-8 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#ffc600] text-[9px] md:text-[10px] font-black uppercase tracking-widest">
@@ -100,7 +80,7 @@ export default function InnVoltPro() {
             </div>
             <h1 className="text-3xl sm:text-5xl md:text-[70px] font-black text-white leading-[1.1] md:leading-[0.85] tracking-tighter uppercase">
               <span className="text-[#ffc600] italic"> INNOVACIÓN</span> <br className="hidden md:block" />
-              ELECTRICIDAD, AUTOMATIZACIÓN Y CONTROL <br className="hidden md:block" />
+              ELECTRICIDAD, AUTOMATIZACIÓN Y CONTROL
             </h1>
             <p className="text-slate-300 text-base md:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium italic">
               "Soluciones en electricidad, automatización y redes, orientadas a la seguridad, eficiencia energética y conectividad."
@@ -111,32 +91,31 @@ export default function InnVoltPro() {
               </a>
             </div>
           </div>
-
           <div className="lg:col-span-5">
             <div className="bg-[#1e293b]/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 shadow-2xl">
               <h3 className="text-[#ffc600] font-black text-lg md:text-xl mb-6 md:mb-8 uppercase tracking-tighter italic">Nuestros Servicios</h3>
               <ul className="space-y-3 md:space-y-4 text-left">
-                {["Instalaciones Eléctricas Integrales", "Proyectos de Ingeniería y Planos", "Certificación SEC y Trámites TE1", "Automatización e Iluminación Inteligente",  "Control de Accesos y Portones","Redes de Datos y Videovigilancia"].map((item, i) => (
+                {["Instalaciones Eléctricas Integrales", "Proyectos de Ingeniería y Planos", "Certificación SEC y Trámites TE1", "Automatización e Iluminación Inteligente", "Control de Accesos y Portones", "Redes de Datos y Videovigilancia"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 md:gap-4 text-white font-bold text-[11px] md:text-sm">
                     <CheckCircle size={18} className="text-[#ffc600] shrink-0" /> {item}
                   </li>
                 ))}
               </ul>
               <div className="mt-6 md:mt-8 p-4 md:p-6 bg-white/5 rounded-2xl border border-white/5 text-center">
-                 <p className="text-slate-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-2">Línea Directa 24/7</p>
-                 <p className="text-white text-lg md:text-xl font-black">+56 9 8920 3902</p>
+                <p className="text-slate-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-2">Línea Directa 24/7</p>
+                <p className="text-white text-lg md:text-xl font-black">+56 9 8920 3902</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. SERVICIOS */}
+      {/* SERVICIOS */}
       <section id="servicios" className="py-16 md:py-32">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-12 md:mb-20 space-y-4">
-             <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Lo que hacemos</h2>
-             <h3 className="text-4xl md:text-6xl font-black text-[#FFC600] tracking-tighter italic uppercase">Servicios</h3>
+            <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Lo que hacemos</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-[#FFC600] tracking-tighter italic uppercase">Servicios</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             <ServiceCardImage 
@@ -158,23 +137,18 @@ export default function InnVoltPro() {
         </div>
       </section>
 
-      {/* 5.5 SECCIÓN NOSOTROS */}
+      {/* NOSOTROS */}
       <section id="nosotros" className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="relative order-2 lg:order-1">
               <div className="absolute -top-3 -left-3 md:-top-4 md:-left-4 w-16 h-16 md:w-24 md:h-24 border-t-4 border-l-4 border-[#ffc600]" />
-              <img 
-                src="/unnamed.jpg" 
-                alt="Equipo InnVolt" 
-                className="rounded-[2rem] md:rounded-[3rem] shadow-2xl relative z-10 w-full"
-              />
+              <img src="/unnamed.jpg" alt="Equipo InnVolt" className="rounded-[2rem] md:rounded-[3rem] shadow-2xl relative z-10 w-full" />
               <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-[#ffc600] p-4 md:p-8 rounded-2xl md:rounded-3xl z-20">
                 <p className="text-[#1e293b] font-black text-2xl md:text-4xl italic">+5</p>
                 <p className="text-[#1e293b] text-[8px] md:text-[10px] font-bold uppercase tracking-widest leading-tight">Años de <br />Experiencia</p>
               </div>
             </div>
-
             <div className="space-y-6 md:space-y-8 order-1 lg:order-2 text-center lg:text-left">
               <div className="space-y-3 md:space-y-4">
                 <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Nuestra Identidad</h2>
@@ -205,10 +179,12 @@ export default function InnVoltPro() {
         </div>
       </section>
 
-      {/* 6. SECCIÓN CONTACTO */}
+      {/* CONTACTO */}
       <section id="contacto" className="py-20 md:py-32 bg-[#1e293b] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+
+            {/* Info */}
             <div className="space-y-8 md:space-y-12 text-center lg:text-left">
               <div className="space-y-4">
                 <h2 className="text-[#ffc600] font-black text-[10px] md:text-xs uppercase tracking-[0.4em]">Hablemos</h2>
@@ -219,41 +195,124 @@ export default function InnVoltPro() {
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                <ContactInfo Icon={Phone} title="Teléfono" content={<a href="tel:+56989203902" className="hover:text-[#ffc600]">+56 9 8920 3902</a>} />
-                <ContactInfo Icon={Mail} title="Email" content={<a href="mailto:inn-volt@outlook.cl" className="hover:text-[#ffc600]">inn-volt@outlook.cl</a>} />
-                <ContactInfo Icon={Instagram} title="Instagram" content={<a href="https://instagram.com/inn.volt" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffc600]">@inn.volt</a>} />
-                <ContactInfo Icon={MapPin} title="Ubicación" content={<a href="#" className="hover:text-[#ffc600]">Santiago, Región Metropolitana</a>} />
+                <ContactInfo Icon={Phone} title="Teléfono / WhatsApp" content={
+                  <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffc600] transition-colors">+56 9 8920 3902</a>
+                } />
+                <ContactInfo Icon={Mail} title="Email" content={
+                  <a href="mailto:inn-volt@outlook.cl" className="hover:text-[#ffc600] transition-colors">inn-volt@outlook.cl</a>
+                } />
+                <ContactInfo Icon={Instagram} title="Instagram" content={
+                  <a href="https://instagram.com/inn.volt" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffc600] transition-colors">@inn.volt</a>
+                } />
+                <ContactInfo Icon={MapPin} title="Ubicación" content={<span>Santiago, Región Metropolitana</span>} />
               </div>
             </div>
 
+            {/* Formulario */}
             <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 lg:p-16 shadow-2xl">
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+
+                {/* Nombre + Empresa */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Nombre</label>
-                    <input name="user_name" required type="text" className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all" placeholder="Tu nombre" />
+                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Nombre *</label>
+                    <input name="user_name" required type="text"
+                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
+                      placeholder="Tu nombre" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Empresa</label>
-                    <input name="user_company" type="text" className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all" placeholder="Nombre de empresa" />
+                    <input name="user_company" type="text"
+                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
+                      placeholder="Nombre de empresa" />
                   </div>
                 </div>
+
+                {/* Correo + Teléfono */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Correo *</label>
+                    <input name="user_email" required type="email"
+                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
+                      placeholder="tu@correo.cl" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Teléfono</label>
+                    <input name="user_phone" type="tel"
+                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
+                      placeholder="+56 9 1234 5678" />
+                  </div>
+                </div>
+
+                {/* Servicio */}
                 <div className="space-y-2">
-                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Asunto</label>
-                  <select name="user_subject" className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all text-slate-500">
+                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Servicio</label>
+                  <select name="user_subject"
+                    className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all text-slate-500">
                     <option>Electricidad General / SEC</option>
                     <option>Domótica y Automatización</option>
                     <option>Redes y Cámaras</option>
                     <option>Otro servicio</option>
                   </select>
                 </div>
+
+                {/* Mensaje */}
                 <div className="space-y-2">
-                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Mensaje</label>
-                  <textarea name="message" required rows={4} className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all resize-none" placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Mensaje *</label>
+                  <textarea name="message" required rows={4}
+                    className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all resize-none"
+                    placeholder="Cuéntanos sobre tu proyecto..." />
                 </div>
-                <button type="submit" className="w-full bg-[#1e293b] text-white font-black uppercase py-4 md:py-5 rounded-xl md:rounded-2xl text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#ffc600] hover:text-[#1e293b] transition-all shadow-xl">
-                  Enviar mensaje
-                </button>
+
+                {/* Botones */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="submit"
+                    disabled={formStatus === 'loading'}
+                    className="w-full bg-[#1e293b] text-white font-black uppercase py-4 rounded-xl md:rounded-2xl text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#ffc600] hover:text-[#1e293b] transition-all shadow-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <Mail size={14} />
+                    {formStatus === 'loading' ? 'Enviando...' : 'Enviar correo'}
+                  </button>
+
+                  <a
+                    href="https://wa.me/56989203902"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-[#25D366] text-white font-black uppercase py-4 rounded-xl md:rounded-2xl text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#1ebe5d] transition-all shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <img src="/whatsapp.svg" alt="WhatsApp" width={14} height={14} className="w-4 h-4 brightness-0 invert" />
+                    WhatsApp
+                  </a>
+                </div>
+
+                {/* ✅ Éxito */}
+                {formStatus === 'success' && (
+                  <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-2xl p-4">
+                    <CheckCircle size={20} className="text-green-500 shrink-0" />
+                    <div>
+                      <p className="text-green-600 font-black text-xs uppercase tracking-wider">¡Correo enviado!</p>
+                      <p className="text-slate-500 text-xs mt-0.5">Te contactaremos a la brevedad.</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* ❌ Error */}
+                {formStatus === 'error' && (
+                  <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-2xl p-4">
+                    <div className="w-5 h-5 rounded-full border-2 border-red-400 flex items-center justify-center shrink-0">
+                      <span className="text-red-400 text-xs font-black">!</span>
+                    </div>
+                    <div>
+                      <p className="text-red-500 font-black text-xs uppercase tracking-wider">Error al enviar</p>
+                      <p className="text-slate-500 text-xs mt-0.5">
+                        Contáctanos por{' '}
+                        <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="font-bold text-[#1e293b] hover:text-green-600 underline">WhatsApp</a>.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
               </form>
             </div>
           </div>

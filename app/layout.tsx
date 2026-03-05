@@ -49,6 +49,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
+      <head>
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+      </head>
       <body className={`${inter.className} antialiased`}>
         {children}
       </body>
