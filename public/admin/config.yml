@@ -17,6 +17,7 @@ collections:
       - { label: Descripción, name: descripcion, widget: text }
       - { label: Imagen, name: imagen, widget: image }
       - { label: Ubicación, name: ubicacion, widget: string, required: false }
+      - { label: "Video URL (YouTube o TikTok)", name: video_url, widget: string, required: false, hint: "Pega el link del video. Ej: https://youtube.com/watch?v=xxxx" }
 
   - name: testimonios
     label: Testimonios
