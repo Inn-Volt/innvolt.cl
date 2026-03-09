@@ -1,63 +1,99 @@
 import { ShieldCheck, Clock, FileCheck, Wrench, Star, MessageCircle } from 'lucide-react';
 
 const GARANTIAS = [
-  { icon: ShieldCheck, titulo: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos.' },
-  { icon: Clock,       titulo: 'Respuesta en 24 hrs', desc: 'Cotización y coordinación dentro del día hábil siguiente.' },
-  { icon: FileCheck,   titulo: 'Presupuesto sin costo', desc: 'Propuesta técnica detallada, sin compromiso y sin cobros ocultos.' },
-  { icon: Wrench,      titulo: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto.' },
+  {
+    icon: ShieldCheck,
+    titulo: 'Certificación SEC',
+    desc: 'Todos nuestros trabajos cumplen la normativa eléctrica chilena. Emitimos certificados TE1 y gestionamos los trámites ante la SEC.',
+  },
+  {
+    icon: Clock,
+    titulo: 'Respuesta en menos de 24 hrs',
+    desc: 'Cotizamos y coordinamos tu proyecto dentro del día hábil siguiente a tu solicitud.',
+  },
+  {
+    icon: FileCheck,
+    titulo: 'Presupuesto sin costo',
+    desc: 'Te entregamos una propuesta técnica detallada y sin compromiso. Sin letra chica ni cobros ocultos.',
+  },
+  {
+    icon: Wrench,
+    titulo: 'Garantía en materiales y mano de obra',
+    desc: 'Respaldamos cada instalación con garantía real. Si algo falla por nuestra parte, lo resolvemos.',
+  },
 ];
 
 export default function PorQueElegirnos() {
   return (
-    <section id="garantias" style={{ padding: '7rem 0', background: '#f8fafc' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+    <section id="garantias" className="py-16 md:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-        <div style={{ marginBottom: '4rem' }}>
-          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#ffc600', marginBottom: '1rem' }}>— Sin inventos</p>
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: '#0d1520', lineHeight: 0.95 }}>
-            ¿POR QUÉ<br />ELEGIRNOS?
-          </h2>
+        {/* Header */}
+        <div className="text-center mb-12 md:mb-20 space-y-4">
+          <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Sin inventos</h2>
+          <h3 className="text-4xl md:text-6xl font-black text-[#1e293b] tracking-tighter italic uppercase">
+            ¿Por qué <span className="text-[#ffc600]">elegirnos?</span>
+          </h3>
+          <p className="text-slate-500 text-sm md:text-base max-w-lg mx-auto">
+            No necesitamos inventar reseñas. Estos son nuestros compromisos concretos en cada proyecto.
+          </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1px', background: 'rgba(13,21,32,0.08)', borderRadius: '16px', overflow: 'hidden', marginBottom: '3rem' }}>
+        {/* Cards garantías */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 mb-16 md:mb-24">
           {GARANTIAS.map(({ icon: Icon, titulo, desc }) => (
-            <div key={titulo} style={{ background: '#fff', padding: '2.5rem', transition: 'background 0.2s' }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = '#fffef5'}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = '#fff'}>
-              <div style={{ width: '44px', height: '44px', background: 'rgba(255,198,0,0.1)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Icon size={20} color="#ffc600" />
+            <div key={titulo} className="group bg-slate-50 rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-8 border-2 border-transparent hover:border-[#ffc600] transition-all hover:shadow-xl">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#ffc600]/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-5 group-hover:bg-[#ffc600]/20 transition-colors">
+                <Icon size={24} className="text-[#ffc600]" />
               </div>
-              <h4 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', color: '#0d1520', marginBottom: '0.5rem', letterSpacing: '0.02em' }}>{titulo}</h4>
-              <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6, fontWeight: 300 }}>{desc}</p>
+              <h4 className="font-black text-[#1e293b] text-sm md:text-base uppercase italic tracking-tight mb-2">
+                {titulo}
+              </h4>
+              <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-medium">
+                {desc}
+              </p>
             </div>
           ))}
         </div>
 
         {/* CTA Google Reviews */}
-        <div style={{ background: '#0d1520', borderRadius: '16px', padding: '3.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,198,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,198,0,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-          <div style={{ position: 'relative' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '1.5rem' }}>
-              {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#ffc600" fill="#ffc600" />)}
-            </div>
-            <h4 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#fff', marginBottom: '1rem', lineHeight: 0.95 }}>
-              ¿YA TRABAJASTE<br />CON NOSOTROS?
-            </h4>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto 2rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Tu reseña nos ayuda a seguir creciendo y que otros clientes nos conozcan.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <a href="https://g.page/r/LINK_GOOGLE_MAPS/review" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#ffc600', color: '#0d1520', fontFamily: "'Space Mono', monospace", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.9rem 2rem', borderRadius: '8px', textDecoration: 'none' }}>
-                ⭐ Reseña en Google
-              </a>
-              <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', fontFamily: "'Space Mono', monospace", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.9rem 2rem', borderRadius: '8px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <MessageCircle size={14} /> Por WhatsApp
-              </a>
-            </div>
+        <div className="bg-[#1e293b] rounded-[2rem] md:rounded-[3rem] p-8 md:p-14 text-center space-y-6">
+          <div className="flex justify-center gap-1 mb-2">
+            {[1,2,3,4,5].map(i => (
+              <Star key={i} size={22} className="text-[#ffc600] fill-[#ffc600]" />
+            ))}
           </div>
+          <h4 className="text-white font-black text-2xl md:text-4xl italic uppercase tracking-tighter">
+            ¿Ya trabajaste con nosotros?
+          </h4>
+          <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto">
+            Tu opinión nos ayuda a seguir creciendo y a que otros clientes nos conozcan. Tómate 2 minutos y déjanos tu reseña.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="https://g.page/r/CRa4ejtbBBcyEAI/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#ffc600] text-[#1e293b] font-black uppercase text-xs tracking-widest px-8 py-4 rounded-xl md:rounded-2xl hover:bg-white transition-all shadow-xl"
+            >
+              <Star size={14} className="fill-[#1e293b]" />
+              Dejar reseña en Google
+            </a>
+            <a
+              href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio%20de%20mi%20experiencia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-black uppercase text-xs tracking-widest px-8 py-4 rounded-xl md:rounded-2xl hover:bg-white/20 transition-all border border-white/10"
+            >
+              <MessageCircle size={14} />
+              Enviarnos por WhatsApp
+            </a>
+          </div>
+          <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">
+            Somos nuevos y construimos nuestra reputación con cada proyecto ✦
+          </p>
         </div>
+
       </div>
     </section>
   );

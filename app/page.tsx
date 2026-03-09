@@ -1,43 +1,21 @@
-'use client';
-
-import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import React from 'react';
 import { ShieldCheck, Zap, CheckCircle, ArrowRight, Phone, Mail, Instagram, MapPin } from 'lucide-react';
+import { getProyectos } from '@/lib/proyectos';
+import ProyectosGaleria from './components/ProyectosGaleria';
+import PorQueElegirnos from './components/PorQueElegirnos';
+import ContactForm from './components/ContactForm';
 
 export default function InnVoltPro() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!formRef.current) return;
-
-    setFormStatus('loading');
-
-    const serviceID  = 'service_2eu64xv';
-    const templateID = 'template_yq0u1gc';
-    const publicKey  = '06SfJx0u03W8m5lC-';
-
-    try {
-      await emailjs.sendForm(serviceID, templateID, formRef.current, publicKey);
-      formRef.current.reset();
-      setFormStatus('success');
-      setTimeout(() => setFormStatus('idle'), 5000);
-    } catch (error) {
-      console.error('Error:', error);
-      setFormStatus('error');
-      setTimeout(() => setFormStatus('idle'), 5000);
-    }
-  };
+  const proyectos = getProyectos();
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#ffc600] overflow-x-hidden">
-      
+
       {/* BOTÓN FLOTANTE WHATSAPP */}
-      <a 
-        href="https://wa.me/56989203902" 
-        target="_blank" 
-        rel="noopener noreferrer" 
+      <a
+        href="https://wa.me/56989203902"
+        target="_blank"
+        rel="noopener noreferrer"
         className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
       >
         <img src="/whatsapp.svg" alt="WhatsApp" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
@@ -47,7 +25,7 @@ export default function InnVoltPro() {
       {/* NAV */}
       <nav className="fixed w-full z-50 bg-[#1e293b]/95 backdrop-blur-md border-b border-white/5 py-3 md:py-4">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2 md:gap-3"> 
+          <div className="flex items-center gap-2 md:gap-3">
             <Zap className="text-[#ffc600] fill-[#ffc600]" size={28} />
             <span className="text-xl md:text-2xl font-black text-white tracking-tighter italic leading-none">
               INN<span className="text-[#ffc600]">VOLT</span>
@@ -55,6 +33,7 @@ export default function InnVoltPro() {
           </div>
           <div className="flex items-center gap-4 md:gap-10 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-300">
             <a href="#servicios" className="hidden lg:block hover:text-[#ffc600] transition-all">Servicios</a>
+            <a href="#proyectos" className="hidden lg:block hover:text-[#ffc600] transition-all">Proyectos</a>
             <a href="#nosotros" className="hidden lg:block hover:text-[#ffc600] transition-all">Nosotros</a>
             <a href="#contacto" className="bg-[#ffc600] text-[#1e293b] px-4 py-2 md:px-6 md:py-2.5 rounded-xl hover:bg-white transition-all font-black">
               SOLICITAR PRESUPUESTO
@@ -67,8 +46,8 @@ export default function InnVoltPro() {
       <section className="relative min-h-screen flex items-center pt-24 md:pt-20 bg-[#1e293b] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#1e293b] via-[#1e293b]/80 to-transparent z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop" 
+          <img
+            src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop"
             className="w-full h-full object-cover opacity-30"
             alt="InnVolt Hero"
           />
@@ -88,6 +67,9 @@ export default function InnVoltPro() {
             <div className="flex flex-wrap justify-center lg:justify-start gap-5">
               <a href="#contacto" className="w-full sm:w-auto bg-[#ffc600] text-[#1e293b] px-10 py-4 md:py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl hover:bg-white transition-all flex items-center justify-center gap-3">
                 EMPEZAR AHORA <ArrowRight size={18} />
+              </a>
+              <a href="#proyectos" className="w-full sm:w-auto border-2 border-white/20 text-white px-10 py-4 md:py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-[#ffc600] hover:text-[#ffc600] transition-all flex items-center justify-center gap-3">
+                VER PROYECTOS
               </a>
             </div>
           </div>
@@ -118,17 +100,17 @@ export default function InnVoltPro() {
             <h3 className="text-4xl md:text-6xl font-black text-[#FFC600] tracking-tighter italic uppercase">Servicios</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            <ServiceCardImage 
+            <ServiceCardImage
               img="https://img.freepik.com/fotos-premium/ciencia-tecnologia-electronica-impresion-planos-ingenieria-electrica-disyuntor-mulyimeter-desarrollo-cientifico_113913-573.jpg"
               title="Electricidad General"
               desc="Soluciones eléctricas integrales para entornos domiciliarios, comerciales e industriales, desde instalaciones base hasta certificación SEC, con respaldo técnico y cumplimiento normativo."
             />
-            <ServiceCardImage 
+            <ServiceCardImage
               img="https://plus.unsplash.com/premium_photo-1728831285095-63346794b6ad?q=80&w=827&auto=format&fit=crop"
               title="Domótica y Automatización"
               desc="Iluminación inteligente, control de accesos y automatización de instalaciones eléctricas, optimizando la seguridad, eficiencia energética y gestión remota de cada espacio."
             />
-            <ServiceCardImage 
+            <ServiceCardImage
               img="https://media.istockphoto.com/id/1311084163/es/foto/guardia-de-seguridad-observando-el-sistema-de-seguridad-de-monitoreo-de-v%C3%ADdeo.webp?a=1&b=1&s=612x612&w=0&k=20&c=UVJbBXQuaQEOQQ1OkhXGJ5fE8_yZmrXblL6-TBTk8D0="
               title="Redes y Seguridad"
               desc="Implementación de infraestructura de redes, cableado estructurado y sistemas de videovigilancia de alta definición para entornos residenciales, comerciales e industriales."
@@ -136,6 +118,12 @@ export default function InnVoltPro() {
           </div>
         </div>
       </section>
+
+      {/* GALERÍA DE PROYECTOS */}
+      <ProyectosGaleria proyectos={proyectos} />
+
+      {/* POR QUÉ ELEGIRNOS */}
+      <PorQueElegirnos />
 
       {/* NOSOTROS */}
       <section id="nosotros" className="py-16 md:py-24 bg-white">
@@ -183,14 +171,12 @@ export default function InnVoltPro() {
       <section id="contacto" className="py-20 md:py-32 bg-[#1e293b] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-
-            {/* Info */}
             <div className="space-y-8 md:space-y-12 text-center lg:text-left">
               <div className="space-y-4">
                 <h2 className="text-[#ffc600] font-black text-[10px] md:text-xs uppercase tracking-[0.4em]">Hablemos</h2>
                 <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter italic uppercase">¿TIENES UN <br className="hidden md:block"/>PROYECTO?</h3>
                 <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">
-                  Estamos listos para asesorarte en tus instalaciones eléctricas, proyectos de domótica o seguridad. 
+                  Estamos listos para asesorarte en tus instalaciones eléctricas, proyectos de domótica o seguridad.
                   Contáctanos y obtén una cotización técnica profesional.
                 </p>
               </div>
@@ -207,114 +193,7 @@ export default function InnVoltPro() {
                 <ContactInfo Icon={MapPin} title="Ubicación" content={<span>Santiago, Región Metropolitana</span>} />
               </div>
             </div>
-
-            {/* Formulario */}
-            <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 lg:p-16 shadow-2xl">
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-
-                {/* Nombre + Empresa */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Nombre *</label>
-                    <input name="user_name" required type="text"
-                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
-                      placeholder="Tu nombre" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Empresa</label>
-                    <input name="user_company" type="text"
-                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
-                      placeholder="Nombre de empresa" />
-                  </div>
-                </div>
-
-                {/* Correo + Teléfono */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Correo *</label>
-                    <input name="user_email" required type="email"
-                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
-                      placeholder="tu@correo.cl" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Teléfono</label>
-                    <input name="user_phone" type="tel"
-                      className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all"
-                      placeholder="+56 9 1234 5678" />
-                  </div>
-                </div>
-
-                {/* Servicio */}
-                <div className="space-y-2">
-                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Servicio</label>
-                  <select name="user_subject"
-                    className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all text-slate-500">
-                    <option>Electricidad General / SEC</option>
-                    <option>Domótica y Automatización</option>
-                    <option>Redes y Cámaras</option>
-                    <option>Otro servicio</option>
-                  </select>
-                </div>
-
-                {/* Mensaje */}
-                <div className="space-y-2">
-                  <label className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Mensaje *</label>
-                  <textarea name="message" required rows={4}
-                    className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl p-3 md:p-4 text-sm focus:ring-2 focus:ring-[#ffc600] outline-none transition-all resize-none"
-                    placeholder="Cuéntanos sobre tu proyecto..." />
-                </div>
-
-                {/* Botones */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button
-                    type="submit"
-                    disabled={formStatus === 'loading'}
-                    className="w-full bg-[#1e293b] text-white font-black uppercase py-4 rounded-xl md:rounded-2xl text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#ffc600] hover:text-[#1e293b] transition-all shadow-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    <Mail size={14} />
-                    {formStatus === 'loading' ? 'Enviando...' : 'Enviar correo'}
-                  </button>
-
-                  <a
-                    href="https://wa.me/56989203902"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-[#25D366] text-white font-black uppercase py-4 rounded-xl md:rounded-2xl text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#1ebe5d] transition-all shadow-xl flex items-center justify-center gap-2"
-                  >
-                    <img src="/whatsapp.svg" alt="WhatsApp" width={14} height={14} className="w-4 h-4 brightness-0 invert" />
-                    WhatsApp
-                  </a>
-                </div>
-
-                {/* ✅ Éxito */}
-                {formStatus === 'success' && (
-                  <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-2xl p-4">
-                    <CheckCircle size={20} className="text-green-500 shrink-0" />
-                    <div>
-                      <p className="text-green-600 font-black text-xs uppercase tracking-wider">¡Correo enviado!</p>
-                      <p className="text-slate-500 text-xs mt-0.5">Te contactaremos a la brevedad.</p>
-                    </div>
-                  </div>
-                )}
-
-                {/* ❌ Error */}
-                {formStatus === 'error' && (
-                  <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-2xl p-4">
-                    <div className="w-5 h-5 rounded-full border-2 border-red-400 flex items-center justify-center shrink-0">
-                      <span className="text-red-400 text-xs font-black">!</span>
-                    </div>
-                    <div>
-                      <p className="text-red-500 font-black text-xs uppercase tracking-wider">Error al enviar</p>
-                      <p className="text-slate-500 text-xs mt-0.5">
-                        Contáctanos por{' '}
-                        <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="font-bold text-[#1e293b] hover:text-green-600 underline">WhatsApp</a>.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-              </form>
-            </div>
+            <ContactForm />
           </div>
         </div>
       </section>
@@ -328,7 +207,7 @@ export default function InnVoltPro() {
   );
 }
 
-function ContactInfo({ Icon, title, content }: any) {
+function ContactInfo({ Icon, title, content }: { Icon: React.ElementType; title: string; content: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4 md:gap-6 group">
       <div className="w-10 h-10 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center text-[#ffc600] group-hover:scale-110 transition-transform shrink-0">
@@ -342,7 +221,7 @@ function ContactInfo({ Icon, title, content }: any) {
   );
 }
 
-function ServiceCardImage({ img, title, desc }: any) {
+function ServiceCardImage({ img, title, desc }: { img: string; title: string; desc: string }) {
   return (
     <div className="group relative h-[350px] md:h-[450px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl transition-all hover:-translate-y-2">
       <img src={img} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={title} />
