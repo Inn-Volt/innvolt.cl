@@ -83,7 +83,7 @@ export default function AdminPanel() {
     try {
       const url = await uploadImage(item.file);
       setUploads(prev => {
-        const next = prev.map((u, i) => i === idx ? { ...u, status: 'done', url } : u);
+        const next = prev.map((u, i) => i === idx ? { ...u, status: 'done' as const, url } : u);
         // Sincronizar URLs al form
         const urls = next.filter(u => u.status === 'done').map(u => u.url);
         setForm(f => ({ ...f, imagenes: urls }));
