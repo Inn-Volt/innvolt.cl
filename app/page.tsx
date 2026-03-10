@@ -276,7 +276,7 @@ export default function HomePage() {
           <div className="about-grid">
 
             <div className="about-img-wrap">
-              <img src="/unnamed.jpg" alt="Equipo InnVolt" />
+              <img src="/nosotros.jpg" alt="Equipo InnVolt" />
               <div className="about-badge">
                 <p className="about-badge-num">+5</p>
                 <p className="about-badge-label">AÑOS</p>
