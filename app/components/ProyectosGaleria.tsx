@@ -4,156 +4,120 @@ import { useState, useEffect, useCallback } from 'react';
 import { Proyecto } from '@/types';
 import { getOptimizedUrl } from '@/lib/cloudinary';
 import { supabase } from '@/lib/supabase';
-import { MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
-const CATEGORIAS = ['Todos', 'Electricidad', 'Domótica', 'Redes y CCTV'];
+const CATS = ['Todos', 'Electricidad', 'Domótica', 'Redes y CCTV'];
 
 export default function ProyectosGaleria() {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [loading,   setLoading]   = useState(true);
   const [filtro,    setFiltro]    = useState('Todos');
   const [modal,     setModal]     = useState<Proyecto | null>(null);
-  const [photoIdx,  setPhotoIdx]  = useState(0);
+  const [idx,       setIdx]       = useState(0);
 
-  /* ── Carga inicial ── */
-  async function fetchProyectos() {
+  async function load() {
     const { data } = await supabase
-      .from('proyectos')
-      .select('*')
-      .eq('activo', true)
+      .from('proyectos').select('*').eq('activo', true)
       .order('created_at', { ascending: false });
     setProyectos(data || []);
     setLoading(false);
   }
 
-  /* ── Tiempo real con Supabase Realtime ── */
   useEffect(() => {
-    fetchProyectos();
-
-    const channel = supabase
-      .channel('proyectos-realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'proyectos' }, () => {
-        fetchProyectos(); // Re-fetch al detectar cualquier cambio
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
+    load();
+    const ch = supabase.channel('pry').on('postgres_changes', { event: '*', schema: 'public', table: 'proyectos' }, load).subscribe();
+    return () => { supabase.removeChannel(ch); };
   }, []);
 
-  /* ── Navegación fotos en modal ── */
-  const prevPhoto = useCallback(() => {
-    if (!modal) return;
-    setPhotoIdx(i => (i - 1 + modal.imagenes.length) % modal.imagenes.length);
-  }, [modal]);
+  const prev = useCallback(() => modal && setIdx(i => (i - 1 + modal.imagenes.length) % modal.imagenes.length), [modal]);
+  const next = useCallback(() => modal && setIdx(i => (i + 1) % modal.imagenes.length), [modal]);
 
-  const nextPhoto = useCallback(() => {
-    if (!modal) return;
-    setPhotoIdx(i => (i + 1) % modal.imagenes.length);
-  }, [modal]);
-
-  /* ── Teclado ── */
   useEffect(() => {
     if (!modal) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'ArrowLeft')  prevPhoto();
-      if (e.key === 'ArrowRight') nextPhoto();
-      if (e.key === 'Escape')     { setModal(null); setPhotoIdx(0); }
-    }
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [modal, prevPhoto, nextPhoto]);
+    const h = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'Escape') { setModal(null); setIdx(0); }
+    };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, [modal, prev, next]);
 
-  function openModal(p: Proyecto) {
-    setModal(p);
-    setPhotoIdx(0);
-  }
-
-  const filtrados = filtro === 'Todos'
-    ? proyectos
-    : proyectos.filter(p => p.categoria === filtro);
+  const lista = filtro === 'Todos' ? proyectos : proyectos.filter(p => p.categoria === filtro);
 
   return (
-    <section id="proyectos" className="py-16 md:py-32 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section id="proyectos" className="section" style={{ background: 'var(--bg3)' }}>
+      <div className="container">
 
-        {/* Header */}
-        <div className="text-center mb-10 md:mb-16 space-y-4">
-          <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Trabajo real</h2>
-          <h3 className="text-4xl md:text-6xl font-black text-[#1e293b] tracking-tighter italic uppercase">
-            Nuestros <span className="text-[#ffc600]">Proyectos</span>
-          </h3>
-          <p className="text-slate-500 text-sm md:text-base max-w-lg mx-auto">
-            Cada instalación ejecutada con estándares técnicos certificados.
-          </p>
+        {/* Header + filtros */}
+        <div className="section-header-row" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem', marginBottom: '3rem' }}>
+          <div>
+            <p className="label" style={{ marginBottom: '0.75rem' }}>— Trabajo real</p>
+            <h2 className="display" style={{ fontSize: 'clamp(2.4rem,5vw,4rem)' }}>NUESTROS<br />PROYECTOS</h2>
+          </div>
+
+          {/* Filtros */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+            {CATS.map(cat => (
+              <button key={cat} onClick={() => setFiltro(cat)} style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                fontSize: '0.65rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                padding: '0.5rem 1rem',
+                border: '1px solid',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                background: filtro === cat ? 'var(--y)' : 'transparent',
+                borderColor: filtro === cat ? 'var(--y)' : 'rgba(255,255,255,0.15)',
+                color: filtro === cat ? '#000' : 'rgba(255,255,255,0.4)',
+              }}>
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Filtros */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-14">
-          {CATEGORIAS.map(cat => (
-            <button key={cat} onClick={() => setFiltro(cat)}
-              className={`px-5 py-2 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest transition-all border-2 ${
-                filtro === cat
-                  ? 'bg-[#ffc600] border-[#ffc600] text-[#1e293b]'
-                  : 'bg-white border-slate-200 text-slate-500 hover:border-[#ffc600] hover:text-[#1e293b]'
-              }`}>
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Skeleton loading */}
+        {/* Skeletons */}
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-            {[1,2,3].map(i => <div key={i} className="h-[280px] md:h-[340px] rounded-[1.5rem] bg-slate-200 animate-pulse" />)}
+          <div className="projects-grid">
+            {[1,2,3].map(i => (
+              <div key={i} style={{ height: 300, background: 'rgba(255,255,255,0.04)', animation: 'pulse 2s infinite' }} />
+            ))}
           </div>
         )}
 
         {/* Vacío */}
-        {!loading && filtrados.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-slate-400 font-bold text-sm uppercase tracking-widest">
-              {proyectos.length === 0 ? 'Pronto publicaremos nuestros proyectos' : 'No hay proyectos en esta categoría'}
+        {!loading && lista.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '5rem 0' }}>
+            <p style={{ fontFamily: 'var(--font-display)', color: 'var(--muted)', fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              {proyectos.length === 0 ? 'Pronto publicaremos nuestros proyectos' : 'Sin proyectos en esta categoría'}
             </p>
           </div>
         )}
 
         {/* Grid */}
-        {!loading && filtrados.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-            {filtrados.map(p => (
-              <button key={p.id} onClick={() => openModal(p)}
-                className="group relative h-[280px] md:h-[360px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-xl transition-all hover:-translate-y-2 hover:shadow-2xl text-left w-full">
-                <img
-                  src={getOptimizedUrl(p.imagenes?.[0] || '', 600, 450)}
-                  alt={p.titulo}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1e293b] via-[#1e293b]/20 to-transparent" />
+        {!loading && lista.length > 0 && (
+          <div className="projects-grid">
+            {lista.map(p => (
+              <button key={p.id} className="project-card" onClick={() => { setModal(p); setIdx(0); }}>
+                <img src={getOptimizedUrl(p.imagenes?.[0] || '', 700, 500)} alt={p.titulo} />
+                <div className="project-overlay" />
 
-                {/* Badges */}
-                <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
-                  <span className="bg-[#ffc600] text-[#1e293b] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
-                    {p.categoria}
-                  </span>
-                  {p.destacado && <span className="bg-[#1e293b]/80 text-[#ffc600] text-[9px] font-black px-2 py-1 rounded-full">⭐</span>}
+                {/* Top badges */}
+                <div style={{ position: 'absolute', top: '1rem', left: '1rem', right: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <span className="project-cat">{p.categoria}</span>
+                  {(p.imagenes?.length || 0) > 1 && (
+                    <span style={{ fontFamily: 'var(--font-display)', background: 'rgba(0,0,0,0.75)', color: 'rgba(255,255,255,0.8)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', padding: '0.2rem 0.6rem' }}>
+                      📷 {p.imagenes.length}
+                    </span>
+                  )}
                 </div>
 
-                {/* Contador fotos */}
-                {(p.imagenes?.length || 0) > 1 && (
-                  <div className="absolute top-4 right-4 bg-black/60 text-white text-[9px] font-black px-2 py-1 rounded-full flex items-center gap-1">
-                    📷 {p.imagenes.length}
-                  </div>
-                )}
-
-                {/* Info */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7">
-                  <h4 className="text-white font-black text-base md:text-lg uppercase italic leading-tight mb-1">{p.titulo}</h4>
-                  {p.ubicacion && (
-                    <p className="text-slate-300 text-[10px] font-bold flex items-center gap-1 mt-1">
-                      <MapPin size={11} className="text-[#ffc600]" /> {p.ubicacion}
-                    </p>
-                  )}
-                  <div className="w-8 h-[3px] bg-[#ffc600] mt-3" />
+                <div className="project-info">
+                  {p.ubicacion && <p className="project-loc">📍 {p.ubicacion}</p>}
+                  <h4 className="project-title">{p.titulo}</h4>
+                  <div className="project-bar" />
                 </div>
               </button>
             ))}
@@ -163,96 +127,97 @@ export default function ProyectosGaleria() {
 
       {/* ── MODAL ── */}
       {modal && (
-        <div
-          className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
-          onClick={() => { setModal(null); setPhotoIdx(0); }}
-        >
-          <div
-            className="bg-[#0f172a] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden w-full max-w-4xl max-h-[95vh] flex flex-col shadow-2xl"
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Foto principal */}
-            <div className="relative bg-black" style={{ height: 'clamp(220px, 50vh, 520px)' }}>
-              <img
-                key={photoIdx}
-                src={getOptimizedUrl(modal.imagenes[photoIdx] || '', 1200, 800)}
-                alt={modal.titulo}
-                className="w-full h-full object-contain"
-                style={{ animation: 'fadeIn 0.2s ease' }}
-              />
+        <div className="modal-backdrop" onClick={() => { setModal(null); setIdx(0); }}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
 
-              {/* Flechas navegación */}
-              {modal.imagenes.length > 1 && (
-                <>
-                  <button onClick={prevPhoto}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ffc600] text-white hover:text-[#1e293b] w-10 h-10 rounded-full flex items-center justify-center transition-all">
-                    <ChevronLeft size={20} />
-                  </button>
-                  <button onClick={nextPhoto}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ffc600] text-white hover:text-[#1e293b] w-10 h-10 rounded-full flex items-center justify-center transition-all">
-                    <ChevronRight size={20} />
-                  </button>
-                  {/* Contador */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/60 text-white text-[10px] font-black px-3 py-1 rounded-full">
-                    {photoIdx + 1} / {modal.imagenes.length}
-                  </div>
-                </>
-              )}
+            {/* Foto */}
+            <div style={{ position: 'relative', background: '#000', flexShrink: 0, height: 'clamp(260px, 55vh, 560px)' }}>
+              <img key={idx}
+                src={getOptimizedUrl(modal.imagenes[idx] || '', 1400, 900)}
+                alt={modal.titulo}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', animation: 'fadeIn 0.25s ease' }} />
+
+              {/* Flechas */}
+              {modal.imagenes.length > 1 && (<>
+                <button onClick={prev} style={arrowStyle('left')}
+                  onMouseEnter={e => arrowHover(e, true)} onMouseLeave={e => arrowHover(e, false)}>‹</button>
+                <button onClick={next} style={arrowStyle('right')}
+                  onMouseEnter={e => arrowHover(e, true)} onMouseLeave={e => arrowHover(e, false)}>›</button>
+                <div style={{ position: 'absolute', bottom: '0.9rem', left: '50%', transform: 'translateX(-50%)', background: 'rgba(0,0,0,0.7)', color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-display)', fontSize: '0.6rem', letterSpacing: '0.2em', padding: '0.3rem 0.8rem' }}>
+                  {idx + 1} / {modal.imagenes.length}
+                </div>
+              </>)}
 
               {/* Cerrar */}
-              <button onClick={() => { setModal(null); setPhotoIdx(0); }}
-                className="absolute top-3 right-3 bg-black/60 hover:bg-white text-white hover:text-[#1e293b] w-9 h-9 rounded-full flex items-center justify-center transition-all">
-                <X size={16} />
+              <button onClick={() => { setModal(null); setIdx(0); }} style={closeStyle}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.7)'; (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'; }}>
+                ✕
               </button>
 
-              {/* Badge categoría */}
-              <span className="absolute top-3 left-3 bg-[#ffc600] text-[#1e293b] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+              <span style={{ position: 'absolute', top: '1rem', left: '1rem', fontFamily: 'var(--font-display)', background: 'var(--y)', color: '#000', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.2rem 0.7rem' }}>
                 {modal.categoria}
               </span>
             </div>
 
-            {/* Grid de miniaturas */}
+            {/* Miniaturas */}
             {modal.imagenes.length > 1 && (
-              <div className="flex gap-2 p-3 bg-[#1e293b] overflow-x-auto">
+              <div style={{ display: 'flex', gap: '2px', padding: '0.5rem', background: '#000', overflowX: 'auto', flexShrink: 0 }}>
                 {modal.imagenes.map((img, i) => (
-                  <button key={i} onClick={() => setPhotoIdx(i)}
-                    className="shrink-0 transition-all"
-                    style={{ width: '64px', height: '64px', borderRadius: '0.5rem', overflow: 'hidden', border: `2px solid ${i === photoIdx ? '#ffc600' : 'transparent'}`, opacity: i === photoIdx ? 1 : 0.5 }}>
-                    <img src={getOptimizedUrl(img, 120, 120)} alt="" className="w-full h-full object-cover" />
+                  <button key={i} onClick={() => setIdx(i)} style={{
+                    flexShrink: 0, width: 68, height: 52, overflow: 'hidden',
+                    cursor: 'pointer', border: `2px solid ${i === idx ? 'var(--y)' : 'transparent'}`,
+                    opacity: i === idx ? 1 : 0.4, transition: 'all 0.2s', padding: 0, background: 'none',
+                  }}>
+                    <img src={getOptimizedUrl(img, 150, 120)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Info del proyecto */}
-            <div className="p-5 md:p-8 overflow-y-auto">
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                <div className="space-y-2">
-                  <h3 className="text-xl md:text-2xl font-black text-white uppercase italic tracking-tighter leading-tight">
-                    {modal.titulo}
-                  </h3>
-                  {modal.ubicacion && (
-                    <p className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest">
-                      <MapPin size={12} className="text-[#ffc600]" /> {modal.ubicacion}
-                    </p>
-                  )}
-                  {modal.descripcion && (
-                    <p className="text-slate-400 text-sm leading-relaxed pt-1">{modal.descripcion}</p>
-                  )}
-                </div>
-                <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer"
-                  className="shrink-0 inline-flex items-center gap-2 bg-[#ffc600] text-[#1e293b] font-black uppercase text-[10px] tracking-widest px-5 py-3 rounded-xl hover:bg-white transition-all whitespace-nowrap">
-                  Quiero esto →
-                </a>
+            {/* Info + CTA */}
+            <div style={{ padding: '1.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap', flexShrink: 0, borderTop: '1px solid var(--border2)' }}>
+              <div style={{ flex: 1, minWidth: 200 }}>
+                <h3 className="display" style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{modal.titulo}</h3>
+                {modal.ubicacion && <p className="label" style={{ marginBottom: '0.4rem', fontSize: '0.6rem' }}>📍 {modal.ubicacion}</p>}
+                {modal.descripcion && <p className="body-sm" style={{ fontSize: '0.82rem' }}>{modal.descripcion}</p>}
               </div>
+              <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="btn btn-primary"
+                style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>
+                QUIERO ESTO →
+              </a>
             </div>
           </div>
         </div>
       )}
 
       <style>{`
-        @keyframes fadeIn { from { opacity: 0.4; } to { opacity: 1; } }
+        @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+        @keyframes pulse  { 0%,100%{opacity:0.3}50%{opacity:0.6} }
       `}</style>
     </section>
   );
 }
+
+/* ── Estilos modal helpers ── */
+function arrowStyle(side: 'left' | 'right'): React.CSSProperties {
+  return {
+    position: 'absolute', [side]: '0.75rem', top: '50%', transform: 'translateY(-50%)',
+    background: 'rgba(0,0,0,0.75)', border: '1px solid rgba(255,198,0,0.25)',
+    color: '#fff', width: 44, height: 44, cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontSize: '1.3rem', transition: 'all 0.2s', fontFamily: 'sans-serif',
+  };
+}
+function arrowHover(e: React.MouseEvent, on: boolean) {
+  const el = e.currentTarget as HTMLElement;
+  el.style.background = on ? 'var(--y)' : 'rgba(0,0,0,0.75)';
+  el.style.color = on ? '#000' : '#fff';
+}
+const closeStyle: React.CSSProperties = {
+  position: 'absolute', top: '0.75rem', right: '0.75rem',
+  background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.1)',
+  color: 'rgba(255,255,255,0.7)', width: 36, height: 36, cursor: 'pointer',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontSize: '0.8rem', transition: 'all 0.2s',
+};

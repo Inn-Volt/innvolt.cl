@@ -1,99 +1,65 @@
 import { ShieldCheck, Clock, FileCheck, Wrench, Star, MessageCircle } from 'lucide-react';
 
 const GARANTIAS = [
-  {
-    icon: ShieldCheck,
-    titulo: 'Certificación SEC',
-    desc: 'Todos nuestros trabajos cumplen la normativa eléctrica chilena. Emitimos certificados TE1 y gestionamos los trámites ante la SEC.',
-  },
-  {
-    icon: Clock,
-    titulo: 'Respuesta en menos de 24 hrs',
-    desc: 'Cotizamos y coordinamos tu proyecto dentro del día hábil siguiente a tu solicitud.',
-  },
-  {
-    icon: FileCheck,
-    titulo: 'Presupuesto sin costo',
-    desc: 'Te entregamos una propuesta técnica detallada y sin compromiso. Sin letra chica ni cobros ocultos.',
-  },
-  {
-    icon: Wrench,
-    titulo: 'Garantía en materiales y mano de obra',
-    desc: 'Respaldamos cada instalación con garantía real. Si algo falla por nuestra parte, lo resolvemos.',
-  },
+  { icon: ShieldCheck, num: '01', titulo: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos exigidos.' },
+  { icon: Clock,       num: '02', titulo: 'Respuesta en 24 hrs', desc: 'Cotización y coordinación dentro del mismo día hábil, sin vueltas.' },
+  { icon: FileCheck,   num: '03', titulo: 'Presupuesto sin costo', desc: 'Propuesta técnica detallada, sin compromiso y sin cobros ocultos.' },
+  { icon: Wrench,      num: '04', titulo: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto ejecutado.' },
 ];
 
 export default function PorQueElegirnos() {
   return (
-    <section id="garantias" className="py-16 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section id="garantias" style={{ padding: '6rem 0', background: '#111' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
 
-        {/* Header */}
-        <div className="text-center mb-12 md:mb-20 space-y-4">
-          <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Sin inventos</h2>
-          <h3 className="text-4xl md:text-6xl font-black text-[#1e293b] tracking-tighter italic uppercase">
-            ¿Por qué <span className="text-[#ffc600]">elegirnos?</span>
-          </h3>
-          <p className="text-slate-500 text-sm md:text-base max-w-lg mx-auto">
-            No necesitamos inventar reseñas. Estos son nuestros compromisos concretos en cada proyecto.
-          </p>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <p style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#ffc600', marginBottom: '0.5rem' }}>— Sin inventos</p>
+            <h2 style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 'clamp(2.5rem,5vw,4rem)', color: '#fff', textTransform: 'uppercase', lineHeight: 0.9 }}>
+              ¿POR QUÉ<br />ELEGIRNOS?
+            </h2>
+          </div>
         </div>
 
-        {/* Cards garantías */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 mb-16 md:mb-24">
-          {GARANTIAS.map(({ icon: Icon, titulo, desc }) => (
-            <div key={titulo} className="group bg-slate-50 rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-8 border-2 border-transparent hover:border-[#ffc600] transition-all hover:shadow-xl">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#ffc600]/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-5 group-hover:bg-[#ffc600]/20 transition-colors">
-                <Icon size={24} className="text-[#ffc600]" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '2px', background: 'rgba(255,198,0,0.06)', marginBottom: '3rem' }}>
+          {GARANTIAS.map(({ icon: Icon, num, titulo, desc }) => (
+            <div key={titulo} style={{ background: '#111', padding: '2rem', transition: 'background 0.2s', cursor: 'default', position: 'relative', overflow: 'hidden' }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = '#0a0a0a'}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = '#111'}>
+              <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: '3rem', color: 'rgba(255,198,0,0.07)', position: 'absolute', top: '1rem', right: '1rem', lineHeight: 1 }}>{num}</span>
+              <div style={{ width: '40px', height: '40px', border: '1px solid rgba(255,198,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Icon size={18} color="#ffc600" />
               </div>
-              <h4 className="font-black text-[#1e293b] text-sm md:text-base uppercase italic tracking-tight mb-2">
-                {titulo}
-              </h4>
-              <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-medium">
-                {desc}
-              </p>
+              <h4 style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: '1.25rem', color: '#fff', textTransform: 'uppercase', marginBottom: '0.6rem', letterSpacing: '0.02em' }}>{titulo}</h4>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', lineHeight: 1.6, fontWeight: 300 }}>{desc}</p>
+              <div style={{ width: '20px', height: '2px', background: '#ffc600', marginTop: '1.5rem' }} />
             </div>
           ))}
         </div>
 
-        {/* CTA Google Reviews */}
-        <div className="bg-[#1e293b] rounded-[2rem] md:rounded-[3rem] p-8 md:p-14 text-center space-y-6">
-          <div className="flex justify-center gap-1 mb-2">
-            {[1,2,3,4,5].map(i => (
-              <Star key={i} size={22} className="text-[#ffc600] fill-[#ffc600]" />
-            ))}
+        {/* CTA Reviews */}
+        <div style={{ background: '#000', border: '1px solid rgba(255,198,0,0.12)', padding: '3rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, transparent, #ffc600, transparent)' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '1.25rem' }}>
+            {[1,2,3,4,5].map(i => <Star key={i} size={18} color="#ffc600" fill="#ffc600" />)}
           </div>
-          <h4 className="text-white font-black text-2xl md:text-4xl italic uppercase tracking-tighter">
-            ¿Ya trabajaste con nosotros?
+          <h4 style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,4vw,2.8rem)', color: '#fff', textTransform: 'uppercase', marginBottom: '0.75rem', lineHeight: 0.9 }}>
+            ¿YA TRABAJASTE<br />CON NOSOTROS?
           </h4>
-          <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto">
-            Tu opinión nos ayuda a seguir creciendo y a que otros clientes nos conozcan. Tómate 2 minutos y déjanos tu reseña.
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.9rem', maxWidth: '380px', margin: '0 auto 2rem', fontWeight: 300, lineHeight: 1.6 }}>
+            Tu reseña nos ayuda a crecer y que más clientes nos conozcan.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a
-              href="https://g.page/r/CRa4ejtbBBcyEAI/review"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#ffc600] text-[#1e293b] font-black uppercase text-xs tracking-widest px-8 py-4 rounded-xl md:rounded-2xl hover:bg-white transition-all shadow-xl"
-            >
-              <Star size={14} className="fill-[#1e293b]" />
-              Dejar reseña en Google
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <a href="https://g.page/r/LINK_GOOGLE_MAPS/review" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#ffc600', color: '#000', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.85rem 2rem', textDecoration: 'none', clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))' }}>
+              ⭐ RESEÑA EN GOOGLE
             </a>
-            <a
-              href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio%20de%20mi%20experiencia"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-black uppercase text-xs tracking-widest px-8 py-4 rounded-xl md:rounded-2xl hover:bg-white/20 transition-all border border-white/10"
-            >
-              <MessageCircle size={14} />
-              Enviarnos por WhatsApp
+            <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', color: 'rgba(255,255,255,0.6)', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.85rem 2rem', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <MessageCircle size={14} /> POR WHATSAPP
             </a>
           </div>
-          <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">
-            Somos nuevos y construimos nuestra reputación con cada proyecto ✦
-          </p>
         </div>
-
       </div>
     </section>
   );

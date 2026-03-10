@@ -1,238 +1,363 @@
-import React from 'react';
-import { ShieldCheck, Zap, CheckCircle, ArrowRight, Phone, Mail, Instagram, MapPin } from 'lucide-react';
-import { getProyectos } from '@/lib/proyectos';
+'use client';
+
+import React, { useState } from 'react';
+import { ShieldCheck, Clock, FileCheck, Wrench, Phone, Mail, Instagram, MapPin, ArrowRight, ChevronRight } from 'lucide-react';
 import ProyectosGaleria from './components/ProyectosGaleria';
-import PorQueElegirnos from './components/PorQueElegirnos';
 import ContactForm from './components/ContactForm';
 
-export default function InnVoltPro() {
-  const proyectos = getProyectos();
+/* ══════════════════════════════════════
+   LOGO SVG — fiel a la marca InnVolt
+══════════════════════════════════════ */
+function Logo({ height = 36 }: { height?: number }) {
+  const boltH = height;
+  const boltW = boltH * 0.6;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+      <svg width={boltW} height={boltH} viewBox="0 0 18 30" fill="none">
+        <path d="M11 0L1 17H9L8 30L17 13H9L11 0Z" fill="#ffc600"/>
+        <path d="M11 0L1 17H9L8 30L17 13H9L11 0Z" fill="url(#g3d)" opacity="0.25"/>
+        <defs>
+          <linearGradient id="g3d" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fff"/>
+            <stop offset="100%" stopColor="#000"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span style={{
+        fontFamily: 'var(--font-display)',
+        fontWeight: 900,
+        fontSize: height * 0.72,
+        letterSpacing: '-0.02em',
+        lineHeight: 1,
+        color: '#fff',
+        textTransform: 'none',
+      }}>
+        Inn<span style={{ color: '#ffc600' }}>Volt</span>
+      </span>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   SECCIÓN HEADER (label + título)
+══════════════════════════════════════ */
+function SectionHeader({ label, title, light = false }: { label: string; title: React.ReactNode; light?: boolean }) {
+  return (
+    <div style={{ marginBottom: '3rem' }}>
+      <p className="label" style={{ marginBottom: '0.75rem' }}>— {label}</p>
+      <h2 className="display" style={{ fontSize: 'clamp(2.4rem,5vw,4rem)', color: light ? '#000' : '#fff' }}>{title}</h2>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   PÁGINA PRINCIPAL
+══════════════════════════════════════ */
+export default function HomePage() {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#ffc600] overflow-x-hidden">
+    <div style={{ minHeight: '100vh', background: '#000' }}>
 
-      {/* BOTÓN FLOTANTE WHATSAPP */}
-      <a
-        href="https://wa.me/56989203902"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
-      >
-        <img src="/whatsapp.svg" alt="WhatsApp" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
-        <span className="hidden md:block font-black text-sm text-black uppercase">WhatsApp</span>
+      {/* ── WHATSAPP FAB ── */}
+      <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="wsp-fab">
+        <img src="/whatsapp.svg" alt="WhatsApp" width={20} height={20} />
+        <span className="wsp-label">WHATSAPP</span>
       </a>
 
-      {/* NAV */}
-      <nav className="fixed w-full z-50 bg-[#1e293b]/95 backdrop-blur-md border-b border-white/5 py-3 md:py-4">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2 md:gap-3">
-            <Zap className="text-[#ffc600] fill-[#ffc600]" size={28} />
-            <span className="text-xl md:text-2xl font-black text-white tracking-tighter italic leading-none">
-              INN<span className="text-[#ffc600]">VOLT</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-4 md:gap-10 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-300">
-            <a href="#servicios" className="hidden lg:block hover:text-[#ffc600] transition-all">Servicios</a>
-            <a href="#proyectos" className="hidden lg:block hover:text-[#ffc600] transition-all">Proyectos</a>
-            <a href="#nosotros" className="hidden lg:block hover:text-[#ffc600] transition-all">Nosotros</a>
-            <a href="#contacto" className="bg-[#ffc600] text-[#1e293b] px-4 py-2 md:px-6 md:py-2.5 rounded-xl hover:bg-white transition-all font-black">
-              SOLICITAR PRESUPUESTO
-            </a>
+      {/* ── NAV ── */}
+      <nav className="nav">
+        <div className="container">
+          <div className="nav-inner">
+            <Logo height={34} />
+
+            {/* Desktop links */}
+            <div className="nav-links">
+              <a href="#servicios" className="nav-link">Servicios</a>
+              <a href="#proyectos" className="nav-link">Proyectos</a>
+              <a href="#nosotros" className="nav-link">Nosotros</a>
+              <a href="#contacto" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.7rem' }}>
+                PRESUPUESTO
+              </a>
+            </div>
+
+            {/* Hamburger */}
+            <button className="hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menú">
+              <span style={{ transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
+              <span style={{ opacity: menuOpen ? 0 : 1 }} />
+              <span style={{ transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* HERO */}
-      <section className="relative min-h-screen flex items-center pt-24 md:pt-20 bg-[#1e293b] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#1e293b] via-[#1e293b]/80 to-transparent z-10" />
-          <img
-            src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop"
-            className="w-full h-full object-cover opacity-30"
-            alt="InnVolt Hero"
-          />
+      {/* Mobile menu */}
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <a href="#servicios" onClick={() => setMenuOpen(false)}>Servicios</a>
+        <a href="#proyectos" onClick={() => setMenuOpen(false)}>Proyectos</a>
+        <a href="#nosotros" onClick={() => setMenuOpen(false)}>Nosotros</a>
+        <a href="#contacto" onClick={() => setMenuOpen(false)} style={{ color: 'var(--y)' }}>→ Solicitar Presupuesto</a>
+      </div>
+
+      {/* ── HERO ── */}
+      <section className="hero">
+        <div className="hero-bg">
+          <img src="/SEC.jpg" alt="Electricista InnVolt" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20 w-full">
-          <div className="lg:col-span-7 space-y-6 md:space-y-8 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#ffc600] text-[9px] md:text-[10px] font-black uppercase tracking-widest">
-              <ShieldCheck size={14} /> Instaladores Certificados SEC
-            </div>
-            <h1 className="text-3xl sm:text-5xl md:text-[70px] font-black text-white leading-[1.1] md:leading-[0.85] tracking-tighter uppercase">
-              <span className="text-[#ffc600] italic"> INNOVACIÓN</span> <br className="hidden md:block" />
-              ELECTRICIDAD, AUTOMATIZACIÓN Y CONTROL
-            </h1>
-            <p className="text-slate-300 text-base md:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium italic">
-              "Soluciones en electricidad, automatización y redes, orientadas a la seguridad, eficiencia energética y conectividad."
-            </p>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-5">
-              <a href="#contacto" className="w-full sm:w-auto bg-[#ffc600] text-[#1e293b] px-10 py-4 md:py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl hover:bg-white transition-all flex items-center justify-center gap-3">
-                EMPEZAR AHORA <ArrowRight size={18} />
-              </a>
-              <a href="#proyectos" className="w-full sm:w-auto border-2 border-white/20 text-white px-10 py-4 md:py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-[#ffc600] hover:text-[#ffc600] transition-all flex items-center justify-center gap-3">
-                VER PROYECTOS
-              </a>
-            </div>
-          </div>
-          <div className="lg:col-span-5">
-            <div className="bg-[#1e293b]/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 shadow-2xl">
-              <h3 className="text-[#ffc600] font-black text-lg md:text-xl mb-6 md:mb-8 uppercase tracking-tighter italic">Nuestros Servicios</h3>
-              <ul className="space-y-3 md:space-y-4 text-left">
-                {["Instalaciones Eléctricas Integrales", "Proyectos de Ingeniería y Planos", "Certificación SEC y Trámites TE1", "Automatización e Iluminación Inteligente", "Control de Accesos y Portones", "Redes de Datos y Videovigilancia"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 md:gap-4 text-white font-bold text-[11px] md:text-sm">
-                    <CheckCircle size={18} className="text-[#ffc600] shrink-0" /> {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 md:mt-8 p-4 md:p-6 bg-white/5 rounded-2xl border border-white/5 text-center">
-                <p className="text-slate-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-2">Línea Directa 24/7</p>
-                <p className="text-white text-lg md:text-xl font-black">+56 9 8920 3902</p>
+        <div className="hero-stripe" />
+        <div className="hero-content">
+          <div className="hero-split">
+
+            {/* Izquierda */}
+            <div className="hero-left">
+              <div className="anim-up d1" style={{ display:'inline-flex', alignItems:'center', gap:'0.5rem', background:'rgba(255,198,0,0.08)', border:'1px solid rgba(255,198,0,0.25)', padding:'0.35rem 1rem', marginBottom:'1.75rem' }}>
+                <span style={{ width:6, height:6, background:'var(--y)', borderRadius:'50%', display:'block', flexShrink:0 }} />
+                <span className="label" style={{ marginBottom:0, fontSize:'0.6rem' }}>Instaladores Certificados SEC</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICIOS */}
-      <section id="servicios" className="py-16 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="text-center mb-12 md:mb-20 space-y-4">
-            <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Lo que hacemos</h2>
-            <h3 className="text-4xl md:text-6xl font-black text-[#FFC600] tracking-tighter italic uppercase">Servicios</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            <ServiceCardImage
-              img="https://img.freepik.com/fotos-premium/ciencia-tecnologia-electronica-impresion-planos-ingenieria-electrica-disyuntor-mulyimeter-desarrollo-cientifico_113913-573.jpg"
-              title="Electricidad General"
-              desc="Soluciones eléctricas integrales para entornos domiciliarios, comerciales e industriales, desde instalaciones base hasta certificación SEC, con respaldo técnico y cumplimiento normativo."
-            />
-            <ServiceCardImage
-              img="https://plus.unsplash.com/premium_photo-1728831285095-63346794b6ad?q=80&w=827&auto=format&fit=crop"
-              title="Domótica y Automatización"
-              desc="Iluminación inteligente, control de accesos y automatización de instalaciones eléctricas, optimizando la seguridad, eficiencia energética y gestión remota de cada espacio."
-            />
-            <ServiceCardImage
-              img="https://media.istockphoto.com/id/1311084163/es/foto/guardia-de-seguridad-observando-el-sistema-de-seguridad-de-monitoreo-de-v%C3%ADdeo.webp?a=1&b=1&s=612x612&w=0&k=20&c=UVJbBXQuaQEOQQ1OkhXGJ5fE8_yZmrXblL6-TBTk8D0="
-              title="Redes y Seguridad"
-              desc="Implementación de infraestructura de redes, cableado estructurado y sistemas de videovigilancia de alta definición para entornos residenciales, comerciales e industriales."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* GALERÍA DE PROYECTOS */}
-      <ProyectosGaleria proyectos={proyectos} />
-
-      {/* POR QUÉ ELEGIRNOS */}
-      <PorQueElegirnos />
-
-      {/* NOSOTROS */}
-      <section id="nosotros" className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="relative order-2 lg:order-1">
-              <div className="absolute -top-3 -left-3 md:-top-4 md:-left-4 w-16 h-16 md:w-24 md:h-24 border-t-4 border-l-4 border-[#ffc600]" />
-              <img src="/unnamed.jpg" alt="Equipo InnVolt" className="rounded-[2rem] md:rounded-[3rem] shadow-2xl relative z-10 w-full" />
-              <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-[#ffc600] p-4 md:p-8 rounded-2xl md:rounded-3xl z-20">
-                <p className="text-[#1e293b] font-black text-2xl md:text-4xl italic">+5</p>
-                <p className="text-[#1e293b] text-[8px] md:text-[10px] font-bold uppercase tracking-widest leading-tight">Años de <br />Experiencia</p>
-              </div>
-            </div>
-            <div className="space-y-6 md:space-y-8 order-1 lg:order-2 text-center lg:text-left">
-              <div className="space-y-3 md:space-y-4">
-                <h2 className="text-[10px] md:text-[12px] font-black text-slate-400 uppercase tracking-[0.5em]">Nuestra Identidad</h2>
-                <h3 className="text-3xl md:text-5xl font-black text-[#1e293b] tracking-tighter italic uppercase">
-                  Ingeniería y solución <br />
-                  <span className="text-[#ffc600]">eléctrica y automatización</span>
-                </h3>
-              </div>
-              <p className="text-slate-600 leading-relaxed text-sm md:text-lg italic">
-                En <span className="font-bold text-[#1e293b]">INNVOLT</span>, desarrollamos instalaciones eléctricas, automatización y sistemas de control con altos estándares técnicos y normativos. Nuestro equipo certificado ejecuta proyectos para entornos domiciliarios, comerciales e industriales, asegurando seguridad, eficiencia energética y continuidad operativa.
+              <h1 className="hero-title display anim-up d2">
+                <span>INNVOLT</span>
+                <span className="hero-subtitle display"style={{ color: "white" }}>Electricidad<br />Automatización<br />& Control</span>
+              </h1>
+              <p className="body-sm hero-desc anim-up d3">
+                Soluciones eléctricas integrales, domótica y redes de seguridad para hogares, empresas e industria en Santiago.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 text-left">
-                <div className="border-l-2 border-[#ffc600] pl-4">
-                  <p className="font-black text-xs md:text-sm uppercase tracking-wider text-[#1e293b]">Misión</p>
-                  <p className="text-[11px] md:text-xs text-slate-500 mt-1 font-medium">
-                    Diseñar e implementar soluciones eléctricas, automatización y control que garanticen seguridad, eficiencia y confiabilidad en cada instalación.
-                  </p>
+              <div className="hero-btns anim-up d4">
+                <a href="#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></a>
+                <a href="#proyectos" className="btn btn-ghost">VER PROYECTOS</a>
+              </div>
+              <div className="hero-stats anim-up d5">
+                {[['+ 5','Años de experiencia'],['100%','Proyectos SEC'],['24 / 7','Soporte técnico']].map(([n,l]) => (
+                  <div key={n}><p className="stat-num">{n}</p><p className="stat-label">{l}</p></div>
+                ))}
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── BANDA CONFIANZA ── */}
+      <div className="trust-band">
+        <div className="container">
+          <div className="trust-band-inner">
+            {[
+              { icon:'⚡', text:'SEC Autorizado' },
+              { icon:'📋', text:'Certificación TE1' },
+              { icon:'🛡', text:'Garantía incluida' },
+              { icon:'📍', text:'Santiago, RM' },
+              { icon:'🕐', text:'Respuesta 24 hrs' },
+              { icon:'💰', text:'Presupuesto sin costo' },
+            ].map(item => (
+              <div key={item.text} className="trust-band-item">
+                <span>{item.icon}</span>
+                <span className="trust-band-text">{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── SERVICIOS ── */}
+      <section id="servicios" className="section" style={{ background: 'var(--bg)' }}>
+        <div className="container">
+          <div className="section-header-row" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '3rem' }}>
+            <SectionHeader label="Lo que hacemos" title={<>NUESTROS<br />SERVICIOS</>} />
+            <a href="#contacto" className="btn btn-primary" style={{ padding: '0.75rem 1.5rem', fontSize: '0.7rem', alignSelf: 'flex-end' }}>
+              PEDIR COTIZACIÓN <ChevronRight size={14} />
+            </a>
+          </div>
+
+          <div className="services-grid">
+            {[
+              {
+                num: '01',
+                title: 'Electricidad General',
+                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+                items: ['Instalaciones domiciliarias e industriales', 'Certificación SEC y Trámites TE1', 'Tableros, empalmes y protecciones', 'Proyectos de ingeniería y planos'],
+              },
+              {
+                num: '02',
+                title: 'Domótica & Automatización',
+                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1" fill="var(--y)"/></svg>,
+                items: ['Iluminación inteligente', 'Control de accesos y portones', 'Automatización de ambientes', 'Gestión energética remota'],
+              },
+              {
+                num: '03',
+                title: 'Redes & Seguridad',
+                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><path d="M23 7l-7 5-7-5v6l7 5 7-5V7z"/><path d="M16 3H8L1 8v8l7 5h8l7-5V8l-7-5z"/></svg>,
+                items: ['Cámaras CCTV HD y 4K', 'Cableado estructurado', 'Redes WiFi profesionales', 'Monitoreo remoto 24/7'],
+              },
+            ].map(s => (
+              <div key={s.num} className="service-card">
+                <span className="service-num">{s.num}</span>
+                <div style={{ position: 'relative' }}>
+                  <div className="service-icon">{s.icon}</div>
+                  <h3 className="service-title">{s.title}</h3>
+                  <div className="service-items">
+                    {s.items.map(item => (
+                      <div key={item} className="service-item">
+                        <span className="service-dot" />
+                        <span className="body-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="service-bar" />
                 </div>
-                <div className="border-l-2 border-[#ffc600] pl-4">
-                  <p className="font-black text-xs md:text-sm uppercase tracking-wider text-[#1e293b]">Visión</p>
-                  <p className="text-[11px] md:text-xs text-slate-500 mt-1 font-medium">
-                    Ser referente en soluciones eléctricas y automatización inteligente para hogares, comercios e industria a nivel nacional.
-                  </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROYECTOS ── */}
+      <ProyectosGaleria />
+
+      {/* ── POR QUÉ ELEGIRNOS ── */}
+      <section id="garantias" className="section" style={{ background: 'var(--bg2)' }}>
+        <div className="container">
+          <SectionHeader label="Sin inventos" title={<>¿POR QUÉ<br />ELEGIRNOS?</>} />
+
+          <div className="guarantees-grid">
+            {[
+              { icon: <ShieldCheck size={18} color="var(--y)" />, num: '01', title: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos.' },
+              { icon: <Clock size={18} color="var(--y)" />, num: '02', title: 'Respuesta 24 hrs', desc: 'Cotización dentro del mismo día hábil, sin vueltas.' },
+              { icon: <FileCheck size={18} color="var(--y)" />, num: '03', title: 'Presupuesto gratis', desc: 'Propuesta técnica detallada, sin compromiso ni costos ocultos.' },
+              { icon: <Wrench size={18} color="var(--y)" />, num: '04', title: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto.' },
+            ].map(g => (
+              <div key={g.num} className="guarantee-card">
+                <span className="guarantee-num">{g.num}</span>
+                <div style={{ position: 'relative' }}>
+                  <div className="guarantee-icon">{g.icon}</div>
+                  <h4 className="guarantee-title">{g.title}</h4>
+                  <p className="body-sm" style={{ fontSize: '0.82rem' }}>{g.desc}</p>
+                  <div className="guarantee-bar" />
                 </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Reviews */}
+          <div style={{
+            background: '#000',
+            border: '1px solid var(--border)',
+            padding: 'clamp(2rem, 5vw, 3.5rem)',
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, transparent, var(--y), transparent)' }} />
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: '1.25rem' }}>
+              {[1,2,3,4,5].map(i => (
+                <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="#ffc600"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <h4 className="display" style={{ fontSize: 'clamp(1.8rem,4vw,2.8rem)', marginBottom: '0.75rem' }}>
+              ¿YA TRABAJASTE<br />CON NOSOTROS?
+            </h4>
+            <p className="body-sm" style={{ maxWidth: '380px', margin: '0 auto 2rem' }}>
+              Tu reseña nos ayuda a crecer y que más clientes nos conozcan.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <a href="https://g.page/r/CRa4ejtbBBcyEAI/review" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                ⭐ RESEÑA EN GOOGLE
+              </a>
+              <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                POR WHATSAPP
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── NOSOTROS ── */}
+      <section id="nosotros" className="section" style={{ background: '#000' }}>
+        <div className="container">
+          <div className="about-grid">
+
+            <div className="about-img-wrap">
+              <img src="/unnamed.jpg" alt="Equipo InnVolt" />
+              <div className="about-badge">
+                <p className="about-badge-num">+5</p>
+                <p className="about-badge-label">AÑOS</p>
+              </div>
+            </div>
+
+            <div>
+              <SectionHeader label="Nuestra Identidad" title={<>TÉCNICOS<br />CERTIFICADOS<br /><span style={{ color: 'var(--y)' }}>A TU SERVICIO</span></>} />
+              <p className="body-sm" style={{ marginBottom: '1rem' }}>
+                En <strong style={{ color: '#fff', fontWeight: 600 }}>INNVOLT</strong> ejecutamos proyectos eléctricos, de automatización y control con los más altos estándares técnicos. Equipo certificado SEC, materiales de primera calidad y respaldo en cada trabajo.
+              </p>
+              <div className="about-mvs">
+                {[
+                  ['Misión', 'Diseñar e implementar soluciones que garanticen seguridad, eficiencia y confiabilidad en cada instalación.'],
+                  ['Visión', 'Ser referente en electricidad y automatización inteligente para hogares, comercios e industria a nivel nacional.'],
+                ].map(([t, d]) => (
+                  <div key={t} className="about-mv">
+                    <p className="about-mv-title">{t}</p>
+                    <p className="body-sm" style={{ fontSize: '0.8rem' }}>{d}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CONTACTO */}
-      <section id="contacto" className="py-20 md:py-32 bg-[#1e293b] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            <div className="space-y-8 md:space-y-12 text-center lg:text-left">
-              <div className="space-y-4">
-                <h2 className="text-[#ffc600] font-black text-[10px] md:text-xs uppercase tracking-[0.4em]">Hablemos</h2>
-                <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter italic uppercase">¿TIENES UN <br className="hidden md:block"/>PROYECTO?</h3>
-                <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">
-                  Estamos listos para asesorarte en tus instalaciones eléctricas, proyectos de domótica o seguridad.
-                  Contáctanos y obtén una cotización técnica profesional.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                <ContactInfo Icon={Phone} title="Teléfono / WhatsApp" content={
-                  <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffc600] transition-colors">+56 9 8920 3902</a>
-                } />
-                <ContactInfo Icon={Mail} title="Email" content={
-                  <a href="mailto:inn-volt@outlook.cl" className="hover:text-[#ffc600] transition-colors">inn-volt@outlook.cl</a>
-                } />
-                <ContactInfo Icon={Instagram} title="Instagram" content={
-                  <a href="https://instagram.com/inn.volt" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffc600] transition-colors">@inn.volt</a>
-                } />
-                <ContactInfo Icon={MapPin} title="Ubicación" content={<span>Santiago, Región Metropolitana</span>} />
+      {/* ── CONTACTO ── */}
+      <section id="contacto" className="section" style={{ background: 'var(--bg)' }}>
+        <div className="container">
+          <div className="contact-grid">
+
+            {/* Info */}
+            <div>
+              <SectionHeader label="Hablemos" title={<>¿TIENES UN<br /><span style={{ color: 'var(--y)' }}>PROYECTO?</span></>} />
+              <p className="body-sm" style={{ marginBottom: '0.5rem' }}>
+                Presupuesto técnico sin costo. Respondemos el mismo día hábil.
+              </p>
+
+              <div className="contact-info-list">
+                {[
+                  { Icon: Phone,    label: 'WhatsApp / Teléfono', value: '+56 9 8920 3902',          href: 'https://wa.me/56989203902' },
+                  { Icon: Mail,     label: 'Email',                value: 'inn-volt@outlook.cl',      href: 'mailto:inn-volt@outlook.cl' },
+                  { Icon: Instagram,label: 'Instagram',            value: '@inn.volt',                href: 'https://instagram.com/inn.volt' },
+                  { Icon: MapPin,   label: 'Ubicación',            value: 'Santiago, RM',             href: '#' },
+                ].map(c => (
+                  <a key={c.label} href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="contact-row">
+                    <div className="contact-icon">
+                      <c.Icon size={16} color="var(--y)" />
+                    </div>
+                    <div>
+                      <p className="form-label" style={{ marginBottom: '0.15rem' }}>{c.label}</p>
+                      <p style={{ color: '#fff', fontWeight: 500, fontSize: '0.9rem' }}>{c.value}</p>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
-            <ContactForm />
+
+            {/* Formulario */}
+            <div className="contact-form-wrap">
+              <h3 className="display" style={{ fontSize: '1.5rem', marginBottom: '1.75rem' }}>SOLICITAR COTIZACIÓN</h3>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 md:py-10 bg-[#1e293b] border-t border-white/5 text-center px-4">
-        <p className="text-slate-500 text-[8px] md:text-[10px] font-bold uppercase tracking-widest">
-          © 2026 INNVOLT SpA - Todos los derechos reservados
+      {/* ── FOOTER ── */}
+      <footer className="footer">
+        <Logo height={28} />
+        <p style={{
+          fontFamily: 'var(--font-display)',
+          color: 'rgba(255,255,255,0.2)',
+          fontSize: '0.6rem',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+        }}>
+          © 2026 INNVOLT SpA · Santiago, Chile
         </p>
       </footer>
-    </div>
-  );
-}
-
-function ContactInfo({ Icon, title, content }: { Icon: React.ElementType; title: string; content: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-4 md:gap-6 group">
-      <div className="w-10 h-10 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center text-[#ffc600] group-hover:scale-110 transition-transform shrink-0">
-        <Icon size={24} className="w-5 h-5 md:w-6 md:h-6" />
-      </div>
-      <div className="text-left">
-        <p className="text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest">{title}</p>
-        <p className="text-white font-bold text-xs md:text-base">{content}</p>
-      </div>
-    </div>
-  );
-}
-
-function ServiceCardImage({ img, title, desc }: { img: string; title: string; desc: string }) {
-  return (
-    <div className="group relative h-[350px] md:h-[450px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl transition-all hover:-translate-y-2">
-      <img src={img} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={title} />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1e293b] via-[#1e293b]/40 to-transparent" />
-      <div className="absolute bottom-5 left-6 md:left-10 right-6 md:right-10">
-        <h4 className="text-white text-xl md:text-2xl font-black uppercase italic mb-2 md:mb-3">{title}</h4>
-        <p className="text-slate-300 text-xs md:text-sm font-medium leading-relaxed sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-500">
-          {desc}
-        </p>
-        <div className="w-10 md:w-12 h-1 bg-[#ffc600] mt-3 md:mt-4" />
-      </div>
     </div>
   );
 }
