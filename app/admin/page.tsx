@@ -7,15 +7,9 @@ import { Proyecto, Categoria } from '@/types';
 const ADMIN_PASS = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'innvolt2026';
 const CATEGORIAS: Categoria[] = ['Electricidad', 'Domótica', 'Redes y CCTV'];
 
-const C = {
-  yellow: '#ffc600', dark: '#1e293b', dark2: '#0f172a', dark3: '#1a2740',
-  cardBg: '#162032', border: 'rgba(255,198,0,0.15)', borderDim: 'rgba(255,255,255,0.06)',
-  text: '#f1f5f9', muted: '#64748b', dim: '#334155',
-};
-
-function ZapIcon({ size = 24 }: { size?: number }) {
+function ZapIcon({ size = 24, color = '#ffc600' }: { size?: number; color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={C.yellow}>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
     </svg>
   );
@@ -34,17 +28,17 @@ interface UploadItem {
 }
 
 export default function AdminPanel() {
-  const [logged, setLogged]       = useState(false);
-  const [pass, setPass]           = useState('');
-  const [passError, setPassError] = useState(false);
-  const [proyectos, setProyectos] = useState<Proyecto[]>([]);
-  const [loading, setLoading]     = useState(false);
-  const [tab, setTab]             = useState<'lista' | 'nuevo' | 'editar'>('lista');
-  const [form, setForm]           = useState({ ...emptyForm });
-  const [editId, setEditId]       = useState<string | null>(null);
-  const [saving, setSaving]       = useState(false);
-  const [uploads, setUploads]     = useState<UploadItem[]>([]);
-  const [feedback, setFeedback]   = useState<{ msg: string; ok: boolean } | null>(null);
+  const [logged, setLogged]         = useState(false);
+  const [pass, setPass]             = useState('');
+  const [passError, setPassError]   = useState(false);
+  const [proyectos, setProyectos]   = useState<Proyecto[]>([]);
+  const [loading, setLoading]       = useState(false);
+  const [tab, setTab]               = useState<'lista' | 'nuevo' | 'editar'>('lista');
+  const [form, setForm]             = useState({ ...emptyForm });
+  const [editId, setEditId]         = useState<string | null>(null);
+  const [saving, setSaving]         = useState(false);
+  const [uploads, setUploads]       = useState<UploadItem[]>([]);
+  const [feedback, setFeedback]     = useState<{ msg: string; ok: boolean } | null>(null);
   const [delConfirm, setDelConfirm] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -63,18 +57,13 @@ export default function AdminPanel() {
 
   useEffect(() => { if (logged) fetchProyectos(); }, [logged]);
 
-  /* ── Selección múltiple de archivos ── */
   function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
     const items: UploadItem[] = files.map(f => ({
-      file: f,
-      preview: URL.createObjectURL(f),
-      status: 'pending',
-      url: '',
+      file: f, preview: URL.createObjectURL(f), status: 'pending', url: '',
     }));
     setUploads(prev => [...prev, ...items]);
-    // Subir todas inmediatamente
     items.forEach((item, idx) => uploadOne(item, uploads.length + idx));
   }
 
@@ -83,8 +72,7 @@ export default function AdminPanel() {
     try {
       const url = await uploadImage(item.file);
       setUploads(prev => {
-        const next = prev.map((u, i) => i === idx ? { ...u, status: 'done' as const, url } : u);
-        // Sincronizar URLs al form
+        const next = prev.map((u, i) => i === idx ? { ...u, status: 'done', url } : u);
         const urls = next.filter(u => u.status === 'done').map(u => u.url);
         setForm(f => ({ ...f, imagenes: urls }));
         return next;
@@ -112,9 +100,7 @@ export default function AdminPanel() {
   async function handleSave() {
     if (!form.titulo.trim()) { showFeedback('El título es obligatorio', false); return; }
     if (form.imagenes.length === 0) { showFeedback('Agrega al menos una foto', false); return; }
-    const uploading = uploads.some(u => u.status === 'uploading');
-    if (uploading) { showFeedback('Espera a que terminen de subir las imágenes', false); return; }
-
+    if (uploads.some(u => u.status === 'uploading')) { showFeedback('Espera a que terminen de subir las imágenes', false); return; }
     setSaving(true);
     try {
       const method = editId ? 'PATCH' : 'POST';
@@ -126,44 +112,25 @@ export default function AdminPanel() {
       });
       if (!res.ok) throw new Error();
       showFeedback(editId ? 'Proyecto actualizado ✓' : 'Proyecto publicado ✓', true);
-      resetForm();
-      setTab('lista');
-      fetchProyectos();
+      resetForm(); setTab('lista'); fetchProyectos();
     } catch {
       showFeedback('Error al guardar. Revisa Supabase.', false);
-    } finally {
-      setSaving(false);
-    }
+    } finally { setSaving(false); }
   }
 
-  function resetForm() {
-    setForm({ ...emptyForm });
-    setUploads([]);
-    setEditId(null);
-  }
+  function resetForm() { setForm({ ...emptyForm }); setUploads([]); setEditId(null); }
 
   function startEdit(p: Proyecto) {
     setEditId(p.id);
-    setForm({
-      titulo: p.titulo, descripcion: p.descripcion, categoria: p.categoria,
-      ubicacion: p.ubicacion, imagenes: p.imagenes || [],
-      destacado: p.destacado, activo: p.activo,
-    });
-    // Reconstruir previews desde URLs existentes
-    setUploads((p.imagenes || []).map(url => ({
-      file: new File([], ''),
-      preview: url,
-      status: 'done',
-      url,
-    })));
+    setForm({ titulo: p.titulo, descripcion: p.descripcion, categoria: p.categoria,
+      ubicacion: p.ubicacion, imagenes: p.imagenes || [], destacado: p.destacado, activo: p.activo });
+    setUploads((p.imagenes || []).map(url => ({ file: new File([], ''), preview: url, status: 'done', url })));
     setTab('editar');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function handleDelete(id: string) {
-    const res = await fetch(`/api/proyectos/${id}`, {
-      method: 'DELETE', headers: { 'x-admin-key': ADMIN_PASS },
-    });
+    const res = await fetch(`/api/proyectos/${id}`, { method: 'DELETE', headers: { 'x-admin-key': ADMIN_PASS } });
     if (res.ok) { fetchProyectos(); showFeedback('Proyecto eliminado', true); }
     else showFeedback('Error al eliminar', false);
     setDelConfirm(null);
@@ -178,276 +145,1005 @@ export default function AdminPanel() {
     fetchProyectos();
   }
 
-  /* ── LOGIN ── */
+  const anyUploading = uploads.some(u => u.status === 'uploading' || u.status === 'pending');
+  const isFormTab    = tab === 'nuevo' || tab === 'editar';
+
+  /* ────────────────── LOGIN ────────────────── */
   if (!logged) return (
-    <div style={{ minHeight: '100vh', background: C.dark2, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-      <div style={{ background: C.cardBg, border: `1px solid ${C.border}`, borderRadius: '1.5rem', padding: '2.5rem', width: '100%', maxWidth: '380px', textAlign: 'center' }}>
-        <ZapIcon size={40} />
-        <h1 style={{ color: C.yellow, fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.03em', margin: '1rem 0 0.25rem', textTransform: 'uppercase', fontStyle: 'italic' }}>
-          INN<span style={{ color: C.text }}>VOLT</span>
-        </h1>
-        <p style={{ color: C.muted, fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '2rem' }}>Panel Admin</p>
-        <input type="password" placeholder="Contraseña" value={pass}
-          onChange={e => setPass(e.target.value)} onKeyDown={e => e.key === 'Enter' && login()}
-          style={{ width: '100%', background: C.dim, border: `2px solid ${passError ? '#ef4444' : C.borderDim}`, borderRadius: '0.75rem', padding: '0.85rem 1rem', color: C.text, fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box', marginBottom: '0.5rem' }} />
-        {passError && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginBottom: '0.75rem' }}>Contraseña incorrecta</p>}
-        <button onClick={login} style={{ width: '100%', background: C.yellow, color: C.dark, fontWeight: 900, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', border: 'none', borderRadius: '0.75rem', padding: '0.9rem', cursor: 'pointer', marginTop: '0.5rem' }}>
-          Ingresar
-        </button>
+    <>
+      <style>{loginStyles}</style>
+      <div className="admin-login-wrap">
+        <div className="admin-login-card">
+          {/* Acento top */}
+          <div className="card-accent" />
+
+          {/* Logo */}
+          <div className="login-logo">
+            <ZapIcon size={32} />
+            <h1 className="login-brand">
+              INN<span>VOLT</span>
+            </h1>
+          </div>
+          <p className="login-subtitle label">Panel de Administración</p>
+
+          <div className="login-form">
+            <label className="label" style={{ marginBottom: '0.5rem', display: 'block' }}>Contraseña</label>
+            <input
+              type="password"
+              placeholder="••••••••••"
+              value={pass}
+              onChange={e => setPass(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && login()}
+              className={`admin-input ${passError ? 'input-error' : ''}`}
+            />
+            {passError && <p className="error-msg">Contraseña incorrecta</p>}
+            <button onClick={login} className="btn btn-primary login-btn">
+              <ZapIcon size={14} color="#000" />
+              Ingresar
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 
-  const isFormTab = tab === 'nuevo' || tab === 'editar';
-  const allDone   = uploads.length > 0 && uploads.every(u => u.status === 'done' || u.status === 'error');
-  const anyUploading = uploads.some(u => u.status === 'uploading' || u.status === 'pending');
-
+  /* ────────────────── PANEL PRINCIPAL ────────────────── */
   return (
-    <div style={{ minHeight: '100vh', background: C.dark2, color: C.text, fontFamily: 'Inter, sans-serif' }}>
+    <>
+      <style>{panelStyles}</style>
 
-      {/* Header */}
-      <div style={{ background: C.dark, borderBottom: `1px solid ${C.borderDim}`, padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <ZapIcon size={26} />
-          <span style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.03em', fontStyle: 'italic', textTransform: 'uppercase' }}>
-            INN<span style={{ color: C.yellow }}>VOLT</span>
-            <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', letterSpacing: '0.1em', marginLeft: '0.5rem', fontStyle: 'normal' }}>ADMIN</span>
-          </span>
-        </div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <a href="/" target="_blank" style={{ background: C.dim, color: C.text, fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.5rem 1rem', borderRadius: '0.5rem', textDecoration: 'none' }}>Ver sitio ↗</a>
-          <button onClick={() => { setLogged(false); setPass(''); }} style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.5rem 1rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>Salir</button>
-        </div>
-      </div>
+      <div className="admin-wrap">
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '1.5rem' }}>
-
-        {feedback && (
-          <div style={{ background: feedback.ok ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)', border: `1px solid ${feedback.ok ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`, color: feedback.ok ? '#86efac' : '#fca5a5', borderRadius: '0.75rem', padding: '0.8rem 1.2rem', marginBottom: '1.25rem', fontSize: '0.85rem', fontWeight: 600 }}>
-            {feedback.msg}
+        {/* ── NAV / HEADER ── */}
+        <nav className="admin-nav">
+          <div className="admin-nav-inner">
+            <div className="admin-brand">
+              <ZapIcon size={22} />
+              <span className="admin-brand-text">
+                INN<span>VOLT</span>
+                <span className="admin-brand-sub">ADMIN</span>
+              </span>
+            </div>
+            <div className="admin-nav-actions">
+              <a href="/" target="_blank" className="btn btn-ghost btn-sm">
+                Ver sitio ↗
+              </a>
+              <button onClick={() => { setLogged(false); setPass(''); }} className="btn btn-danger btn-sm">
+                Salir
+              </button>
+            </div>
           </div>
-        )}
+        </nav>
 
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-          {[{ id: 'lista', label: `Proyectos (${proyectos.length})` }, { id: 'nuevo', label: '+ Nuevo proyecto' }].map(t => (
-            <button key={t.id} onClick={() => { setTab(t.id as 'lista' | 'nuevo'); if (t.id === 'nuevo') resetForm(); }}
-              style={{ padding: '0.6rem 1.2rem', borderRadius: '0.6rem', fontWeight: 700, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', cursor: 'pointer', border: 'none', background: tab === t.id ? C.yellow : C.dim, color: tab === t.id ? C.dark : C.muted, transition: 'all 0.2s' }}>
-              {t.label}
-            </button>
-          ))}
-          {tab === 'editar' && (
-            <span style={{ padding: '0.6rem 1.2rem', borderRadius: '0.6rem', fontWeight: 700, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', background: C.yellow, color: C.dark }}>✏️ Editando</span>
+        {/* ── CONTENIDO ── */}
+        <main className="admin-main">
+
+          {/* Feedback toast */}
+          {feedback && (
+            <div className={`admin-toast ${feedback.ok ? 'toast-ok' : 'toast-err'}`}>
+              {feedback.ok ? '✓' : '✕'} {feedback.msg}
+            </div>
           )}
-        </div>
 
-        {/* ── FORMULARIO ── */}
-        {isFormTab && (
-          <div style={{ background: C.cardBg, border: `1px solid ${C.border}`, borderRadius: '1.5rem', padding: '2rem', marginBottom: '2rem' }}>
-            <h2 style={{ color: C.yellow, fontWeight: 900, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '-0.02em', fontStyle: 'italic', marginBottom: '1.5rem' }}>
-              {editId ? 'Editar Proyecto' : 'Nuevo Proyecto'}
-            </h2>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
-
-              {/* Título */}
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Título *</label>
-                <input value={form.titulo} onChange={e => setForm(f => ({ ...f, titulo: e.target.value }))}
-                  placeholder="Ej: Instalación eléctrica casa en Las Condes" style={inputStyle} />
-              </div>
-
-              {/* Categoría + Ubicación */}
-              <div>
-                <label style={labelStyle}>Categoría *</label>
-                <select value={form.categoria} onChange={e => setForm(f => ({ ...f, categoria: e.target.value as Categoria }))} style={inputStyle}>
-                  {CATEGORIAS.map(c => <option key={c}>{c}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={labelStyle}>Ubicación</label>
-                <input value={form.ubicacion} onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))}
-                  placeholder="Ej: Las Condes, Santiago" style={inputStyle} />
-              </div>
-
-              {/* Descripción */}
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Descripción</label>
-                <textarea value={form.descripcion} onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
-                  placeholder="Describe brevemente el trabajo realizado..." rows={3}
-                  style={{ ...inputStyle, resize: 'vertical' }} />
-              </div>
-
-              {/* ── ZONA DE FOTOS ── */}
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>
-                  Fotos del proyecto * — {uploads.filter(u => u.status === 'done').length} subidas
-                  {anyUploading && <span style={{ color: C.yellow, marginLeft: '0.5rem' }}>⏳ Subiendo...</span>}
-                </label>
-
-                {/* Drop zone */}
-                <div onClick={() => fileRef.current?.click()}
-                  style={{ border: `2px dashed ${C.border}`, borderRadius: '1rem', padding: '1.5rem', textAlign: 'center', cursor: 'pointer', background: C.dim, marginBottom: '1rem', transition: 'border-color 0.2s' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = C.yellow)}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}>
-                  <p style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>📷</p>
-                  <p style={{ color: C.text, fontWeight: 700, fontSize: '0.85rem' }}>Haz clic para seleccionar fotos</p>
-                  <p style={{ color: C.muted, fontSize: '0.72rem', marginTop: '0.2rem' }}>Puedes seleccionar varias a la vez — JPG, PNG</p>
-                </div>
-                <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleFiles} style={{ display: 'none' }} />
-
-                {/* Grid de previews */}
-                {uploads.length > 0 && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '0.6rem' }}>
-                    {uploads.map((u, idx) => (
-                      <div key={idx} style={{ position: 'relative', borderRadius: '0.75rem', overflow: 'hidden', aspectRatio: '1', background: C.dark }}>
-                        <img src={u.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: u.status === 'done' ? 1 : 0.5 }} />
-                        {/* Estado overlay */}
-                        {u.status === 'uploading' && (
-                          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontSize: '1.5rem' }}>⏳</span>
-                          </div>
-                        )}
-                        {u.status === 'error' && (
-                          <div style={{ position: 'absolute', inset: 0, background: 'rgba(239,68,68,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontSize: '1.5rem' }}>❌</span>
-                          </div>
-                        )}
-                        {u.status === 'done' && (
-                          <div style={{ position: 'absolute', top: '0.3rem', left: '0.3rem', background: 'rgba(34,197,94,0.9)', borderRadius: '99px', width: '1.2rem', height: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', fontWeight: 900 }}>✓</div>
-                        )}
-                        {/* Botón quitar */}
-                        <button onClick={() => removeUpload(idx)}
-                          style={{ position: 'absolute', top: '0.3rem', right: '0.3rem', background: 'rgba(0,0,0,0.7)', color: '#fff', border: 'none', borderRadius: '99px', width: '1.4rem', height: '1.4rem', cursor: 'pointer', fontSize: '0.65rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          ✕
-                        </button>
-                        {/* Número de orden */}
-                        <div style={{ position: 'absolute', bottom: '0.3rem', left: '0.3rem', background: 'rgba(0,0,0,0.6)', color: C.yellow, borderRadius: '4px', padding: '0 0.3rem', fontSize: '0.6rem', fontWeight: 900 }}>
-                          #{idx + 1}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Switches */}
-              <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  <input type="checkbox" checked={form.destacado} onChange={e => setForm(f => ({ ...f, destacado: e.target.checked }))} style={{ width: '1.1rem', height: '1.1rem', accentColor: C.yellow }} />
-                  ⭐ Destacado
-                </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  <input type="checkbox" checked={form.activo} onChange={e => setForm(f => ({ ...f, activo: e.target.checked }))} style={{ width: '1.1rem', height: '1.1rem', accentColor: C.yellow }} />
-                  👁 Visible
-                </label>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-              <button onClick={handleSave} disabled={saving || anyUploading}
-                style={{ background: C.yellow, color: C.dark, fontWeight: 900, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '0.85rem 2rem', borderRadius: '0.75rem', border: 'none', cursor: (saving || anyUploading) ? 'not-allowed' : 'pointer', opacity: (saving || anyUploading) ? 0.6 : 1 }}>
-                {anyUploading ? 'Esperando imágenes...' : saving ? 'Guardando...' : editId ? 'Actualizar proyecto' : 'Publicar proyecto'}
+          {/* ── TABS ── */}
+          <div className="admin-tabs">
+            {[
+              { id: 'lista', label: `Proyectos (${proyectos.length})` },
+              { id: 'nuevo', label: '+ Nuevo proyecto' },
+            ].map(t => (
+              <button
+                key={t.id}
+                onClick={() => { setTab(t.id as 'lista' | 'nuevo'); if (t.id === 'nuevo') resetForm(); }}
+                className={`admin-tab ${tab === t.id ? 'tab-active' : ''}`}
+              >
+                {t.label}
               </button>
-              <button onClick={() => { resetForm(); setTab('lista'); }}
-                style={{ background: C.dim, color: C.muted, fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.85rem 1.5rem', borderRadius: '0.75rem', border: 'none', cursor: 'pointer' }}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ── LISTA ── */}
-        {tab === 'lista' && (
-          <div>
-            {loading ? (
-              <div style={{ textAlign: 'center', padding: '3rem', color: C.muted }}>Cargando proyectos...</div>
-            ) : proyectos.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '3rem', background: C.cardBg, borderRadius: '1.5rem', border: `1px solid ${C.borderDim}` }}>
-                <p style={{ fontSize: '3rem' }}>📂</p>
-                <p style={{ color: C.muted, fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.1em' }}>No hay proyectos aún</p>
-                <button onClick={() => setTab('nuevo')} style={{ marginTop: '1rem', background: C.yellow, color: C.dark, fontWeight: 900, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '0.75rem 1.5rem', borderRadius: '0.75rem', border: 'none', cursor: 'pointer' }}>
-                  + Crear primer proyecto
-                </button>
-              </div>
-            ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-                {proyectos.map(p => (
-                  <div key={p.id} style={{ background: C.cardBg, border: `1px solid ${p.activo ? C.border : C.borderDim}`, borderRadius: '1.25rem', overflow: 'hidden', opacity: p.activo ? 1 : 0.6 }}>
-                    {/* Imagen portada + miniaturas */}
-                    <div style={{ position: 'relative', height: '180px', background: C.dim }}>
-                      {p.imagenes?.[0] ? (
-                        <img src={getOptimizedUrl(p.imagenes[0], 400, 300)} alt={p.titulo} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: '2.5rem' }}>📷</div>
-                      )}
-                      {/* Contador de fotos */}
-                      {(p.imagenes?.length || 0) > 1 && (
-                        <div style={{ position: 'absolute', bottom: '0.5rem', right: '0.5rem', background: 'rgba(0,0,0,0.7)', color: C.yellow, fontSize: '0.65rem', fontWeight: 900, padding: '0.2rem 0.5rem', borderRadius: '99px' }}>
-                          📷 {p.imagenes.length} fotos
-                        </div>
-                      )}
-                      <div style={{ position: 'absolute', top: '0.6rem', left: '0.6rem', display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
-                        <span style={{ background: C.yellow, color: C.dark, fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.2rem 0.5rem', borderRadius: '99px' }}>{p.categoria}</span>
-                        {p.destacado && <span style={{ background: '#1e293b', color: C.yellow, fontSize: '0.6rem', fontWeight: 900, padding: '0.2rem 0.5rem', borderRadius: '99px' }}>⭐</span>}
-                        {!p.activo && <span style={{ background: '#7f1d1d', color: '#fca5a5', fontSize: '0.6rem', fontWeight: 900, padding: '0.2rem 0.5rem', borderRadius: '99px' }}>Oculto</span>}
-                      </div>
-                    </div>
-
-                    {/* Miniaturas */}
-                    {(p.imagenes?.length || 0) > 1 && (
-                      <div style={{ display: 'flex', gap: '0.3rem', padding: '0.5rem', background: C.dark3, overflowX: 'auto' }}>
-                        {p.imagenes.slice(0, 6).map((img, i) => (
-                          <img key={i} src={getOptimizedUrl(img, 80, 80)} alt="" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '0.35rem', flexShrink: 0, opacity: i === 0 ? 1 : 0.7 }} />
-                        ))}
-                        {p.imagenes.length > 6 && (
-                          <div style={{ width: '40px', height: '40px', background: C.dim, borderRadius: '0.35rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.muted, fontSize: '0.6rem', fontWeight: 900, flexShrink: 0 }}>
-                            +{p.imagenes.length - 6}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    <div style={{ padding: '1rem' }}>
-                      <h3 style={{ fontWeight: 800, fontSize: '0.9rem', color: C.text, marginBottom: '0.25rem', lineHeight: 1.3 }}>{p.titulo}</h3>
-                      {p.ubicacion && <p style={{ color: C.muted, fontSize: '0.72rem', fontWeight: 600, marginBottom: '0.5rem' }}>📍 {p.ubicacion}</p>}
-                      {p.descripcion && <p style={{ color: C.muted, fontSize: '0.75rem', lineHeight: 1.5, marginBottom: '0.75rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.descripcion}</p>}
-
-                      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                        <button onClick={() => startEdit(p)} style={{ flex: 1, background: C.dim, color: C.text, fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.5rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>✏️ Editar</button>
-                        <button onClick={() => toggleActivo(p)} style={{ flex: 1, background: p.activo ? 'rgba(251,191,36,0.1)' : 'rgba(34,197,94,0.1)', color: p.activo ? '#fbbf24' : '#86efac', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.5rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>
-                          {p.activo ? '👁 Ocultar' : '👁 Mostrar'}
-                        </button>
-                        <button onClick={() => setDelConfirm(p.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#f87171', fontSize: '0.7rem', fontWeight: 700, padding: '0.5rem 0.75rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>🗑</button>
-                      </div>
-
-                      {delConfirm === p.id && (
-                        <div style={{ marginTop: '0.75rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '0.75rem', padding: '0.75rem', textAlign: 'center' }}>
-                          <p style={{ color: '#fca5a5', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>¿Eliminar este proyecto?</p>
-                          <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center' }}>
-                            <button onClick={() => handleDelete(p.id)} style={{ background: '#ef4444', color: '#fff', fontSize: '0.7rem', fontWeight: 900, padding: '0.4rem 1rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>Eliminar</button>
-                            <button onClick={() => setDelConfirm(null)} style={{ background: C.dim, color: C.muted, fontSize: '0.7rem', fontWeight: 700, padding: '0.4rem 1rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}>Cancelar</button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+            ))}
+            {tab === 'editar' && (
+              <span className="admin-tab tab-active">✏ Editando</span>
             )}
           </div>
-        )}
+
+          {/* ── FORMULARIO ── */}
+          {isFormTab && (
+            <div className="admin-card">
+              <div className="card-accent" />
+              <h2 className="form-title display">
+                {editId ? 'Editar Proyecto' : 'Nuevo Proyecto'}
+              </h2>
+
+              <div className="form-grid">
+
+                {/* Título */}
+                <div className="col-full">
+                  <label className="label">Título *</label>
+                  <input
+                    value={form.titulo}
+                    onChange={e => setForm(f => ({ ...f, titulo: e.target.value }))}
+                    placeholder="Ej: Instalación eléctrica casa en Las Condes"
+                    className="admin-input"
+                  />
+                </div>
+
+                {/* Categoría */}
+                <div>
+                  <label className="label">Categoría *</label>
+                  <select
+                    value={form.categoria}
+                    onChange={e => setForm(f => ({ ...f, categoria: e.target.value as Categoria }))}
+                    className="admin-input"
+                  >
+                    {CATEGORIAS.map(c => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
+
+                {/* Ubicación */}
+                <div>
+                  <label className="label">Ubicación</label>
+                  <input
+                    value={form.ubicacion}
+                    onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))}
+                    placeholder="Ej: Las Condes, Santiago"
+                    className="admin-input"
+                  />
+                </div>
+
+                {/* Descripción */}
+                <div className="col-full">
+                  <label className="label">Descripción</label>
+                  <textarea
+                    value={form.descripcion}
+                    onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
+                    placeholder="Describe brevemente el trabajo realizado..."
+                    rows={3}
+                    className="admin-input"
+                    style={{ resize: 'vertical' }}
+                  />
+                </div>
+
+                {/* Fotos */}
+                <div className="col-full">
+                  <label className="label">
+                    Fotos del proyecto * —{' '}
+                    <span style={{ color: '#ffc600' }}>
+                      {uploads.filter(u => u.status === 'done').length} subidas
+                    </span>
+                    {anyUploading && <span style={{ color: '#ffc600', marginLeft: '0.5rem' }}>⏳ Subiendo...</span>}
+                  </label>
+
+                  {/* Drop zone */}
+                  <div
+                    className="drop-zone"
+                    onClick={() => fileRef.current?.click()}
+                  >
+                    <div className="drop-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffc600" strokeWidth="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                      </svg>
+                    </div>
+                    <p className="drop-title">Haz clic para seleccionar fotos</p>
+                    <p className="drop-sub body-sm">Puedes seleccionar varias a la vez — JPG, PNG</p>
+                  </div>
+                  <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleFiles} style={{ display: 'none' }} />
+
+                  {/* Grid previews */}
+                  {uploads.length > 0 && (
+                    <div className="upload-grid">
+                      {uploads.map((u, idx) => (
+                        <div key={idx} className="upload-thumb">
+                          <img src={u.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: u.status === 'done' ? 1 : 0.45 }} />
+                          {u.status === 'uploading' && (
+                            <div className="thumb-overlay">
+                              <span style={{ fontSize: '1.4rem' }}>⏳</span>
+                            </div>
+                          )}
+                          {u.status === 'error' && (
+                            <div className="thumb-overlay" style={{ background: 'rgba(239,68,68,0.7)' }}>
+                              <span style={{ fontSize: '1.4rem' }}>✕</span>
+                            </div>
+                          )}
+                          {u.status === 'done' && (
+                            <div className="thumb-badge thumb-ok">✓</div>
+                          )}
+                          <button className="thumb-remove" onClick={() => removeUpload(idx)}>✕</button>
+                          <div className="thumb-num">#{idx + 1}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Switches */}
+                <div className="switches">
+                  <label className="switch-label">
+                    <input type="checkbox" checked={form.destacado} onChange={e => setForm(f => ({ ...f, destacado: e.target.checked }))} className="switch-check" />
+                    <span>⭐ Destacado</span>
+                  </label>
+                  <label className="switch-label">
+                    <input type="checkbox" checked={form.activo} onChange={e => setForm(f => ({ ...f, activo: e.target.checked }))} className="switch-check" />
+                    <span>◎ Visible</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Acciones */}
+              <div className="form-actions">
+                <button
+                  onClick={handleSave}
+                  disabled={saving || anyUploading}
+                  className="btn btn-primary"
+                  style={{ opacity: (saving || anyUploading) ? 0.5 : 1, cursor: (saving || anyUploading) ? 'not-allowed' : 'pointer' }}
+                >
+                  <ZapIcon size={14} color="#000" />
+                  {anyUploading ? 'Esperando imágenes...' : saving ? 'Guardando...' : editId ? 'Actualizar proyecto' : 'Publicar proyecto'}
+                </button>
+                <button onClick={() => { resetForm(); setTab('lista'); }} className="btn btn-ghost">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── LISTA ── */}
+          {tab === 'lista' && (
+            <div>
+              {loading ? (
+                <div className="list-empty">
+                  <ZapIcon size={32} />
+                  <p className="label" style={{ marginTop: '1rem' }}>Cargando proyectos...</p>
+                </div>
+              ) : proyectos.length === 0 ? (
+                <div className="list-empty admin-card">
+                  <div className="card-accent" />
+                  <span style={{ fontSize: '3rem' }}>📂</span>
+                  <p className="label" style={{ marginTop: '1rem' }}>No hay proyectos aún</p>
+                  <button onClick={() => setTab('nuevo')} className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
+                    <ZapIcon size={14} color="#000" />+ Crear primer proyecto
+                  </button>
+                </div>
+              ) : (
+                <div className="projects-list-grid">
+                  {proyectos.map(p => (
+                    <div key={p.id} className={`proj-card ${!p.activo ? 'proj-hidden' : ''}`}>
+                      {/* Imagen */}
+                      <div className="proj-img-wrap">
+                        {p.imagenes?.[0] ? (
+                          <img src={getOptimizedUrl(p.imagenes[0], 400, 300)} alt={p.titulo} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <div className="proj-img-empty">📷</div>
+                        )}
+                        {/* Badges */}
+                        <div className="proj-badges">
+                          <span className="proj-cat">{p.categoria}</span>
+                          {p.destacado && <span className="proj-badge-star">⭐</span>}
+                          {!p.activo && <span className="proj-badge-hidden">Oculto</span>}
+                        </div>
+                        {(p.imagenes?.length || 0) > 1 && (
+                          <div className="proj-photo-count">📷 {p.imagenes.length}</div>
+                        )}
+                      </div>
+
+                      {/* Miniaturas */}
+                      {(p.imagenes?.length || 0) > 1 && (
+                        <div className="proj-thumbs">
+                          {p.imagenes.slice(0, 6).map((img, i) => (
+                            <img key={i} src={getOptimizedUrl(img, 80, 80)} alt="" className="proj-thumb" style={{ opacity: i === 0 ? 1 : 0.6 }} />
+                          ))}
+                          {p.imagenes.length > 6 && (
+                            <div className="proj-thumb-more">+{p.imagenes.length - 6}</div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Info */}
+                      <div className="proj-info">
+                        <div className="service-bar" style={{ marginBottom: '0.75rem' }} />
+                        <h3 className="proj-title">{p.titulo}</h3>
+                        {p.ubicacion && <p className="proj-loc">📍 {p.ubicacion}</p>}
+                        {p.descripcion && <p className="proj-desc">{p.descripcion}</p>}
+
+                        <div className="proj-actions">
+                          <button onClick={() => startEdit(p)} className="proj-btn">✏ Editar</button>
+                          <button onClick={() => toggleActivo(p)} className={`proj-btn ${p.activo ? 'proj-btn-warn' : 'proj-btn-ok'}`}>
+                            {p.activo ? '◎ Ocultar' : '◎ Mostrar'}
+                          </button>
+                          <button onClick={() => setDelConfirm(p.id)} className="proj-btn proj-btn-del">🗑</button>
+                        </div>
+
+                        {delConfirm === p.id && (
+                          <div className="del-confirm">
+                            <p className="del-confirm-msg">¿Eliminar este proyecto?</p>
+                            <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center' }}>
+                              <button onClick={() => handleDelete(p.id)} className="btn btn-danger btn-sm">Eliminar</button>
+                              <button onClick={() => setDelConfirm(null)} className="btn btn-ghost btn-sm">Cancelar</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </main>
       </div>
-    </div>
+    </>
   );
 }
 
-const inputStyle: React.CSSProperties = {
-  width: '100%', background: '#1e293b', border: '1px solid rgba(255,198,0,0.12)',
-  borderRadius: '0.75rem', padding: '0.75rem 1rem', color: '#f1f5f9',
-  fontSize: '0.875rem', outline: 'none', boxSizing: 'border-box', fontFamily: 'Inter, sans-serif',
-};
-const labelStyle: React.CSSProperties = {
-  display: 'block', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase',
-  letterSpacing: '0.12em', color: '#64748b', marginBottom: '0.4rem',
-};
+/* ═══════════════════════════════════════════
+   ESTILOS — replican el design system del sitio
+   ═══════════════════════════════════════════ */
+
+const loginStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+  .admin-login-wrap {
+    min-height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    font-family: 'Barlow', sans-serif;
+  }
+  .admin-login-card {
+    position: relative;
+    background: #0e0e0e;
+    border: 1px solid rgba(255,198,0,0.15);
+    padding: 2.5rem 2.5rem 3rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #ffc600;
+  }
+  .login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .login-brand {
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #ffc600;
+    line-height: 1;
+  }
+  .login-brand span { color: #fff; }
+  .login-subtitle {
+    margin: 0.6rem 0 2rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .login-form { text-align: left; }
+  .login-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #ffc600;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .admin-input {
+    width: 100%;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 0.85rem 1rem;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .admin-input:focus { border-color: rgba(255,198,0,0.4); }
+  .input-error { border-color: #ef4444 !important; }
+  .error-msg {
+    color: #f87171;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0.4rem 0 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: #ffc600;
+    color: #000;
+    padding: 0.9rem 2rem;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .btn-ghost:hover { border-color: #ffc600; color: #ffc600; }
+  .btn-danger {
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+  .btn-sm { padding: 0.5rem 1rem; font-size: 0.7rem; clip-path: none; }
+`;
+
+const panelStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+  * { box-sizing: border-box; }
+
+  .admin-wrap {
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  /* ── NAV ── */
+  .admin-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,198,0,0.1);
+  }
+  .admin-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .admin-brand-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #fff;
+    font-style: italic;
+  }
+  .admin-brand-text span:first-child { color: #ffc600; }
+  .admin-brand-sub {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+    margin-left: 0.5rem;
+    font-style: normal;
+    vertical-align: middle;
+  }
+  .admin-nav-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+  /* ── MAIN ── */
+  .admin-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ── TOAST ── */
+  .admin-toast {
+    padding: 0.85rem 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-left: 3px solid;
+  }
+  .toast-ok {
+    background: rgba(34,197,94,0.08);
+    border-color: #22c55e;
+    color: #86efac;
+  }
+  .toast-err {
+    background: rgba(239,68,68,0.08);
+    border-color: #ef4444;
+    color: #fca5a5;
+  }
+
+  /* ── TABS ── */
+  .admin-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    background: rgba(255,198,0,0.04);
+    border: 1px solid rgba(255,198,0,0.08);
+    padding: 2px;
+    width: fit-content;
+  }
+  .admin-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.5rem;
+    background: transparent;
+    color: rgba(255,255,255,0.35);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .admin-tab:hover { color: #ffc600; background: rgba(255,198,0,0.06); }
+  .tab-active { background: #ffc600 !important; color: #000 !important; cursor: default; }
+
+  /* ── CARD ── */
+  .admin-card {
+    position: relative;
+    background: #0e0e0e;
+    border: 1px solid rgba(255,198,0,0.12);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #ffc600;
+  }
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: #ffc600;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    line-height: 1;
+  }
+
+  /* ── FORM GRID ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .col-full { grid-column: 1 / -1; }
+
+  .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #ffc600;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .admin-input {
+    width: 100%;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 0.8rem 1rem;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .admin-input:focus { border-color: rgba(255,198,0,0.35); }
+  .admin-input option { background: #141414; }
+
+  /* ── DROP ZONE ── */
+  .drop-zone {
+    border: 1px dashed rgba(255,198,0,0.25);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(255,198,0,0.02);
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+  }
+  .drop-zone:hover {
+    border-color: #ffc600;
+    background: rgba(255,198,0,0.05);
+  }
+  .drop-icon { margin-bottom: 0.5rem; }
+  .drop-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 0.25rem;
+  }
+  .drop-sub {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── UPLOAD GRID ── */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.5rem;
+  }
+  .upload-thumb {
+    position: relative;
+    aspect-ratio: 1;
+    background: #141414;
+    overflow: hidden;
+  }
+  .thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thumb-badge {
+    position: absolute;
+    top: 0.3rem;
+    left: 0.3rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 900;
+  }
+  .thumb-ok { background: rgba(34,197,94,0.9); color: #fff; }
+  .thumb-remove {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    border: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.6rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thumb-remove:hover { background: #ef4444; }
+  .thumb-num {
+    position: absolute;
+    bottom: 0.25rem;
+    left: 0.25rem;
+    background: rgba(0,0,0,0.7);
+    color: #ffc600;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.55rem;
+    padding: 0.1rem 0.3rem;
+  }
+
+  /* ── SWITCHES ── */
+  .switches {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 0.25rem;
+  }
+  .switch-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    transition: color 0.2s;
+  }
+  .switch-label:hover { color: #ffc600; }
+  .switch-check { width: 1.1rem; height: 1.1rem; accent-color: #ffc600; }
+
+  /* ── FORM ACTIONS ── */
+  .form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* ── SHARED BTN STYLES ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: #ffc600;
+    color: #000;
+    padding: 0.9rem 2rem;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover:not(:disabled) { background: #fff; transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .btn-ghost:hover { border-color: #ffc600; color: #ffc600; }
+  .btn-danger {
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+  .btn-sm { padding: 0.5rem 1rem; font-size: 0.7rem; clip-path: none !important; }
+
+  /* ── LISTA EMPTY ── */
+  .list-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: rgba(255,255,255,0.35);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  /* ── PROJECTS GRID ── */
+  .projects-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px;
+    background: rgba(255,198,0,0.04);
+  }
+  .proj-card {
+    background: #0e0e0e;
+    border: 1px solid rgba(255,198,0,0.1);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .proj-card:hover { border-color: rgba(255,198,0,0.3); }
+  .proj-hidden { opacity: 0.5; }
+
+  .proj-img-wrap {
+    position: relative;
+    height: 190px;
+    background: #141414;
+    overflow: hidden;
+  }
+  .proj-img-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2.5rem;
+  }
+  .proj-badges {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .proj-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    background: #ffc600;
+    color: #000;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+  }
+  .proj-badge-star {
+    background: rgba(0,0,0,0.7);
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+  }
+  .proj-badge-hidden {
+    font-family: 'Barlow Condensed', sans-serif;
+    background: rgba(127,29,29,0.9);
+    color: #fca5a5;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+  }
+  .proj-photo-count {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0,0,0,0.75);
+    color: #ffc600;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+  }
+
+  /* Miniaturas */
+  .proj-thumbs {
+    display: flex;
+    gap: 2px;
+    padding: 0.4rem;
+    background: #080808;
+    overflow-x: auto;
+  }
+  .proj-thumb {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .proj-thumb-more {
+    width: 38px;
+    height: 38px;
+    background: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  /* Info */
+  .proj-info { padding: 1.25rem; }
+  .service-bar {
+    width: 24px;
+    height: 2px;
+    background: #ffc600;
+    transform-origin: left;
+  }
+  .proj-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+  .proj-loc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffc600;
+    margin-bottom: 0.5rem;
+  }
+  .proj-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Botones de proyecto */
+  .proj-actions { display: flex; gap: 2px; flex-wrap: wrap; }
+  .proj-btn {
+    flex: 1;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.5rem;
+    border: none;
+    cursor: pointer;
+    background: #141414;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.2s;
+  }
+  .proj-btn:hover { color: #fff; border-color: rgba(255,198,0,0.3); }
+  .proj-btn-ok  { color: #86efac !important; border-color: rgba(34,197,94,0.2) !important; background: rgba(34,197,94,0.06) !important; }
+  .proj-btn-warn { color: #fbbf24 !important; border-color: rgba(251,191,36,0.2) !important; background: rgba(251,191,36,0.06) !important; }
+  .proj-btn-del  { flex: 0; padding: 0.55rem 0.75rem; color: #f87171 !important; background: rgba(239,68,68,0.06) !important; border-color: rgba(239,68,68,0.15) !important; }
+
+  /* Confirm delete */
+  .del-confirm {
+    margin-top: 0.75rem;
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.2);
+    padding: 1rem;
+    text-align: center;
+  }
+  .del-confirm-msg {
+    color: #fca5a5;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #ffc600; }
+
+  /* ── SELECTION ── */
+  ::selection { background: #ffc600; color: #000; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .admin-main { padding: 1.25rem 1rem; }
+    .admin-card { padding: 1.5rem 1.25rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .projects-list-grid { grid-template-columns: 1fr; }
+  }
+`;
