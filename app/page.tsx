@@ -222,7 +222,6 @@ export default function HomePage() {
             {[
               { icon: <ShieldCheck size={18} color="var(--y)" />, num: '01', title: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos.' },
               { icon: <Clock size={18} color="var(--y)" />, num: '02', title: 'Respuesta 24 hrs', desc: 'Cotización dentro del mismo día hábil, sin vueltas.' },
-              { icon: <FileCheck size={18} color="var(--y)" />, num: '03', title: 'Presupuesto gratis', desc: 'Propuesta técnica detallada, sin compromiso ni costos ocultos.' },
               { icon: <Wrench size={18} color="var(--y)" />, num: '04', title: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto.' },
             ].map(g => (
               <div key={g.num} className="guarantee-card">
