@@ -147,7 +147,6 @@ export default function HomePage() {
               { icon:'🛡', text:'Garantía incluida' },
               { icon:'📍', text:'Santiago, RM' },
               { icon:'🕐', text:'Respuesta 24 hrs' },
-              { icon:'💰', text:'Presupuesto sin costo' },
             ].map(item => (
               <div key={item.text} className="trust-band-item">
                 <span>{item.icon}</span>
@@ -222,7 +221,7 @@ export default function HomePage() {
             {[
               { icon: <ShieldCheck size={18} color="var(--y)" />, num: '01', title: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos.' },
               { icon: <Clock size={18} color="var(--y)" />, num: '02', title: 'Respuesta 24 hrs', desc: 'Cotización dentro del mismo día hábil, sin vueltas.' },
-              { icon: <Wrench size={18} color="var(--y)" />, num: '04', title: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto.' },
+              { icon: <Wrench size={18} color="var(--y)" />, num: '03', title: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto.' },
             ].map(g => (
               <div key={g.num} className="guarantee-card">
                 <span className="guarantee-num">{g.num}</span>
@@ -247,7 +246,7 @@ export default function HomePage() {
           }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, transparent, var(--y), transparent)' }} />
             <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: '1.25rem' }}>
-              {[1,2,3,4,5].map(i => (
+              {[1,2,3,5].map(i => (
                 <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="#ffc600"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               ))}
             </div>
@@ -312,7 +311,7 @@ export default function HomePage() {
             <div>
               <SectionHeader label="Hablemos" title={<>¿TIENES UN<br /><span style={{ color: 'var(--y)' }}>PROYECTO?</span></>} />
               <p className="body-sm" style={{ marginBottom: '0.5rem' }}>
-                Presupuesto técnico sin costo. Respondemos el mismo día hábil.
+                Respondemos el mismo día hábil.
               </p>
 
               <div className="contact-info-list">
