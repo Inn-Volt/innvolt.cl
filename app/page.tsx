@@ -246,7 +246,7 @@ export default function HomePage() {
           }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, transparent, var(--y), transparent)' }} />
             <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: '1.25rem' }}>
-              {[1,2,3,5].map(i => (
+              {[1,2,3].map(i => (
                 <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="#ffc600"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               ))}
             </div>
