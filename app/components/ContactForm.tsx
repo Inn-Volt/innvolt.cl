@@ -61,7 +61,7 @@ export default function ContactForm() {
           style={{ justifyContent: 'center', opacity: st === 'sending' ? 0.65 : 1, cursor: st === 'sending' ? 'not-allowed' : 'pointer' }}>
           {st === 'sending' ? 'ENVIANDO...' : '✉ ENVIAR'}
         </button>
-        <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer"
+        <a href="https://wa.me/56966575447" target="_blank" rel="noopener noreferrer"
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', background: '#25D366', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.8rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.9rem', textDecoration: 'none', clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))' }}>
           <img src="/whatsapp.svg" alt="" width={14} height={14} style={{ filter: 'brightness(0) invert(1)' }} />
           WHATSAPP
@@ -75,7 +75,7 @@ export default function ContactForm() {
       )}
       {st === 'err' && (
         <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', padding: '0.9rem 1rem', color: '#fca5a5', fontFamily: 'var(--font-display)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em' }}>
-          ERROR AL ENVIAR — <a href="https://wa.me/56989203902" style={{ color: 'var(--y)' }}>CONTÁCTANOS POR WHATSAPP</a>
+          ERROR AL ENVIAR — <a href="https://wa.me/56966575447" style={{ color: 'var(--y)' }}>CONTÁCTANOS POR WHATSAPP</a>
         </div>
       )}
     </form>

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { ShieldCheck, Clock, FileCheck, Wrench, Phone, Mail, Instagram, MapPin, ArrowRight, ChevronRight } from 'lucide-react';
-import ProyectosGaleria from './components/ProyectosGaleria';
 import ContactForm from './components/ContactForm';
 
 /* ══════════════════════════════════════
@@ -60,7 +59,7 @@ export default function HomePage() {
     <div style={{ minHeight: '100vh', background: '#000' }}>
 
       {/* ── WHATSAPP FAB ── */}
-      <a href="https://wa.me/56989203902" target="_blank" rel="noopener noreferrer" className="wsp-fab">
+      <a href="https://wa.me/56966575447" target="_blank" rel="noopener noreferrer" className="wsp-fab">
         <img src="/whatsapp.svg" alt="WhatsApp" width={20} height={20} />
         <span className="wsp-label">WHATSAPP</span>
       </a>
@@ -74,7 +73,6 @@ export default function HomePage() {
             {/* Desktop links */}
             <div className="nav-links">
               <a href="#servicios" className="nav-link">Servicios</a>
-              <a href="#proyectos" className="nav-link">Proyectos</a>
               <a href="#nosotros" className="nav-link">Nosotros</a>
               <a href="#contacto" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.7rem' }}>
                 PRESUPUESTO
@@ -94,7 +92,6 @@ export default function HomePage() {
       {/* Mobile menu */}
       <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
         <a href="#servicios" onClick={() => setMenuOpen(false)}>Servicios</a>
-        <a href="#proyectos" onClick={() => setMenuOpen(false)}>Proyectos</a>
         <a href="#nosotros" onClick={() => setMenuOpen(false)}>Nosotros</a>
         <a href="#contacto" onClick={() => setMenuOpen(false)} style={{ color: 'var(--y)' }}>→ Solicitar Presupuesto</a>
       </div>
@@ -123,7 +120,6 @@ export default function HomePage() {
               </p>
               <div className="hero-btns anim-up d4">
                 <a href="#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></a>
-                <a href="#proyectos" className="btn btn-ghost">VER PROYECTOS</a>
               </div>
               <div className="hero-stats anim-up d5">
                 {[['+ 5','Años de experiencia'],['100%','Proyectos SEC'],['24 / 7','Soporte técnico']].map(([n,l]) => (
@@ -209,9 +205,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PROYECTOS ── */}
-      <ProyectosGaleria />
-
       {/* ── POR QUÉ ELEGIRNOS ── */}
       <section id="garantias" className="section" style={{ background: 'var(--bg2)' }}>
         <div className="container">
@@ -260,7 +253,7 @@ export default function HomePage() {
               <a href="https://g.page/r/CRa4ejtbBBcyEAI/review" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 ⭐ RESEÑA EN GOOGLE
               </a>
-              <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+              <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
                 POR WHATSAPP
               </a>
             </div>
@@ -316,7 +309,7 @@ export default function HomePage() {
 
               <div className="contact-info-list">
                 {[
-                  { Icon: Phone,    label: 'WhatsApp / Teléfono', value: '+56 9 8920 3902',          href: 'https://wa.me/56989203902' },
+                  { Icon: Phone,    label: 'WhatsApp / Teléfono', value: '+56 9 6657 5447',          href: 'https://wa.me/56966575447' },
                   { Icon: Mail,     label: 'Email',                value: 'inn-volt@outlook.cl',      href: 'mailto:inn-volt@outlook.cl' },
                   { Icon: Instagram,label: 'Instagram',            value: '@inn.volt',                href: 'https://instagram.com/inn.volt' },
                   { Icon: MapPin,   label: 'Ubicación',            value: 'Santiago, RM',             href: '#' },
