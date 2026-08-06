@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,11 +22,7 @@ export const metadata: Metadata = {
     default: "INNVOLT | Electricista Certificado SEC – Santiago Chile",
     template: "%s | INNVOLT",
   },
-<<<<<<< HEAD
-  description: "Electricistas certificados SEC en Santiago. Instalaciones, domótica y cámaras CCTV para hogar, empresa e industria. Respondemos el mismo día, urgencias 24h, precio justo y garantía.",
-=======
   description: "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización, cámaras CCTV y redes. Presupuesto gratis el mismo día.",
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
   keywords: [
     "electricista Santiago", "instalación eléctrica Santiago", "certificación SEC",
     "trámite TE1", "domótica Santiago", "automatización hogar Santiago",
@@ -40,11 +35,7 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
   openGraph: {
     title: "INNVOLT | Electricista Certificado SEC – Santiago Chile",
-<<<<<<< HEAD
-    description: "Electricistas certificados SEC en Santiago. Electricidad, domótica y cámaras de seguridad. Precio justo y garantía.",
-=======
     description: "Electricistas certificados SEC en Santiago. Electricidad, domótica y cámaras de seguridad. Presupuesto sin costo.",
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
     url: "https://innvolt.cl",
     siteName: "INNVOLT",
     locale: "es_CL",
@@ -54,11 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "INNVOLT | Electricista Certificado SEC – Santiago",
-<<<<<<< HEAD
     description: "Electricistas certificados SEC en Santiago. Precio justo y garantía.",
-=======
-    description: "Electricistas certificados SEC en Santiago. Presupuesto gratis.",
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -75,14 +62,9 @@ const jsonLd = {
   "description": "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización y sistemas de seguridad.",
   "url": "https://innvolt.cl",
   "telephone": "+56989203902",
-<<<<<<< HEAD
   "email": "innvolt.cl@gmail.com",
   "image": "https://innvolt.cl/og-image.jpg",
   "logo": "https://innvolt.cl/icon.svg",
-=======
-  "email": "inn-volt@outlook.cl",
-  "image": "https://innvolt.cl/og-image.jpg",
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Santiago",
@@ -113,7 +95,6 @@ const jsonLd = {
   ]
 };
 
-<<<<<<< HEAD
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -151,8 +132,6 @@ const faqLd = {
   ]
 };
 
-=======
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className="scroll-smooth">
@@ -161,7 +140,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-<<<<<<< HEAD
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
@@ -170,11 +148,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${inter.className} antialiased`}>
         {children}
         <Analytics />
-=======
-      </head>
-      <body className={`${inter.className} antialiased`}>
-        {children}
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
       </body>
     </html>
   );
