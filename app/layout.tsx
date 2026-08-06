@@ -5,11 +5,7 @@ import Analytics from "./components/Analytics";
 export const viewport: Viewport = {
   themeColor: "#000000",
 };
-
-
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
