@@ -186,11 +186,16 @@ body {
 }
 .mobile-menu a:hover, .mobile-menu a:last-child { color: var(--y); border-color: var(--border); }
 
+<<<<<<< HEAD
 /* ── Hero (rediseño centrado, premium) ── */
+=======
+/* ── Hero ── */
+>>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 .hero {
   min-height: 100svh;
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   justify-content: center;
   text-align: center;
   padding: 96px 1.5rem 4rem;
@@ -281,6 +286,66 @@ body {
   border-top: 1px solid var(--border2);
   flex-wrap: wrap;
   justify-content: center;
+=======
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;   /* controla el tamaño de la imagen */
+  height: 100%;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* evita que se corte */
+  object-position: right center;
+  opacity: 0.25;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    #000 10%,
+    rgba(0,0,0,0.8) 10%,
+    rgba(0,0,0,0.3) 100%
+  );
+}
+.hero-stripe {
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, var(--y) 30%, var(--y) 70%, transparent);
+  animation: glow 3s ease-in-out infinite;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 4rem var(--px) 4rem 3rem;
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.hero-title { font-size: clamp(3.8rem, 11vw, 9rem); color: var(--text); }
+.hero-title span { color: var(--y); display: block; }
+.hero-subtitle { font-size: clamp(1.8rem, 5vw, 3.5rem); color: rgba(255,255,255,0.55); display: block; margin-top: 0.3em; }
+.hero-desc { max-width: 480px; margin: 1.5rem 0 2.5rem; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; }
+.hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border2);
+  flex-wrap: wrap;
+>>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 }
 .stat-num {
   font-family: var(--font-display);
@@ -357,6 +422,7 @@ body {
 .service-item { display: flex; align-items: center; gap: 0.65rem; }
 .service-dot { width: 3px; height: 3px; background: var(--y); border-radius: 50%; flex-shrink: 0; }
 .service-bar { width: 24px; height: 2px; background: var(--y); margin-top: 2rem; transform-origin: left; animation: slideX 0.6s ease both; }
+<<<<<<< HEAD
 .service-link {
   display: inline-flex;
   align-items: center;
@@ -397,6 +463,8 @@ body {
 }
 .to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .to-top:hover { background: var(--y); color: #000; }
+=======
+>>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 
 /* ── Proyectos ── */
 .projects-grid {
@@ -796,6 +864,7 @@ body {
   .guarantees-grid { grid-template-columns: 1fr; }
 }
 
+<<<<<<< HEAD
 /* ── Grillas de mosaicos (llenan siempre las filas) ── */
 .tile-grid { display: grid; gap: 2px; background: rgba(255,198,0,0.05); }
 .tile-grid-4 { grid-template-columns: repeat(4, 1fr); }
@@ -944,6 +1013,8 @@ body {
   body { padding-bottom: 3.4rem; }
 }
 
+=======
+>>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 /* ══════════════════════════════════════
    HERO SPLIT LAYOUT
 ══════════════════════════════════════ */

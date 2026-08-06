@@ -3,7 +3,11 @@ import { ShieldCheck, Clock, FileCheck, Wrench, Star, MessageCircle } from 'luci
 const GARANTIAS = [
   { icon: ShieldCheck, num: '01', titulo: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos exigidos.' },
   { icon: Clock,       num: '02', titulo: 'Respuesta en 24 hrs', desc: 'Cotización y coordinación dentro del mismo día hábil, sin vueltas.' },
+<<<<<<< HEAD
   { icon: FileCheck,   num: '03', titulo: 'Presupuesto claro', desc: 'Propuesta técnica detallada, sin compromiso y sin sorpresas.' },
+=======
+  { icon: FileCheck,   num: '03', titulo: 'Presupuesto sin costo', desc: 'Propuesta técnica detallada, sin compromiso y sin cobros ocultos.' },
+>>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
   { icon: Wrench,      num: '04', titulo: 'Garantía incluida', desc: 'Respaldamos materiales y mano de obra en cada proyecto ejecutado.' },
 ];
 
