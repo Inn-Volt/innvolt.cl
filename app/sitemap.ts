@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-<<<<<<< HEAD
       url: 'https://innvolt.cl/electricista-santiago',
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -50,12 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.6,
-=======
-      url: 'https://innvolt.cl/#proyectos',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
     },
     {
       url: 'https://innvolt.cl/#contacto',
