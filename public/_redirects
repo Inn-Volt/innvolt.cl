@@ -1,0 +1,7 @@
+# Proxy del ERP a su despliegue en Netlify (solo si /erp se usa)
+/erp/*  https://melodious-concha-454623.netlify.app/:splat  200
+
+# NOTA: se eliminó la regla "/*  /index.html  200".
+# Esa regla es para apps SPA estáticas y ROMPE el enrutado/SSR de Next.js.
+# Next.js gestiona su propio enrutamiento (en Vercel este archivo se ignora;
+# en Netlify usar @netlify/plugin-nextjs).

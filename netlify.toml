@@ -1,0 +1,9 @@
+# Configuración de despliegue en Netlify para Next.js
+# El plugin oficial habilita SSR, rutas y optimización de imágenes de Next.
+# Netlify instala el plugin automáticamente al leer este archivo.
+
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
