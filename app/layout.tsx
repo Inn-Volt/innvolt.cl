@@ -1,22 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from "./components/Analytics";
-
-const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
 export const viewport: Viewport = {
   themeColor: "#000000",
 };
 
-=======
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
->>>>>>> 60c11a8cb62944ae79e5955fccc63ad6b8e1d0e1
 export const metadata: Metadata = {
   title: {
     default: "INNVOLT | Electricista Certificado SEC – Santiago Chile",
