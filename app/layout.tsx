@@ -69,7 +69,6 @@ const jsonLd = {
     "addressRegion": "Región Metropolitana",
     "addressCountry": "CL"
   },
- "@context":"https://schema.org",
  "@type":"Organization",
  "name":"INNVOLT",
  "url":"https://innvolt.cl",
