@@ -69,16 +69,6 @@ const jsonLd = {
     "addressRegion": "Región Metropolitana",
     "addressCountry": "CL"
   },
- "@type":"Organization",
- "name":"INNVOLT",
- "url":"https://innvolt.cl",
- "logo":"https://innvolt.cl/icon.svg",
- "@type":"Service",
- "name":"Instalaciones eléctricas",
- "provider":{
-   "@type":"Electrician",
-   "name":"INNVOLT"
-},
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": -33.4489,
