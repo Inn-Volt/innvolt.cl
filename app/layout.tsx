@@ -11,10 +11,10 @@ const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
 export const metadata: Metadata = {
   title: {
-    default: "INNVOLT | Electricista Certificado SEC – Santiago Chile",
+    default: "Electricistas Certificados SEC en Santiago | INNVOLT",
     template: "%s | INNVOLT",
   },
-  description: "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización, cámaras CCTV y redes. Presupuesto gratis el mismo día.",
+  description: "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, aumento de capacidad, certificación TE1, tableros eléctricos, mantenciones y proyectos eléctricos para hogares y empresas. Cotiza gratis por WhatsApp.",
   keywords: [
     "electricista Santiago", "instalación eléctrica Santiago", "certificación SEC",
     "trámite TE1", "domótica Santiago", "automatización hogar Santiago",
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   icons: { icon: '/favicon.svg' },
   openGraph: {
-    title: "INNVOLT | Electricista Certificado SEC – Santiago Chile",
-    description: "Electricistas certificados SEC en Santiago. Electricidad, domótica y cámaras de seguridad. Presupuesto sin costo.",
+    title:"Electricistas Certificados SEC en Santiago | INNVOLT",
+    description:"Cotiza con electricistas certificados SEC. Atención rápida en toda la Región Metropolitana.",
     url: "https://innvolt.cl",
     siteName: "INNVOLT",
     locale: "es_CL",
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "INNVOLT | Electricista Certificado SEC – Santiago",
-    description: "Electricistas certificados SEC en Santiago. Precio justo y garantía.",
+    title:"Electricistas Certificados SEC en Santiago | INNVOLT",
+    description:"Cotiza con electricistas certificados SEC. Atención rápida en toda la Región Metropolitana.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -48,8 +48,14 @@ export const metadata: Metadata = {
 };
 
 const jsonLd = {
+  "contactPoint": {
+  "@type": "ContactPoint",
+  "telephone": "+56989203902",
+  "contactType": "customer support",
+  "availableLanguage": "Spanish"
+},
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "Electrician",
   "name": "INNVOLT SpA",
   "description": "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización y sistemas de seguridad.",
   "url": "https://innvolt.cl",
@@ -63,6 +69,17 @@ const jsonLd = {
     "addressRegion": "Región Metropolitana",
     "addressCountry": "CL"
   },
+ "@context":"https://schema.org",
+ "@type":"Organization",
+ "name":"INNVOLT",
+ "url":"https://innvolt.cl",
+ "logo":"https://innvolt.cl/icon.svg",
+ "@type":"Service",
+ "name":"Instalaciones eléctricas",
+ "provider":{
+   "@type":"Electrician",
+   "name":"INNVOLT"
+},
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": -33.4489,
@@ -77,13 +94,49 @@ const jsonLd = {
   "sameAs": ["https://www.instagram.com/inn.volt"],
   "priceRange": "$$",
   "currenciesAccepted": "CLP",
-  "areaServed": {
-    "@type": "State",
-    "name": "Región Metropolitana"
-  },
+  areaServed:[
+{
+ "@type":"City",
+ "name":"Santiago"
+},
+{
+ "@type":"City",
+ "name":"Puente Alto"
+},
+{
+ "@type":"City",
+ "name":"La Florida"
+},
+{
+ "@type":"City",
+ "name":"Providencia"
+},
+{
+ "@type":"City",
+ "name":"Las Condes"
+},
+{
+ "@type":"City",
+ "name":"Ñuñoa"
+},
+{
+ "@type":"City",
+ "name":"Maipú"
+}
+],
   "serviceType": [
-    "Instalación eléctrica", "Certificación SEC", "Trámite TE1",
-    "Domótica", "Automatización", "Cámaras de seguridad CCTV", "Redes de datos"
+    "Electricista certificado SEC",
+    "Instalaciones eléctricas",
+    "Aumento de capacidad",
+    "Tableros eléctricos",
+    "Mantención eléctrica",
+    "Electricista a domicilio",
+    "Certificación TE1",
+    "Domótica",
+    "Automatización",
+    "Cámaras CCTV",
+    "Control de acceso",
+    "Redes"
   ]
 };
 
