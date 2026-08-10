@@ -13,42 +13,60 @@ export interface ServiceLandingProps {
   bullets: string[];
   features: { title: string; desc: string }[];
   waText: string;
+  bodyTitle?: string;
+  body?: string[];
+  faqs?: { q: string; a: string }[];
 }
 
 const WA = 'https://wa.me/56989203902';
 
 const ALL_SERVICES = [
-  { slug: 'electricista-santiago', name: 'Electricista SEC' },
+  { slug: 'electricista-santiago', name: 'Instalaciones eléctricas' },
+  { slug: 'tableros-electricos', name: 'Tableros eléctricos' },
+  { slug: 'mantencion-electrica', name: 'Mantención eléctrica' },
+  { slug: 'certificacion-te1', name: 'Certificación TE1' },
   { slug: 'camaras-cctv-santiago', name: 'Cámaras CCTV' },
+  { slug: 'control-de-acceso', name: 'Control de acceso' },
   { slug: 'domotica-santiago', name: 'Domótica' },
+  { slug: 'redes-cableado-estructurado', name: 'Redes y cableado' },
+  { slug: 'pantallas-led', name: 'Pantallas LED' },
   { slug: 'urgencias-electricas-santiago', name: 'Urgencias 24h' },
 ];
 
-export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText }: ServiceLandingProps) {
+export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs }: ServiceLandingProps) {
   const others = ALL_SERVICES.filter(s => s.slug !== slug);
   const url = `https://innvolt.cl/${slug}`;
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Service',
-        name: serviceName,
-        description: intro,
-        serviceType: serviceName,
-        areaServed: { '@type': 'City', name: 'Santiago' },
-        provider: { '@type': 'LocalBusiness', name: 'INNVOLT SpA', url: 'https://innvolt.cl', telephone: '+56989203902' },
-        url,
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://innvolt.cl' },
-          { '@type': 'ListItem', position: 2, name: serviceName, item: url },
-        ],
-      },
-    ],
-  };
+  const graph: Record<string, unknown>[] = [
+    {
+      '@type': 'Service',
+      name: serviceName,
+      description: intro,
+      serviceType: serviceName,
+      areaServed: { '@type': 'City', name: 'Santiago' },
+      provider: { '@type': 'LocalBusiness', name: 'INNVOLT SpA', url: 'https://innvolt.cl', telephone: '+56989203902' },
+      url,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://innvolt.cl' },
+        { '@type': 'ListItem', position: 2, name: 'Servicios', item: 'https://innvolt.cl/servicios' },
+        { '@type': 'ListItem', position: 3, name: serviceName, item: url },
+      ],
+    },
+  ];
+  if (faqs && faqs.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    });
+  }
+  const schema = { '@context': 'https://schema.org', '@graph': graph };
 
   return (
     <div style={{ minHeight: '100vh', background: '#000' }}>
@@ -66,7 +84,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
           <div className="nav-inner">
             <Link href="/" aria-label="InnVolt inicio"><Logo height={34} /></Link>
             <div className="nav-links">
-              <Link href="/#servicios" className="nav-link">Servicios</Link>
+              <Link href="/servicios" className="nav-link">Servicios</Link>
               <Link href="/#contacto" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.7rem' }}>
                 PRESUPUESTO
               </Link>
@@ -106,6 +124,20 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
           </div>
         </div>
       </section>
+
+      {/* CONTENIDO / BODY */}
+      {body && body.length > 0 && (
+        <section className="section" style={{ background: 'var(--bg2)' }}>
+          <div className="container">
+            <p className="label" style={{ marginBottom: '0.75rem' }}>— {bodyTitle || 'En qué consiste'}</p>
+            <div style={{ maxWidth: 720, display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+              {body.map((p, i) => (
+                <p key={i} className="body-sm" style={{ fontSize: '1rem', lineHeight: 1.7 }}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* FRANJA DE URGENCIAS */}
       <div className="urgent-band">
@@ -162,6 +194,27 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
           </div>
         </div>
       </section>
+
+      {/* FAQ POR SERVICIO */}
+      {faqs && faqs.length > 0 && (
+        <section className="section" style={{ background: '#000' }}>
+          <div className="container">
+            <p className="label" style={{ marginBottom: '0.75rem' }}>— Preguntas frecuentes</p>
+            <h2 className="display" style={{ fontSize: 'clamp(1.8rem,4.5vw,3rem)', color: '#fff', marginBottom: '2rem' }}>DUDAS HABITUALES</h2>
+            <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {faqs.map(f => (
+                <details key={f.q} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '1.1rem 1.4rem' }}>
+                  <summary style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.02em', color: '#fff', textTransform: 'uppercase' }}>
+                    {f.q}
+                    <span style={{ color: 'var(--y)', fontSize: '1.4rem', lineHeight: 1, flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p className="body-sm" style={{ marginTop: '0.85rem' }}>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* OTROS SERVICIOS */}
       <section className="section" style={{ background: 'var(--bg2)', paddingTop: '3rem', paddingBottom: '3rem' }}>

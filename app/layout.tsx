@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Analytics from "./components/Analytics";
+import ScrollReveal from "./components/ScrollReveal";
 
 export const viewport: Viewport = {
   themeColor: "#000000",
@@ -62,7 +63,7 @@ const jsonLd = {
   "telephone": "+56989203902",
   "email": "innvolt.cl@gmail.com",
   "image": "https://innvolt.cl/og-image.jpg",
-  "logo": "https://innvolt.cl/icon.svg",
+  "logo": "https://innvolt.cl/innvolt.png",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Santiago",
@@ -129,6 +130,21 @@ const jsonLd = {
   ]
 };
 
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "INNVOLT",
+  "alternateName": "INNVOLT SpA",
+  "url": "https://innvolt.cl",
+  "inLanguage": "es-CL",
+  "publisher": {
+    "@type": "Organization",
+    "name": "INNVOLT SpA",
+    "url": "https://innvolt.cl",
+    "logo": "https://innvolt.cl/innvolt.png"
+  }
+};
+
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -172,6 +188,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <script
@@ -181,6 +201,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}
+        <ScrollReveal />
         <Analytics />
       </body>
     </html>

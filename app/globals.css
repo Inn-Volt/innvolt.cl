@@ -1058,3 +1058,27 @@ body {
   .hero-bg { display: none; }
 }
 
+/* ══════════════════════════════════════
+   ANIMACIONES — micro-interacciones
+   (El reveal al scroll se maneja con estilos inline en ScrollReveal.tsx)
+══════════════════════════════════════ */
+
+/* Hover en tarjetas de mosaico (sin romper la grilla: solo brillo de fondo) */
+.tile-grid > *,
+.services-grid > *,
+.guarantees-grid > *,
+.service-link-card {
+  transition: background 0.28s ease, color 0.2s ease;
+}
+.tile-grid > *:hover,
+.service-link-card:hover { background: #0c0c0c; }
+.services-grid > *:hover { background: #0a0a0a; }
+
+/* Realce del botón principal */
+.btn-primary:hover { box-shadow: 0 8px 26px rgba(255, 198, 0, 0.28); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-up, .anim-in, .wsp-fab, .hero-glow, .urgent-dot { animation: none !important; }
+  * { scroll-behavior: auto !important; }
+}
+

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const RATIO = 500 / 206; // proporción real del logo
+const RATIO = 2000 / 1000; // proporción real del logo (innvolt.png)
 
 /* Logo de marca InnVolt (imagen con fondo transparente) */
 export default function Logo({ height = 36 }: { height?: number }) {

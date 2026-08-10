@@ -108,8 +108,8 @@ export default function HomePage() {
           <Image
             src="/innvolt.png"
             alt="InnVolt — Electricidad, Seguridad y Tecnología en Santiago"
-            width={500}
-            height={206}
+            width={2000}
+            height={1000}
             priority
             className="hero-logo anim-up d2"
           />
@@ -261,6 +261,9 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+            <Link href="/servicios" className="btn btn-ghost">VER TODOS LOS SERVICIOS <ArrowRight size={15} /></Link>
           </div>
         </div>
       </section>

@@ -35,6 +35,18 @@ export default function Page() {
         { title: 'Precio claro', desc: 'Te decimos qué pasa y cuánto cuesta antes de intervenir. Sin sorpresas.' },
         { title: 'Con garantía', desc: 'Respaldo por escrito sobre la reparación, con boleta o factura.' },
       ]}
+      bodyTitle="Cuándo llamar a una urgencia"
+      body={[
+        'Una falla eléctrica no siempre puede esperar. Un corte total, un tablero que salta una y otra vez, olor a quemado, enchufes recalentados o chispas son señales de riesgo que conviene atender de inmediato, porque detrás puede haber un problema que derive en daño de equipos o incendio.',
+        'En INNVOLT atendemos urgencias eléctricas el mismo día en Santiago. Cuando nos escribes o llamas, primero te damos indicaciones de seguridad (por ejemplo, cortar la energía desde el automático principal si hay olor a quemado), coordinamos la atención y diagnosticamos la falla para dejarla resuelta y la instalación segura.',
+        'Por seguridad, ante chispas, olor a quemado o cables calientes, evita manipular la instalación y corta la energía desde el tablero mientras llegamos.',
+      ]}
+      faqs={[
+        { q: '¿Atienden el mismo día?', a: 'Sí. Priorizamos las urgencias eléctricas y coordinamos la atención el mismo día. Escríbenos por WhatsApp o llámanos y te indicamos los pasos.' },
+        { q: '¿Qué hago si hay olor a quemado o chispas?', a: 'Corta la energía desde el automático principal del tablero, no manipules la instalación y contáctanos de inmediato. Son señales de riesgo que deben revisarse cuanto antes.' },
+        { q: '¿Por qué me saltan los automáticos seguido?', a: 'Suele ser sobrecarga (demasiados equipos en un circuito), un cortocircuito o una protección dañada. Diagnosticamos la causa real y la corregimos, no solo reponemos el automático.' },
+        { q: '¿Dejan la instalación certificada tras la reparación?', a: 'Cuando el trabajo lo requiere, emitimos la documentación correspondiente y dejamos la instalación segura y conforme a la normativa vigente.' },
+      ]}
       waText="Hola InnVolt, tengo una URGENCIA eléctrica en Santiago"
     />
   );

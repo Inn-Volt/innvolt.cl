@@ -1,60 +1,26 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://innvolt.cl',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: 'https://innvolt.cl/#servicios',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://innvolt.cl/electricista-santiago',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://innvolt.cl/camaras-cctv-santiago',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://innvolt.cl/domotica-santiago',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://innvolt.cl/urgencias-electricas-santiago',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://innvolt.cl/#nosotros',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: 'https://innvolt.cl/#faq',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: 'https://innvolt.cl/#contacto',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
+  const lastModified = new Date();
+  // Solo páginas reales e indexables (los #anclas NO son páginas para Google).
+  const paths = [
+    '',
+    'servicios',
+    'electricista-santiago',
+    'tableros-electricos',
+    'mantencion-electrica',
+    'certificacion-te1',
+    'camaras-cctv-santiago',
+    'control-de-acceso',
+    'domotica-santiago',
+    'redes-cableado-estructurado',
+    'pantallas-led',
+    'urgencias-electricas-santiago',
   ];
+  return paths.map((p) => ({
+    url: p ? `https://innvolt.cl/${p}` : 'https://innvolt.cl',
+    lastModified,
+    changeFrequency: 'monthly' as const,
+    priority: p === '' ? 1 : p === 'servicios' ? 0.9 : 0.8,
+  }));
 }

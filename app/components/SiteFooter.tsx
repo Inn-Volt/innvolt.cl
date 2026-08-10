@@ -18,21 +18,23 @@ export default function SiteFooter() {
           <div>
             <p className="label" style={{ marginBottom: '1rem' }}>Servicios</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <li><Link href="/electricista-santiago" className="footer-link">Electricista SEC</Link></li>
+              <li><Link href="/electricista-santiago" className="footer-link">Instalaciones eléctricas</Link></li>
+              <li><Link href="/tableros-electricos" className="footer-link">Tableros eléctricos</Link></li>
+              <li><Link href="/certificacion-te1" className="footer-link">Certificación TE1</Link></li>
               <li><Link href="/camaras-cctv-santiago" className="footer-link">Cámaras CCTV</Link></li>
-              <li><Link href="/domotica-santiago" className="footer-link">Domótica</Link></li>
-              <li><Link href="/urgencias-electricas-santiago" className="footer-link">Urgencias 24h</Link></li>
+              <li><Link href="/control-de-acceso" className="footer-link">Control de acceso</Link></li>
+              <li><Link href="/servicios" className="footer-link" style={{ color: 'var(--y)' }}>Ver todos →</Link></li>
             </ul>
           </div>
 
           <div>
-            <p className="label" style={{ marginBottom: '1rem' }}>Sitio</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>Más servicios</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <li><Link href="/#servicios" className="footer-link">Servicios</Link></li>
-              <li><Link href="/#casos" className="footer-link">Soluciones</Link></li>
-              <li><Link href="/#sectores" className="footer-link">Sectores</Link></li>
-              <li><Link href="/#proceso" className="footer-link">Cómo trabajamos</Link></li>
-              <li><Link href="/#faq" className="footer-link">Preguntas frecuentes</Link></li>
+              <li><Link href="/mantencion-electrica" className="footer-link">Mantención eléctrica</Link></li>
+              <li><Link href="/domotica-santiago" className="footer-link">Domótica</Link></li>
+              <li><Link href="/redes-cableado-estructurado" className="footer-link">Redes y cableado</Link></li>
+              <li><Link href="/pantallas-led" className="footer-link">Pantallas LED</Link></li>
+              <li><Link href="/urgencias-electricas-santiago" className="footer-link">Urgencias 24h</Link></li>
               <li><Link href="/#contacto" className="footer-link">Contacto</Link></li>
             </ul>
           </div>
