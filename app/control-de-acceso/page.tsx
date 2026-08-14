@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Se integra con las cámaras de seguridad?', a: 'Sí. Integramos control de acceso con CCTV para asociar cada acceso con imagen y tener un sistema de seguridad unificado.' },
         { q: '¿Qué pasa si se corta la luz?', a: 'Dimensionamos respaldo de energía según el sistema, y definimos el comportamiento de las cerraduras ante corte para mantener seguridad y evacuación.' },
       ]}
+      photos={['/acceso-1.jpg']}
       waText="Hola InnVolt, quiero cotizar control de acceso o videoportero en Santiago"
     />
   );

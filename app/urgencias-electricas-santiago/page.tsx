@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Por qué me saltan los automáticos seguido?', a: 'Suele ser sobrecarga (demasiados equipos en un circuito), un cortocircuito o una protección dañada. Diagnosticamos la causa real y la corregimos, no solo reponemos el automático.' },
         { q: '¿Dejan la instalación certificada tras la reparación?', a: 'Cuando el trabajo lo requiere, emitimos la documentación correspondiente y dejamos la instalación segura y conforme a la normativa vigente.' },
       ]}
+      photos={['/urgencias-1.jpg']}
       waText="Hola InnVolt, tengo una URGENCIA eléctrica en Santiago"
     />
   );

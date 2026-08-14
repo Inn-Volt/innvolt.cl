@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Pueden aumentar la capacidad de mi instalación?', a: 'Sí. Realizamos aumentos de capacidad y nuevos circuitos cuando incorporas más equipos, cocina eléctrica o un cargador de auto, dimensionando correctamente las protecciones.' },
         { q: '¿Entregan garantía y boleta o factura?', a: 'Sí, todos nuestros trabajos incluyen garantía sobre materiales y mano de obra, y emitimos boleta o factura.' },
       ]}
+      photos={['/electricista-1.jpg']}
       waText="Hola InnVolt, necesito un electricista certificado en Santiago"
     />
   );

@@ -1073,13 +1073,13 @@ body {
   position: relative;
   border: 1px solid var(--border);
   background: var(--bg2);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.svc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.svc-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .svc-photo-empty {
   flex-direction: column;
   gap: 0.5rem;

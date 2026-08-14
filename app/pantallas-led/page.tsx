@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Ustedes también hacen la parte eléctrica?', a: 'Sí, y es una ventaja: al ser instaladores eléctricos resolvemos la alimentación, la estructura y la pantalla como un solo proyecto, con un único responsable.' },
         { q: '¿Puedo cambiar el contenido yo mismo?', a: 'Sí. Configuramos el sistema y te capacitamos para que gestiones y programes el contenido de forma simple, o podemos encargarnos nosotros.' },
       ]}
+      photos={['/pantallas-1.jpg']}
       waText="Hola InnVolt, quiero cotizar una pantalla LED en Santiago"
     />
   );

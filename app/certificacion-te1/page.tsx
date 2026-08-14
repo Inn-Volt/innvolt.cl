@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Qué pasa si mi instalación no cumple?', a: 'Primero la normalizamos: corregimos protecciones, circuitos o tableros según lo que indique la revisión, y recién entonces emitimos la declaración. No se certifica una instalación que no cumple.' },
         { q: '¿Bajo qué normativa se certifica hoy en Chile?', a: 'Bajo el Reglamento de Instalaciones de Consumo de Energía Eléctrica (RIC) y sus pliegos técnicos de la SEC, que es la normativa vigente para instalaciones de consumo.' },
       ]}
+      photos={['/te1-1.jpg']}
       waText="Hola InnVolt, necesito certificar mi instalación eléctrica (TE1) en Santiago"
     />
   );

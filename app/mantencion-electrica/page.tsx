@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Ofrecen contratos de mantención para empresas?', a: 'Sí. Diseñamos planes con visitas programadas, informes y prioridad de respuesta ante emergencias, adaptados a tu instalación.' },
         { q: '¿Atienden comunidades y edificios?', a: 'Sí, realizamos mantención de espacios comunes, tableros generales, iluminación y bombas para comunidades y administraciones.' },
       ]}
+      photos={['/mantencion-1.jpg']}
       waText="Hola InnVolt, quiero cotizar mantención eléctrica en Santiago"
     />
   );

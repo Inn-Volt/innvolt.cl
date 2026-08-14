@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Tengo que automatizar toda la casa de una vez?', a: 'No. Puedes partir con lo esencial (por ejemplo iluminación o accesos) y ampliar el sistema por etapas. Lo diseñamos escalable.' },
         { q: '¿Se integra con mi instalación eléctrica actual?', a: 'Sí. Como somos los eléctricos del proyecto, integramos la automatización con tu instalación de forma segura y ordenada, sin dispositivos sueltos que fallan.' },
       ]}
+      photos={['/domotica-1.jpg']}
       waText="Hola InnVolt, quiero cotizar domótica y automatización en Santiago"
     />
   );

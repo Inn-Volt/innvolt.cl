@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Entregan certificado SEC del tablero?', a: 'Sí. Cuando el trabajo lo requiere, emitimos el certificado TE1 ante la SEC, dejando tu instalación declarada y en regla.' },
         { q: '¿Trabajan en empresas e industria?', a: 'Sí. Instalamos y mantenemos tableros de distribución en oficinas, comercios e instalaciones industriales, coordinando los cortes para no detener tu operación.' },
       ]}
+      photos={['/tableros-1.jpg']}
       waText="Hola InnVolt, necesito instalar o normalizar un tablero eléctrico en Santiago"
     />
   );

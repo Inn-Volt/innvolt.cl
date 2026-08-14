@@ -47,6 +47,7 @@ export default function Page() {
         { q: '¿Mejoran el WiFi de mi oficina?', a: 'Sí. Diseñamos cobertura WiFi profesional con puntos de acceso ubicados por zona, en lugar de depender de un solo router, para eliminar zonas sin señal.' },
         { q: '¿Sirve para integrar cámaras y control de acceso?', a: 'Exacto. Una red estructurada es la base sobre la que funcionan CCTV IP, control de acceso y otros sistemas; la dejamos preparada para esa integración.' },
       ]}
+      photos={['/redes-1.jpg']}
       waText="Hola InnVolt, necesito redes o cableado estructurado para mi empresa en Santiago"
     />
   );
