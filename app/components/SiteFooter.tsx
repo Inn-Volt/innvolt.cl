@@ -42,7 +42,7 @@ export default function SiteFooter() {
           <div>
             <p className="label" style={{ marginBottom: '1rem' }}>Contacto</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <li><a href="tel:+56989203902" className="footer-link"><Phone size={13} style={{ verticalAlign: -2, marginRight: 6 }} />+56 9 8920 3902</a></li>
+              <li><a href="tel:+56966575447" className="footer-link"><Phone size={13} style={{ verticalAlign: -2, marginRight: 6 }} />+56 9 6657 5447</a></li>
               <li><a href="mailto:innvolt.cl@gmail.com" className="footer-link"><Mail size={13} style={{ verticalAlign: -2, marginRight: 6 }} />innvolt.cl@gmail.com</a></li>
               <li><a href="https://instagram.com/inn.volt" target="_blank" rel="noopener noreferrer" className="footer-link"><Instagram size={13} style={{ verticalAlign: -2, marginRight: 6 }} />@inn.volt</a></li>
               <li><span className="footer-link" style={{ cursor: 'default' }}><MapPin size={13} style={{ verticalAlign: -2, marginRight: 6 }} />Santiago, RM</span></li>

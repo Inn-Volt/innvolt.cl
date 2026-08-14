@@ -48,14 +48,14 @@ export default function HomePage() {
 
       {/* ── BARRA DE ACCIÓN MÓVIL ── */}
       <div className="mobile-cta-bar">
-        <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="mcta mcta-wsp">
+        <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="mcta mcta-wsp">
           <img src="/whatsapp.svg" alt="" width={16} height={16} style={{ filter: 'brightness(0) invert(1)' }} /> WhatsApp
         </a>
         <a href="#contacto" className="mcta mcta-quote">Cotizar</a>
       </div>
 
       {/* ── WHATSAPP FAB ── */}
-      <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="wsp-fab" aria-label="Escríbenos por WhatsApp">
+      <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="wsp-fab" aria-label="Escríbenos por WhatsApp">
         <img src="/whatsapp.svg" alt="" width={20} height={20} />
         <span className="wsp-label">WHATSAPP</span>
       </a>
@@ -70,8 +70,8 @@ export default function HomePage() {
             <div className="nav-links">
               <a href="#servicios" className="nav-link">Servicios</a>
               <a href="#nosotros" className="nav-link">Nosotros</a>
-              <a href="tel:+56989203902" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--y)' }}>
-                <Phone size={13} /> +56 9 8920 3902
+              <a href="tel:+56966575447" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--y)' }}>
+                <Phone size={13} /> +56 9 6657 5447
               </a>
               <a href="#contacto" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.7rem' }}>
                 PRESUPUESTO
@@ -92,7 +92,7 @@ export default function HomePage() {
       <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
         <a href="#servicios" onClick={() => setMenuOpen(false)}>Servicios</a>
         <a href="#nosotros" onClick={() => setMenuOpen(false)}>Nosotros</a>
-        <a href="tel:+56989203902" onClick={() => setMenuOpen(false)}>Llamar · +56 9 8920 3902</a>
+        <a href="tel:+56966575447" onClick={() => setMenuOpen(false)}>Llamar · +56 9 6657 5447</a>
         <a href="#contacto" onClick={() => setMenuOpen(false)} style={{ color: 'var(--y)' }}>→ Solicitar Presupuesto</a>
       </div>
 
@@ -122,7 +122,7 @@ export default function HomePage() {
           </p>
           <div className="hero-btns anim-up d4">
             <a href="#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></a>
-            <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20tengo%20una%20consulta%20el%C3%A9ctrica" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+            <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20tengo%20una%20consulta%20el%C3%A9ctrica" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
               <img src="/whatsapp.svg" alt="" width={15} height={15} style={{ filter: 'brightness(0) invert(1)' }} /> WHATSAPP DIRECTO
             </a>
           </div>
@@ -168,10 +168,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="urgent-ctas">
-              <a href="tel:+56989203902" className="btn btn-ghost" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
+              <a href="tel:+56966575447" className="btn btn-ghost" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
                 <Phone size={14} /> LLAMAR AHORA
               </a>
-              <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20tengo%20una%20URGENCIA%20el%C3%A9ctrica" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
+              <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20tengo%20una%20URGENCIA%20el%C3%A9ctrica" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
                 <img src="/whatsapp.svg" alt="" width={14} height={14} /> WHATSAPP URGENTE
               </a>
             </div>
@@ -399,7 +399,7 @@ export default function HomePage() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
               <a href="#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ChevronRight size={14} /></a>
-              <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+              <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
                 POR WHATSAPP
               </a>
             </div>
@@ -528,7 +528,7 @@ Cuéntanos tu proyecto y te asesoramos, sea para tu hogar o tu empresa. Responde
 
               <div className="contact-info-list">
                 {[
-                  { Icon: Phone,    label: 'WhatsApp / Teléfono', value: '+56 9 8920 3902',          href: 'https://wa.me/56989203902' },
+                  { Icon: Phone,    label: 'WhatsApp / Teléfono', value: '+56 9 6657 5447',          href: 'https://wa.me/56966575447' },
                   { Icon: Mail,     label: 'Email',                value: 'innvolt.cl@gmail.com',     href: 'mailto:innvolt.cl@gmail.com' },
                   { Icon: Instagram,label: 'Instagram',            value: '@inn.volt',                href: 'https://instagram.com/inn.volt' },
                   { Icon: MapPin,   label: 'Ubicación',            value: 'Santiago, RM',             href: 'https://www.google.com/maps/search/?api=1&query=InnVolt+electricista+Santiago' },

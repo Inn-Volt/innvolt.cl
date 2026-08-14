@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "contactPoint": {
   "@type": "ContactPoint",
-  "telephone": "+56989203902",
+  "telephone": "+56966575447",
   "contactType": "customer support",
   "availableLanguage": "Spanish"
 },
@@ -60,7 +60,7 @@ const jsonLd = {
   "name": "INNVOLT SpA",
   "description": "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización y sistemas de seguridad.",
   "url": "https://innvolt.cl",
-  "telephone": "+56989203902",
+  "telephone": "+56966575447",
   "email": "innvolt.cl@gmail.com",
   "image": "https://innvolt.cl/og-image.jpg",
   "logo": "https://innvolt.cl/innvolt.png",

@@ -100,9 +100,9 @@ export default function Page() {
         <section key={g.label} className="section" style={{ background: gi % 2 === 0 ? '#000' : 'var(--bg2)', paddingTop: gi === 0 ? 0 : undefined }}>
           <div className="container">
             <p className="label" style={{ marginBottom: '1.5rem' }}>— {g.label}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'rgba(255,198,0,0.05)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
               {g.items.map(s => (
-                <Link key={s.slug} href={`/${s.slug}`} style={{ background: '#000', padding: '1.9rem 1.6rem', textDecoration: 'none', display: 'block' }} className="service-link-card">
+                <Link key={s.slug} href={`/${s.slug}`} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '1.9rem 1.6rem', textDecoration: 'none', display: 'block' }} className="service-link-card">
                   <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', textTransform: 'uppercase', color: '#fff', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                     {s.name} <ArrowRight size={16} color="var(--y)" />
                   </h2>
@@ -124,7 +124,7 @@ export default function Page() {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link href="/#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></Link>
-            <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20asesor%C3%ADa%20sobre%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">POR WHATSAPP</a>
+            <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20asesor%C3%ADa%20sobre%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">POR WHATSAPP</a>
           </div>
         </div>
       </section>

@@ -54,7 +54,7 @@ export default function PorQueElegirnos() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#ffc600', color: '#000', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.85rem 2rem', textDecoration: 'none', clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))' }}>
               ⭐ RESEÑA EN GOOGLE
             </a>
-            <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20dejarte%20un%20testimonio" target="_blank" rel="noopener noreferrer"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', color: 'rgba(255,255,255,0.6)', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.85rem 2rem', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)' }}>
               <MessageCircle size={14} /> POR WHATSAPP
             </a>

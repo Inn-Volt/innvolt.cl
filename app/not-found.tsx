@@ -18,7 +18,7 @@ export default function NotFound() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
           <Link href="/" className="btn btn-primary"><ArrowLeft size={15} /> VOLVER AL INICIO</Link>
-          <a href="https://wa.me/56989203902?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+          <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
             WHATSAPP
           </a>
         </div>

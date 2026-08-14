@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Phone, Camera } from 'lucide-react';
 import Logo from './Logo';
 import SiteFooter from './SiteFooter';
 
@@ -16,9 +16,12 @@ export interface ServiceLandingProps {
   bodyTitle?: string;
   body?: string[];
   faqs?: { q: string; a: string }[];
+  /* Fotos reales del proyecto. Cuando estén, se pasan aquí (ej: ['/proyectos/tableros-1.jpg']).
+     Mientras no haya, se muestra un contenedor con marco de "foto próximamente". */
+  photos?: string[];
 }
 
-const WA = 'https://wa.me/56989203902';
+const WA = 'https://wa.me/56966575447';
 
 const ALL_SERVICES = [
   { slug: 'electricista-santiago', name: 'Instalaciones eléctricas' },
@@ -33,7 +36,7 @@ const ALL_SERVICES = [
   { slug: 'urgencias-electricas-santiago', name: 'Urgencias 24h' },
 ];
 
-export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs }: ServiceLandingProps) {
+export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs, photos }: ServiceLandingProps) {
   const others = ALL_SERVICES.filter(s => s.slug !== slug);
   const url = `https://innvolt.cl/${slug}`;
 
@@ -44,7 +47,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
       description: intro,
       serviceType: serviceName,
       areaServed: { '@type': 'City', name: 'Santiago' },
-      provider: { '@type': 'LocalBusiness', name: 'INNVOLT SpA', url: 'https://innvolt.cl', telephone: '+56989203902' },
+      provider: { '@type': 'LocalBusiness', name: 'INNVOLT SpA', url: 'https://innvolt.cl', telephone: '+56966575447' },
       url,
     },
     {
@@ -99,14 +102,35 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
           <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--muted)', fontFamily: 'var(--font-display)', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '1.5rem' }}>
             <ArrowLeft size={13} /> Volver al inicio
           </Link>
-          <p className="label" style={{ marginBottom: '0.75rem' }}>— {label}</p>
-          <h1 className="display" style={{ fontSize: 'clamp(2.6rem, 7vw, 5.5rem)', color: '#fff', marginBottom: '1.5rem' }}>{title}</h1>
-          <p className="body-sm" style={{ maxWidth: 620, fontSize: '1rem', marginBottom: '2.25rem' }}>{intro}</p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Link href="/#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></Link>
-            <a href={`${WA}?text=${encodeURIComponent(waText)}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-              <img src="/whatsapp.svg" alt="" width={15} height={15} style={{ filter: 'brightness(0) invert(1)' }} /> WHATSAPP DIRECTO
-            </a>
+          <div className="svc-hero-grid">
+            <div>
+              <p className="label" style={{ marginBottom: '0.75rem' }}>— {label}</p>
+              <h1 className="display" style={{ fontSize: 'clamp(2.4rem, 6vw, 4.5rem)', color: '#fff', marginBottom: '1.5rem' }}>{title}</h1>
+              <p className="body-sm" style={{ maxWidth: 560, fontSize: '1rem', marginBottom: '2.25rem' }}>{intro}</p>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Link href="/#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></Link>
+                <a href={`${WA}?text=${encodeURIComponent(waText)}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                  <img src="/whatsapp.svg" alt="" width={15} height={15} style={{ filter: 'brightness(0) invert(1)' }} /> WHATSAPP DIRECTO
+                </a>
+              </div>
+            </div>
+
+            {/* Panel de fotos del proyecto (por servicio) */}
+            <div className="svc-photos">
+              {photos && photos.length > 0 ? (
+                photos.slice(0, 2).map((src, i) => (
+                  <div key={i} className="svc-photo">
+                    <img src={src} alt={`Proyecto de ${serviceName} en Santiago — foto ${i + 1}`} loading="lazy" />
+                  </div>
+                ))
+              ) : (
+                <div className="svc-photo svc-photo-empty">
+                  <Camera size={26} aria-hidden="true" />
+                  <span>Fotos de este proyecto</span>
+                  <small>Próximamente</small>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -151,7 +175,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
               </div>
             </div>
             <div className="urgent-ctas">
-              <a href="tel:+56989203902" className="btn btn-ghost" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
+              <a href="tel:+56966575447" className="btn btn-ghost" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
                 <Phone size={14} /> LLAMAR AHORA
               </a>
               <a href={`${WA}?text=${encodeURIComponent(waText)}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '0.75rem 1.4rem', fontSize: '0.72rem' }}>
