@@ -3,31 +3,84 @@
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
+/*
+  ────────────────────────────────────────────────────────────────
+  ENVÍO DEL FORMULARIO — EmailJS (https://www.emailjs.com)
+  Permite diseñar la plantilla HTML del correo a tu gusto.
+
+  ⚠️ PASOS PARA ACTIVARLO (con tu propia cuenta, para recibir en innvolt.cl@gmail.com):
+  1. Crea una cuenta gratis en https://www.emailjs.com con innvolt.cl@gmail.com
+  2. Email Services → Add Service → conecta tu Gmail (innvolt.cl@gmail.com). Copia el SERVICE ID.
+  3. Email Templates → Create Template:
+       - En "To Email" pon: innvolt.cl@gmail.com   ← ESTO define el destino
+       - En "Reply To" pon: {{reply_to}}
+       - Diseña el cuerpo usando estas variables:
+         {{nombre}} {{empresa}} {{correo}} {{telefono}} {{servicio}} {{mensaje}}
+       - Copia el TEMPLATE ID.
+  4. Account → General → copia la PUBLIC KEY.
+  5. Pega los 3 valores abajo (o como NEXT_PUBLIC_EMAILJS_* en .env.local).
+  6. En EmailJS: Account → Security → agrega tu dominio (innvolt.cl) a los permitidos.
+  ────────────────────────────────────────────────────────────────
+*/
+const EMAILJS_SERVICE = process.env.NEXT_PUBLIC_EMAILJS_SERVICE || 'service_mlfn0ko';
+// Plantilla 1 — notificación a INNVOLT (To Email = innvolt.cl@gmail.com)
+const EMAILJS_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE || 'template_sslbsye';
+// Plantilla 2 — auto-respuesta al cliente (To Email = {{correo}})
+const EMAILJS_AUTOREPLY_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY || 'template_831bjze';
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_KEY || '1QTEELvSjsm0CRIff';
+
+// Normaliza un teléfono chileno a formato wa.me (solo dígitos, con código país 56).
+function toWaNumber(raw: unknown): string {
+  const d = String(raw || '').replace(/\D/g, ''); // deja solo dígitos
+  if (!d) return '';
+  if (d.startsWith('56')) return d;                      // ya trae código país
+  if (d.length === 9 && d.startsWith('9')) return '56' + d; // móvil 9XXXXXXXX
+  if (d.length === 8) return '569' + d;                  // 8 dígitos → asume móvil
+  return d;                                              // fallback: lo que venga
+}
+
 export default function ContactForm() {
-  const ref  = useRef<HTMLFormElement>(null);
-  const [st, setSt] = useState<'idle'|'sending'|'ok'|'err'>('idle');
+  const ref = useRef<HTMLFormElement>(null);
+  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!ref.current) return;
 
+    const fd = new FormData(ref.current);
+
     // Anti-spam: si el honeypot viene relleno, es un bot → simulamos éxito y salimos.
-    const trap = ref.current.querySelector<HTMLInputElement>('input[name="company_website"]');
-    if (trap && trap.value) {
+    if (fd.get('company_website')) {
       ref.current.reset();
       setSt('ok');
       setTimeout(() => setSt('idle'), 6000);
       return;
     }
 
+    const correo = String(fd.get('correo') || '');
+    const telefono = String(fd.get('telefono') || '');
+
+    const params = {
+      nombre: fd.get('nombre'),
+      empresa: fd.get('empresa'),
+      correo,
+      telefono,
+      telefono_wsp: toWaNumber(telefono), // teléfono listo para wa.me
+      servicio: fd.get('servicio'),
+      mensaje: fd.get('mensaje'),
+      reply_to: correo,
+    };
+
     setSt('sending');
     try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE  || 'service_2eu64xv',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE || 'template_yq0u1gc',
-        ref.current,
-        process.env.NEXT_PUBLIC_EMAILJS_KEY      || '06SfJx0u03W8m5lC-'
-      );
+      // 1) Notificación a INNVOLT (crítico)
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY });
+
+      // 2) Auto-respuesta al cliente (best-effort: si falla, no afecta el éxito del envío)
+      emailjs
+        .send(EMAILJS_SERVICE, EMAILJS_AUTOREPLY_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY })
+        .catch(() => {});
+
       ref.current.reset();
       setSt('ok');
       // Evento de conversión para Google Analytics (si está configurado)
@@ -55,28 +108,31 @@ export default function ContactForm() {
       />
 
       <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Nombre *" name="user_name" required placeholder="Tu nombre" />
-        <Field label="Empresa" name="user_company" placeholder="Opcional" />
+        <Field label="Nombre *" name="nombre" required placeholder="Tu nombre" />
+        <Field label="Empresa" name="empresa" placeholder="Opcional" />
       </div>
 
       <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Correo *" name="user_email" type="email" required placeholder="tu@correo.cl" />
-        <Field label="Teléfono" name="user_phone" type="tel" placeholder="+56 9..." />
+        <Field label="Correo *" name="correo" type="email" required placeholder="tu@correo.cl" />
+        <Field label="Teléfono" name="telefono" type="tel" placeholder="+56 9..." />
       </div>
 
       <div className="form-group">
         <label className="form-label">Servicio</label>
-        <select name="user_subject" className="form-input" style={{ color: 'rgba(255,255,255,0.55)' }}>
-          <option>Electricidad General / SEC</option>
-          <option>Domótica y Automatización</option>
-          <option>Redes y Cámaras</option>
+        <select name="servicio" className="form-input" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          <option>Electricidad / Certificación SEC</option>
+          <option>Tableros / Mantención eléctrica</option>
+          <option>Cámaras CCTV / Control de acceso</option>
+          <option>Domótica / Automatización</option>
+          <option>Redes / Cableado estructurado</option>
+          <option>Pantallas LED</option>
           <option>Otro servicio</option>
         </select>
       </div>
 
       <div className="form-group">
         <label className="form-label">Mensaje *</label>
-        <textarea name="message" required rows={4} placeholder="Cuéntanos sobre tu proyecto..."
+        <textarea name="mensaje" required rows={4} placeholder="Cuéntanos sobre tu proyecto..."
           className="form-input" style={{ resize: 'vertical' }} />
       </div>
 
