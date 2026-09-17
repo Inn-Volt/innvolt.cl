@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     'servicios',
     'electricista-santiago',
+    'electricista-villarrica',
     'tableros-electricos',
     'mantencion-electrica',
     'certificacion-te1',

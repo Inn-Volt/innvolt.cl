@@ -498,7 +498,7 @@ export default function HomePage() {
               ['¿Están certificados por la SEC?', 'Sí. Somos instaladores eléctricos autorizados y emitimos el certificado TE1 ante la Superintendencia de Electricidad y Combustibles (SEC), dejando tu instalación 100% en regla.'],
               ['¿Cómo es el proceso de cotización?', 'Nos cuentas tu proyecto por el formulario o directo por WhatsApp y te respondemos el mismo día hábil. Según el caso, coordinamos una visita técnica o una evaluación a distancia.'],
               ['¿Entregan boleta y factura?', 'Sí, emitimos boleta y factura por todos nuestros trabajos, con respaldo de materiales y mano de obra.'],
-              ['¿En qué zonas trabajan?', 'Cubrimos Santiago y toda la Región Metropolitana: Providencia, Las Condes, Ñuñoa, La Florida, Maipú, Puente Alto, Santiago Centro y comunas aledañas, tanto para hogares como para empresas e industria.'],
+              ['¿En qué zonas trabajan?', 'Cubrimos Santiago y toda la Región Metropolitana: Providencia, Las Condes, Ñuñoa, La Florida, Maipú, Puente Alto, Santiago Centro y comunas aledañas. Además atendemos Villarrica, Pucón y la Región de la Araucanía, tanto para hogares como para empresas e industria.'],
               ['¿Atienden urgencias eléctricas?', 'Sí. Contamos con soporte técnico y respuesta dentro de 24 horas para fallas, cortes y emergencias eléctricas.'],
               ['¿Qué garantía entregan?', 'Todos nuestros proyectos incluyen garantía sobre materiales y mano de obra. Trabajamos con productos de primera calidad y bajo normativa vigente.'],
             ].map(([q, a]) => (

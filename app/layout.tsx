@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   keywords: [
     "electricista Santiago", "instalación eléctrica Santiago", "certificación SEC",
     "trámite TE1", "domótica Santiago", "automatización hogar Santiago",
-    "cámaras seguridad Santiago", "CCTV instalación", "electricista certificado SEC Chile", "innvolt"
+    "cámaras seguridad Santiago", "CCTV instalación", "electricista certificado SEC Chile", "innvolt",
+    "electricista Villarrica", "electricista Pucón", "electricista Araucanía", "instalación eléctrica Villarrica", "certificación SEC Villarrica"
   ],
   authors: [{ name: "INNVOLT SpA" }],
   creator: "INNVOLT SpA",
@@ -112,6 +113,22 @@ const jsonLd = {
 {
  "@type":"City",
  "name":"Maipú"
+},
+{
+ "@type":"City",
+ "name":"Villarrica"
+},
+{
+ "@type":"City",
+ "name":"Pucón"
+},
+{
+ "@type":"City",
+ "name":"Lican Ray"
+},
+{
+ "@type":"AdministrativeArea",
+ "name":"Región de la Araucanía"
 }
 ],
   "serviceType": [
@@ -167,7 +184,7 @@ const faqLd = {
     {
       "@type": "Question",
       "name": "¿En qué zonas trabajan?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Cubrimos Santiago y toda la Región Metropolitana: Providencia, Las Condes, Ñuñoa, La Florida, Maipú, Puente Alto, Santiago Centro y comunas aledañas, tanto para hogares como para empresas e industria." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Cubrimos Santiago y toda la Región Metropolitana: Providencia, Las Condes, Ñuñoa, La Florida, Maipú, Puente Alto, Santiago Centro y comunas aledañas. Además atendemos Villarrica, Pucón y la Región de la Araucanía, tanto para hogares como para empresas e industria." }
     },
     {
       "@type": "Question",

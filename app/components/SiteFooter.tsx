@@ -11,7 +11,7 @@ export default function SiteFooter() {
           <div>
             <Logo height={30} />
             <p className="body-sm" style={{ marginTop: '1rem', fontSize: '0.82rem', maxWidth: 280 }}>
-              Electricistas certificados SEC en Santiago. Electricidad, domótica y seguridad para hogar, empresa e industria.
+              Electricistas certificados SEC en Santiago y en Villarrica / la Araucanía. Electricidad, domótica y seguridad para hogar, empresa e industria.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export default function SiteFooter() {
               <li><Link href="/redes-cableado-estructurado" className="footer-link">Redes y cableado</Link></li>
               <li><Link href="/pantallas-led" className="footer-link">Pantallas LED</Link></li>
               <li><Link href="/urgencias-electricas-santiago" className="footer-link">Urgencias 24h</Link></li>
-              <li><Link href="/#contacto" className="footer-link">Contacto</Link></li>
+              <li><Link href="/electricista-villarrica" className="footer-link" style={{ color: 'var(--y)' }}>Electricista en Villarrica</Link></li>
             </ul>
           </div>
 
@@ -45,14 +45,14 @@ export default function SiteFooter() {
               <li><a href="tel:+56966575447" className="footer-link"><Phone size={13} style={{ verticalAlign: -2, marginRight: 6 }} />+56 9 6657 5447</a></li>
               <li><a href="mailto:innvolt.cl@gmail.com" className="footer-link"><Mail size={13} style={{ verticalAlign: -2, marginRight: 6 }} />innvolt.cl@gmail.com</a></li>
               <li><a href="https://instagram.com/inn.volt" target="_blank" rel="noopener noreferrer" className="footer-link"><Instagram size={13} style={{ verticalAlign: -2, marginRight: 6 }} />@inn.volt</a></li>
-              <li><span className="footer-link" style={{ cursor: 'default' }}><MapPin size={13} style={{ verticalAlign: -2, marginRight: 6 }} />Santiago, RM</span></li>
+              <li><span className="footer-link" style={{ cursor: 'default' }}><MapPin size={13} style={{ verticalAlign: -2, marginRight: 6 }} />Santiago, RM · Villarrica, Araucanía</span></li>
             </ul>
           </div>
         </div>
 
         <div style={{ borderTop: '1px solid var(--border2)', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <p style={{ fontFamily: 'var(--font-display)', color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-            © 2026 INNVOLT SpA · Santiago, Chile
+            © 2026 INNVOLT SpA · Santiago y Villarrica, Chile
           </p>
           <p style={{ fontFamily: 'var(--font-display)', color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
             Instaladores Certificados SEC

@@ -19,6 +19,9 @@ export interface ServiceLandingProps {
   /* Fotos reales del proyecto. Cuando estén, se pasan aquí (ej: ['/proyectos/tableros-1.jpg']).
      Mientras no haya, se muestra un contenedor con marco de "foto próximamente". */
   photos?: string[];
+  /* Área de servicio (por defecto Santiago). Para páginas de otra ubicación (ej. Villarrica). */
+  areaCity?: string;
+  areaLabel?: string;
 }
 
 const WA = 'https://wa.me/56966575447';
@@ -36,7 +39,7 @@ const ALL_SERVICES = [
   { slug: 'urgencias-electricas-santiago', name: 'Urgencias 24h' },
 ];
 
-export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs, photos }: ServiceLandingProps) {
+export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs, photos, areaCity = 'Santiago', areaLabel = 'Santiago y toda la Región Metropolitana' }: ServiceLandingProps) {
   const others = ALL_SERVICES.filter(s => s.slug !== slug);
   const url = `https://innvolt.cl/${slug}`;
 
@@ -46,7 +49,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
       name: serviceName,
       description: intro,
       serviceType: serviceName,
-      areaServed: { '@type': 'City', name: 'Santiago' },
+      areaServed: { '@type': 'City', name: areaCity },
       provider: { '@type': 'LocalBusiness', name: 'INNVOLT SpA', url: 'https://innvolt.cl', telephone: '+56966575447' },
       url,
     },
@@ -120,7 +123,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
               {photos && photos.length > 0 ? (
                 photos.slice(0, 2).map((src, i) => (
                   <div key={i} className="svc-photo">
-                    <img src={src} alt={`Proyecto de ${serviceName} en Santiago — foto ${i + 1}`} loading="lazy" />
+                    <img src={src} alt={`Proyecto de ${serviceName} en ${areaCity} — foto ${i + 1}`} loading="lazy" />
                   </div>
                 ))
               ) : (
@@ -210,7 +213,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
             ¿LISTO PARA <span style={{ color: 'var(--y)' }}>TU PROYECTO?</span>
           </h2>
           <p className="body-sm" style={{ maxWidth: 460, margin: '0 auto 2rem' }}>
-            Cotización el mismo día hábil. Técnicos certificados SEC en Santiago y toda la Región Metropolitana.
+            Cotización el mismo día hábil. Técnicos certificados SEC en {areaLabel}.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link href="/#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></Link>
