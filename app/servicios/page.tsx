@@ -5,12 +5,12 @@ import Logo from '../components/Logo';
 import SiteFooter from '../components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: 'Servicios Eléctricos y Tecnológicos en Santiago',
-  description: 'Servicios de INNVOLT en Santiago: instalaciones eléctricas, tableros, mantención, certificación TE1, cámaras CCTV, control de acceso, domótica, redes y pantallas LED. Una sola empresa para toda tu tecnología.',
+  title: 'Servicios de Electricidad y Energía Solar en Santiago',
+  description: 'Servicios de InnVolt en Santiago: instalaciones eléctricas, tableros, certificación TE1, mantención y urgencias; además paneles solares, net billing, baterías, cargador de auto eléctrico y eficiencia energética.',
   alternates: { canonical: '/servicios' },
   openGraph: {
-    title: 'Servicios Eléctricos y Tecnológicos en Santiago | INNVOLT',
-    description: 'Electricidad, seguridad, redes y automatización para hogar y empresa. Una sola empresa para toda tu tecnología.',
+    title: 'Servicios de Electricidad y Energía Solar en Santiago | InnVolt',
+    description: 'Electricidad certificada SEC y energía renovable para tu casa o empresa. Una sola empresa.',
     url: 'https://innvolt.cl/servicios',
     type: 'website',
   },
@@ -20,26 +20,23 @@ const GROUPS = [
   {
     label: 'Electricidad',
     items: [
-      { name: 'Instalaciones eléctricas', slug: 'electricista-santiago', desc: 'Domiciliarias, comerciales e industriales, certificadas SEC.' },
+      { name: 'Instalaciones eléctricas', slug: 'instalaciones-electricas', desc: 'Residencial, comercial e industria liviana, certificadas SEC.' },
       { name: 'Tableros eléctricos', slug: 'tableros-electricos', desc: 'Instalación, normalización y protecciones bien dimensionadas.' },
-      { name: 'Mantención eléctrica', slug: 'mantencion-electrica', desc: 'Preventiva y correctiva, con contratos para empresas.' },
+      { name: 'Aumento de capacidad', slug: 'aumento-de-capacidad-empalme', desc: 'Más potencia y cambio de empalme para tu casa o negocio.' },
       { name: 'Certificación TE1', slug: 'certificacion-te1', desc: 'Declaración ante la SEC conforme a la normativa vigente.' },
-      { name: 'Urgencias 24h', slug: 'urgencias-electricas-santiago', desc: 'Cortes, fallas y emergencias eléctricas el mismo día.' },
+      { name: 'Mantención eléctrica', slug: 'mantencion-electrica', desc: 'Preventiva y correctiva, con contratos para empresas.' },
+      { name: 'Proyectos eléctricos', slug: 'proyectos-electricos', desc: 'Diseño, planos, ejecución y certificación para empresas.' },
+      { name: 'Urgencias eléctricas', slug: 'urgencias-electricas-santiago', desc: 'Cortes, fallas y emergencias eléctricas el mismo día.' },
     ],
   },
   {
-    label: 'Seguridad',
+    label: 'Energía renovable',
     items: [
-      { name: 'Cámaras CCTV', slug: 'camaras-cctv-santiago', desc: 'HD y 4K con monitoreo remoto 24/7 para hogar y empresa.' },
-      { name: 'Control de acceso', slug: 'control-de-acceso', desc: 'Tarjeta, huella, videoporteros y portones automáticos.' },
-    ],
-  },
-  {
-    label: 'Tecnología',
-    items: [
-      { name: 'Domótica y automatización', slug: 'domotica-santiago', desc: 'Iluminación, accesos y ambientes inteligentes.' },
-      { name: 'Redes y cableado estructurado', slug: 'redes-cableado-estructurado', desc: 'Puntos de red, fibra, racks y WiFi profesional.' },
-      { name: 'Pantallas LED', slug: 'pantallas-led', desc: 'Interior y exterior con tecnología Novastar.' },
+      { name: 'Paneles solares', slug: 'paneles-solares-santiago', desc: 'Instalación fotovoltaica para bajar tu cuenta de luz.' },
+      { name: 'Net billing', slug: 'paneles-solares-netbilling', desc: 'Declaración TE4 para inyectar a la red (Ley 21.118).' },
+      { name: 'Baterías y respaldo', slug: 'baterias-almacenamiento-energia', desc: 'Sistemas híbridos con respaldo ante cortes de luz.' },
+      { name: 'Cargador de auto eléctrico', slug: 'cargador-auto-electrico', desc: 'Instalación de wallbox con circuito dedicado y TE6.' },
+      { name: 'Eficiencia energética', slug: 'eficiencia-energetica', desc: 'Monitoreo, iluminación y gestión para gastar menos.' },
     ],
   },
 ];
@@ -91,7 +88,7 @@ export default function Page() {
           <p className="label" style={{ marginBottom: '0.75rem' }}>— Nuestros servicios</p>
           <h1 className="display" style={{ fontSize: 'clamp(2.6rem, 7vw, 5rem)', color: '#fff', marginBottom: '1.5rem' }}>SERVICIOS</h1>
           <p className="body-sm" style={{ maxWidth: 680, fontSize: '1rem' }}>
-            En INNVOLT integramos electricidad, seguridad y tecnología en una sola empresa. Desde la instalación eléctrica certificada SEC hasta redes, cámaras, control de acceso y automatización, resolvemos toda la infraestructura tecnológica de tu hogar o empresa en Santiago y la Región Metropolitana, con un solo responsable del resultado.
+            En InnVolt trabajamos dos líneas que se potencian: electricidad certificada SEC y energía renovable. Desde la instalación eléctrica, los tableros y la certificación TE1 hasta los paneles solares, el net billing, las baterías y los cargadores de auto eléctrico, resolvemos la energía de tu casa o empresa en Santiago y la Región Metropolitana, con un solo responsable del resultado.
           </p>
         </div>
       </section>

@@ -17,10 +17,11 @@ export const metadata: Metadata = {
   },
   description: "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, aumento de capacidad, certificación TE1, tableros eléctricos, mantenciones y proyectos eléctricos para hogares y empresas. Cotiza gratis por WhatsApp.",
   keywords: [
-    "electricista Santiago", "instalación eléctrica Santiago", "certificación SEC",
-    "trámite TE1", "domótica Santiago", "automatización hogar Santiago",
-    "cámaras seguridad Santiago", "CCTV instalación", "electricista certificado SEC Chile", "innvolt",
-    "electricista Villarrica", "electricista Pucón", "electricista Araucanía", "instalación eléctrica Villarrica", "certificación SEC Villarrica"
+    "electricista Santiago", "electricista certificado SEC", "instalación eléctrica Santiago",
+    "certificación TE1", "tablero eléctrico", "aumento de capacidad eléctrica",
+    "paneles solares Santiago", "instalación fotovoltaica", "net billing Chile",
+    "baterías solares", "cargador auto eléctrico", "eficiencia energética",
+    "electricista Villarrica", "electricista Pucón", "innvolt"
   ],
   authors: [{ name: "INNVOLT SpA" }],
   creator: "INNVOLT SpA",
@@ -134,16 +135,17 @@ const jsonLd = {
   "serviceType": [
     "Electricista certificado SEC",
     "Instalaciones eléctricas",
-    "Aumento de capacidad",
     "Tableros eléctricos",
+    "Aumento de capacidad y cambio de empalme",
     "Mantención eléctrica",
-    "Electricista a domicilio",
     "Certificación TE1",
-    "Domótica",
-    "Automatización",
-    "Cámaras CCTV",
-    "Control de acceso",
-    "Redes"
+    "Proyectos eléctricos",
+    "Urgencias eléctricas",
+    "Instalación de paneles solares",
+    "Net billing (declaración TE4)",
+    "Baterías de almacenamiento de energía",
+    "Cargador de auto eléctrico (declaración TE6)",
+    "Eficiencia energética"
   ]
 };
 

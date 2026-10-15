@@ -11,30 +11,30 @@ export default function SiteFooter() {
           <div>
             <Logo height={30} />
             <p className="body-sm" style={{ marginTop: '1rem', fontSize: '0.82rem', maxWidth: 280 }}>
-              Electricistas certificados SEC en Santiago y en Villarrica / la Araucanía. Electricidad, domótica y seguridad para hogar, empresa e industria.
+              Electricistas certificados SEC y especialistas en energía solar en Santiago y Villarrica / la Araucanía. Para hogar, empresa e industria liviana.
             </p>
           </div>
 
           <div>
-            <p className="label" style={{ marginBottom: '1rem' }}>Servicios</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>Electricidad</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <li><Link href="/electricista-santiago" className="footer-link">Instalaciones eléctricas</Link></li>
+              <li><Link href="/instalaciones-electricas" className="footer-link">Instalaciones eléctricas</Link></li>
               <li><Link href="/tableros-electricos" className="footer-link">Tableros eléctricos</Link></li>
+              <li><Link href="/aumento-de-capacidad-empalme" className="footer-link">Aumento de capacidad</Link></li>
               <li><Link href="/certificacion-te1" className="footer-link">Certificación TE1</Link></li>
-              <li><Link href="/camaras-cctv-santiago" className="footer-link">Cámaras CCTV</Link></li>
-              <li><Link href="/control-de-acceso" className="footer-link">Control de acceso</Link></li>
-              <li><Link href="/servicios" className="footer-link" style={{ color: 'var(--y)' }}>Ver todos →</Link></li>
+              <li><Link href="/mantencion-electrica" className="footer-link">Mantención eléctrica</Link></li>
+              <li><Link href="/urgencias-electricas-santiago" className="footer-link">Urgencias eléctricas</Link></li>
             </ul>
           </div>
 
           <div>
-            <p className="label" style={{ marginBottom: '1rem' }}>Más servicios</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>Energía renovable</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <li><Link href="/mantencion-electrica" className="footer-link">Mantención eléctrica</Link></li>
-              <li><Link href="/domotica-santiago" className="footer-link">Domótica</Link></li>
-              <li><Link href="/redes-cableado-estructurado" className="footer-link">Redes y cableado</Link></li>
-              <li><Link href="/pantallas-led" className="footer-link">Pantallas LED</Link></li>
-              <li><Link href="/urgencias-electricas-santiago" className="footer-link">Urgencias 24h</Link></li>
+              <li><Link href="/paneles-solares-santiago" className="footer-link">Paneles solares</Link></li>
+              <li><Link href="/paneles-solares-netbilling" className="footer-link">Net billing</Link></li>
+              <li><Link href="/baterias-almacenamiento-energia" className="footer-link">Baterías y respaldo</Link></li>
+              <li><Link href="/cargador-auto-electrico" className="footer-link">Cargador de auto eléctrico</Link></li>
+              <li><Link href="/eficiencia-energetica" className="footer-link">Eficiencia energética</Link></li>
               <li><Link href="/electricista-villarrica" className="footer-link" style={{ color: 'var(--y)' }}>Electricista en Villarrica</Link></li>
             </ul>
           </div>

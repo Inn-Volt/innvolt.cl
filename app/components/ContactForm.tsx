@@ -120,13 +120,15 @@ export default function ContactForm() {
       <div className="form-group">
         <label className="form-label">Servicio</label>
         <select name="servicio" className="form-input" style={{ color: 'rgba(255,255,255,0.55)' }}>
-          <option>Electricidad / Certificación SEC</option>
-          <option>Tableros / Mantención eléctrica</option>
-          <option>Cámaras CCTV / Control de acceso</option>
-          <option>Domótica / Automatización</option>
-          <option>Redes / Cableado estructurado</option>
-          <option>Pantallas LED</option>
-          <option>Otro servicio</option>
+          <option>Instalación eléctrica / Certificación SEC</option>
+          <option>Tableros / Aumento de capacidad</option>
+          <option>Mantención eléctrica</option>
+          <option>Paneles solares / Net billing</option>
+          <option>Baterías / Respaldo de energía</option>
+          <option>Cargador de auto eléctrico</option>
+          <option>Eficiencia energética</option>
+          <option>Urgencia eléctrica</option>
+          <option>Otro</option>
         </select>
       </div>
 

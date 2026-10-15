@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'INNVOLT — Electricista Certificado SEC en Santiago',
     short_name: 'INNVOLT',
-    description: 'Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica y cámaras de seguridad.',
+    description: 'Electricistas certificados SEC y especialistas en energía solar en Santiago. Instalaciones eléctricas, certificación, paneles solares y net billing.',
     start_url: '/',
     display: 'standalone',
     background_color: '#000000',

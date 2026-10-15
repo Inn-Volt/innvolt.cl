@@ -3,11 +3,11 @@ import ServiceLanding from '../components/ServiceLanding';
 
 export const metadata: Metadata = {
   title: 'Electricista Certificado SEC en Villarrica y Pucón',
-  description: 'Electricista certificado SEC en Villarrica, Pucón y la Región de la Araucanía. Instalaciones eléctricas, tableros, certificación TE1, cámaras y urgencias para casas, cabañas y negocios.',
+  description: 'Electricista certificado SEC en Villarrica, Pucón y la Región de la Araucanía. Instalaciones eléctricas, tableros, certificación TE1, paneles solares y urgencias para casas, cabañas y negocios.',
   alternates: { canonical: '/electricista-villarrica' },
   openGraph: {
     title: 'Electricista Certificado SEC en Villarrica y Pucón | INNVOLT',
-    description: 'Instalaciones, tableros, certificación TE1, cámaras y urgencias eléctricas en Villarrica, Pucón y la Araucanía.',
+    description: 'Instalaciones, tableros, certificación TE1, paneles solares y urgencias eléctricas en Villarrica, Pucón y la Araucanía.',
     url: 'https://innvolt.cl/electricista-villarrica',
     type: 'website',
   },
@@ -22,19 +22,19 @@ export default function Page() {
       areaLabel="Villarrica, Pucón y la Región de la Araucanía"
       label="Electricidad certificada SEC · Araucanía"
       title={<>ELECTRICISTA<br />EN VILLARRICA</>}
-      intro="Electricistas certificados SEC en Villarrica, Pucón y alrededores. Realizamos instalaciones eléctricas, tableros, certificación TE1, cámaras de seguridad y atención de urgencias para casas, cabañas, negocios y proyectos en la Región de la Araucanía."
+      intro="Electricistas certificados SEC en Villarrica, Pucón y alrededores. Realizamos instalaciones eléctricas, tableros, certificación TE1, paneles solares y atención de urgencias para casas, cabañas, negocios y proyectos en la Región de la Araucanía."
       bullets={[
         'Instalaciones eléctricas domiciliarias y comerciales',
         'Certificación SEC y trámite TE1',
         'Tableros, empalmes y protecciones',
-        'Cámaras de seguridad y control de acceso',
+        'Paneles solares y net billing',
         'Instalaciones para cabañas y arriendos turísticos',
         'Urgencias y reparación de fallas',
       ]}
       bodyTitle="Cobertura en la Araucanía"
       body={[
         'Atendemos Villarrica, Pucón, Lican Ray y las comunas cercanas de la Región de la Araucanía como Loncoche, Freire, Gorbea, Cunco y Curarrehue. Somos instaladores eléctricos autorizados por la SEC, así que dejamos tu instalación segura, certificada y en regla.',
-        'La zona del lago tiene una necesidad muy concreta: casas de veraneo, cabañas y arriendos turísticos que requieren instalaciones seguras y, en muchos casos, el certificado TE1 para funcionar o para vender/arrendar. También trabajamos con hoteles, restaurantes y locales que necesitan tableros bien dimensionados, cámaras y respaldo ante fallas.',
+        'La zona del lago tiene una necesidad muy concreta: casas de veraneo, cabañas y arriendos turísticos que requieren instalaciones seguras y, en muchos casos, el certificado TE1 para funcionar o para vender/arrendar. Además, el alto costo y los cortes de energía en la zona hacen muy atractiva la energía solar con respaldo de baterías. También trabajamos con hoteles, restaurantes y locales que necesitan tableros bien dimensionados y respaldo ante fallas.',
         'Coordinamos visitas en la zona y respondemos el mismo día hábil. Si tienes una emergencia eléctrica en Villarrica o Pucón, escríbenos y priorizamos la atención.',
       ]}
       features={[
@@ -47,7 +47,7 @@ export default function Page() {
         { q: '¿En qué comunas de la Araucanía trabajan?', a: 'Villarrica, Pucón, Lican Ray y comunas cercanas como Loncoche, Freire, Gorbea, Cunco y Curarrehue. Si tu localidad está cerca, escríbenos y coordinamos.' },
         { q: '¿Certifican instalaciones de cabañas y arriendos?', a: 'Sí. Realizamos y regularizamos la instalación eléctrica y emitimos el certificado TE1, muy solicitado para arriendos turísticos y para vender o arrendar propiedades en la zona.' },
         { q: '¿Atienden urgencias en Villarrica y Pucón?', a: 'Sí. Priorizamos las urgencias eléctricas (cortes, fallas, tableros que saltan) y respondemos el mismo día. Escríbenos por WhatsApp para coordinar.' },
-        { q: '¿Trabajan con hoteles, restaurantes y negocios?', a: 'Sí. Hacemos instalaciones y mantención para comercio y hospitalidad: tableros, iluminación, cámaras y control de acceso, coordinando los trabajos para no detener tu operación.' },
+        { q: '¿Trabajan con hoteles, restaurantes y negocios?', a: 'Sí. Hacemos instalaciones y mantención para comercio y hospitalidad: tableros, iluminación, eficiencia energética y energía solar, coordinando los trabajos para no detener tu operación.' },
       ]}
       waText="Hola InnVolt, necesito un electricista certificado en Villarrica / Pucón"
     />

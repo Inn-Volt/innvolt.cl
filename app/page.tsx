@@ -102,12 +102,12 @@ export default function HomePage() {
         <div className="hero-gridbg" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-badge anim-up d1">
-            <span className="dot" /> Tecnología integral · Certificados SEC · Santiago
+            <span className="dot" /> Certificados SEC · Energía solar · Santiago
           </div>
 
           <Image
             src="/innvolt.png"
-            alt="InnVolt — Electricidad, Seguridad y Tecnología en Santiago"
+            alt="InnVolt — Electricistas certificados SEC y energía solar en Santiago"
             width={2000}
             height={1000}
             priority
@@ -115,10 +115,10 @@ export default function HomePage() {
           />
 
           <h1 className="hero-h1 anim-up d3">
-            Electricidad, seguridad y tecnología<br />para tu <span className="hl">hogar</span> y tu <span className="hl">empresa</span>
+            Electricistas certificados <span className="hl">SEC</span> y <span className="hl">energía solar</span> en Santiago
           </h1>
           <p className="hero-p anim-up d3">
-            Integramos electricidad, seguridad y automatización con estándar profesional. Certificados SEC, respuesta el mismo día y garantía por escrito.
+            Instalamos, certificamos y optimizamos la energía de tu casa o empresa. Electricidad certificada SEC + especialistas en paneles solares, con garantía por escrito.
           </p>
           <div className="hero-btns anim-up d4">
             <a href="#contacto" className="btn btn-primary">SOLICITAR COTIZACIÓN <ArrowRight size={15} /></a>
@@ -127,7 +127,7 @@ export default function HomePage() {
             </a>
           </div>
           <div className="hero-stats anim-up d5">
-            {[['+ 5','Años de experiencia'],['100%','Proyectos SEC'],['24 / 7','Soporte técnico']].map(([n,l]) => (
+            {[['SEC','Instaladores autorizados'],['Solar','Paneles + net billing'],['Garantía','Por escrito, boleta y factura']].map(([n,l]) => (
               <div key={n}><p className="stat-num">{n}</p><p className="stat-label">{l}</p></div>
             ))}
           </div>
@@ -145,7 +145,7 @@ export default function HomePage() {
               { icon:'📋', text:'Certificación TE1' },
               { icon:'🧾', text:'Boleta y Factura' },
               { icon:'🛡', text:'Garantía incluida' },
-              { icon:'🕐', text:'Respuesta 24 hrs' },
+              { icon:'☀️', text:'Energía solar' },
             ].map(item => (
               <div key={item.text} className="trust-band-item">
                 <span aria-hidden="true">{item.icon}</span>
@@ -182,18 +182,18 @@ export default function HomePage() {
       {/* ── MÁS QUE ELECTRICISTAS (posicionamiento integral) ── */}
       <section id="tecnologia" className="section" style={{ background: 'var(--bg)' }}>
         <div className="container">
-          <SectionHeader label="Tecnología integral" title={<>MÁS QUE<br />ELECTRICISTAS</>} />
+          <SectionHeader label="Dos líneas, una empresa" title={<>ELECTRICIDAD<br />+ ENERGÍA</>} />
           <p className="body-sm" style={{ maxWidth: 640, marginTop: '-1.5rem', marginBottom: '2.5rem', fontSize: '1rem' }}>
-            Empezamos en la electricidad, pero hoy integramos mucho más. <strong style={{ color: '#fff', fontWeight: 600 }}>Una sola empresa para toda la tecnología</strong> de tu hogar o tu empresa: de la instalación eléctrica al software que la vuelve inteligente.
+            Nos enfocamos en lo que hacemos bien. <strong style={{ color: '#fff', fontWeight: 600 }}>Una sola empresa para la energía de tu hogar o empresa</strong>: la electricidad certificada SEC y la energía renovable que te hace ahorrar.
           </p>
           <div className="tile-grid tile-grid-3">
             {[
-              ['Electricidad', 'Instalaciones certificadas SEC y corrientes débiles'],
-              ['Redes y datos', 'Cableado estructurado y conectividad'],
-              ['Seguridad', 'Cámaras CCTV y control de acceso'],
-              ['Pantallas LED', 'Novastar y señalética digital'],
-              ['Automatización', 'Control, domótica e integración'],
-              ['Software e IoT', 'Monitoreo inteligente y tecnología a medida'],
+              ['Instalaciones', 'Residencial, comercial e industria liviana'],
+              ['Certificación SEC', 'Trámite TE1 y regularización'],
+              ['Tableros y empalme', 'Protecciones y aumento de capacidad'],
+              ['Paneles solares', 'On-grid y net billing (TE4)'],
+              ['Baterías', 'Respaldo ante cortes y uso nocturno'],
+              ['Cargador EV', 'Wallbox con circuito dedicado (TE6)'],
             ].map(([t, d]) => (
               <div key={t} style={{ background: 'var(--bg)', padding: '1.6rem 1.4rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', textTransform: 'uppercase', color: '#fff', marginBottom: '0.45rem' }}>{t}</h3>
@@ -202,7 +202,7 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ marginTop: '1.5rem', fontFamily: 'var(--font-display)', fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>
-            De la energía <span style={{ color: 'var(--y)' }}>→</span> a la inteligencia
+            De la instalación <span style={{ color: 'var(--y)' }}>→</span> al ahorro de energía
           </p>
         </div>
       </section>
@@ -221,24 +221,24 @@ export default function HomePage() {
             {[
               {
                 num: '01',
-                title: 'Electricidad General',
-                href: '/electricista-santiago',
+                title: 'Electricidad Certificada SEC',
+                href: '/instalaciones-electricas',
                 icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
-                items: ['Instalaciones domiciliarias e industriales', 'Certificación SEC y Trámites TE1', 'Tableros, empalmes y protecciones', 'Proyectos de ingeniería y planos'],
+                items: ['Instalaciones residenciales y comerciales', 'Certificación SEC y trámite TE1', 'Tableros y aumento de capacidad', 'Proyectos, mantención y urgencias'],
               },
               {
                 num: '02',
-                title: 'Domótica & Automatización',
-                href: '/domotica-santiago',
-                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1" fill="var(--y)"/></svg>,
-                items: ['Iluminación inteligente', 'Control de accesos y portones', 'Automatización de ambientes', 'Gestión energética remota'],
+                title: 'Energía Solar',
+                href: '/paneles-solares-santiago',
+                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>,
+                items: ['Paneles solares on-grid', 'Net billing (declaración TE4)', 'Baterías y respaldo de energía', 'Dimensionado a tu consumo'],
               },
               {
                 num: '03',
-                title: 'Redes & Seguridad',
-                href: '/camaras-cctv-santiago',
-                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><path d="M23 7l-7 5-7-5v6l7 5 7-5V7z"/><path d="M16 3H8L1 8v8l7 5h8l7-5V8l-7-5z"/></svg>,
-                items: ['Cámaras CCTV HD y 4K', 'Cableado estructurado', 'Redes WiFi profesionales', 'Monitoreo remoto 24/7'],
+                title: 'Movilidad & Eficiencia',
+                href: '/cargador-auto-electrico',
+                icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--y)" strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+                items: ['Cargador de auto eléctrico (TE6)', 'Eficiencia energética', 'Monitoreo de consumo', 'Automatización de cargas'],
               },
             ].map(s => (
               <div key={s.num} className="service-card">
@@ -296,11 +296,11 @@ export default function HomePage() {
           <div className="tile-grid tile-grid-3">
             {[
               { t: 'Moderniza tu instalación', d: 'Tableros, empalmes, ampliaciones y certificación SEC para dejar todo en regla y seguro.' },
-              { t: 'Protege tu propiedad', d: 'Cámaras CCTV, control de acceso y monitoreo para cuidar tu hogar o negocio 24/7.' },
-              { t: 'Controla y automatiza', d: 'Iluminación, portones, climatización y ambientes que responden solos o desde tu celular.' },
-              { t: 'Monitorea a distancia', d: 'Mira y gestiona tus cámaras y sistemas desde cualquier lugar, en tiempo real.' },
-              { t: 'Comunica con impacto', d: 'Pantallas LED profesionales (Novastar) para retail, eventos y espacios corporativos.' },
-              { t: 'Digitaliza tu operación', d: 'Software, IoT e integración de sistemas para que tu empresa opere de forma inteligente.' },
+              { t: 'Baja tu cuenta de luz', d: 'Paneles solares dimensionados a tu consumo, con net billing (TE4) para inyectar a la red.' },
+              { t: 'Gana respaldo ante cortes', d: 'Baterías y sistemas híbridos que mantienen tu casa o negocio con energía cuando se corta la luz.' },
+              { t: 'Carga tu auto eléctrico', d: 'Instalación de wallbox con circuito dedicado y declaración TE6, lista y segura en tu domicilio.' },
+              { t: 'Aumenta tu potencia', d: 'Cambio de empalme y aumento de capacidad para equipos nuevos, cargador EV o más consumo.' },
+              { t: 'Gasta menos energía', d: 'Eficiencia energética: iluminación LED, medición de consumo y gestión de cargas para ahorrar.' },
             ].map(c => (
               <div key={c.t} style={{ background: 'var(--bg)', padding: '1.9rem 1.6rem' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', textTransform: 'uppercase', color: '#fff', marginBottom: '0.6rem' }}>{c.t}</h3>
@@ -365,7 +365,7 @@ export default function HomePage() {
           <div className="guarantees-grid">
             {[
               { icon: <ShieldCheck size={18} color="var(--y)" />, num: '01', title: 'Certificación SEC', desc: 'Emitimos certificados TE1 y gestionamos todos los trámites normativos.' },
-              { icon: <Clock size={18} color="var(--y)" />, num: '02', title: 'Respuesta 24 hrs', desc: 'Cotización el mismo día hábil y atención de urgencias eléctricas cuando más lo necesitas.' },
+              { icon: <Clock size={18} color="var(--y)" />, num: '02', title: 'Respuesta el mismo día', desc: 'Cotización el mismo día hábil y atención de urgencias eléctricas cuando más lo necesitas.' },
               { icon: <Wrench size={18} color="var(--y)" />, num: '03', title: 'Precio justo y garantía', desc: 'Presupuesto claro sin sorpresas, con boleta o factura y garantía por escrito sobre materiales y mano de obra.' },
             ].map(g => (
               <div key={g.num} className="guarantee-card">
@@ -410,12 +410,12 @@ export default function HomePage() {
       {/* ── TECNOLOGÍAS ── */}
       <section id="tecnologias" className="section" style={{ background: '#000' }}>
         <div className="container">
-          <SectionHeader label="Autoridad técnica" title={<>TECNOLOGÍAS QUE<br />DOMINAMOS</>} />
+          <SectionHeader label="Autoridad técnica" title={<>EQUIPOS Y<br />NORMATIVA</>} />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem', marginTop: '-1rem' }}>
             {[
-              'Certificación SEC', 'Trámite TE1', 'Novastar (LED)', 'CCTV IP',
-              'Control de acceso', 'Domótica / KNX', 'Redes estructuradas', 'Automatización',
-              'IoT', 'Integración de sistemas',
+              'Certificación SEC', 'Trámite TE1', 'Net billing (TE4)', 'Cargador EV (TE6)',
+              'Ley 21.118', 'Paneles fotovoltaicos', 'Inversores on-grid e híbridos', 'Baterías de litio',
+              'Tableros y protecciones', 'Eficiencia energética',
             ].map(t => (
               <span key={t} style={{ border: '1px solid var(--border)', background: 'var(--bg2)', padding: '0.6rem 1.1rem', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{t}</span>
             ))}
@@ -463,20 +463,20 @@ export default function HomePage() {
                 style={{ width: '100%', height: 'auto' }}
               />
               <div className="about-badge">
-                <p className="about-badge-num">+5</p>
-                <p className="about-badge-label">AÑOS</p>
+                <p className="about-badge-num">SEC</p>
+                <p className="about-badge-label">CERTIFICADOS</p>
               </div>
             </div>
 
             <div>
-              <SectionHeader label="Nuestra Identidad" title={<>TU SOCIO<br />EN<br /><span style={{ color: 'var(--y)' }}>TECNOLOGÍA</span></>} />
+              <SectionHeader label="Nuestra Identidad" title={<>TU SOCIO<br />EN<br /><span style={{ color: 'var(--y)' }}>ENERGÍA</span></>} />
               <p className="body-sm" style={{ marginBottom: '1rem' }}>
-                En <strong style={{ color: '#fff', fontWeight: 600 }}>INNVOLT</strong> integramos electricidad, seguridad, automatización y software para que hogares y empresas operen mejor. Nacimos en la electricidad certificada SEC y evolucionamos hacia soluciones tecnológicas integrales, con un solo responsable del resultado.
+                En <strong style={{ color: '#fff', fontWeight: 600 }}>INNVOLT</strong> resolvemos la energía de tu hogar o empresa en dos líneas: electricidad certificada SEC y energía renovable (paneles solares, baterías y cargadores de auto eléctrico). Una sola empresa, con un solo responsable del resultado.
               </p>
               <div className="about-mvs">
                 {[
-                  ['Misión', 'Diseñar, instalar e integrar soluciones tecnológicas —de la energía al software— que hagan operar mejor a hogares y empresas.'],
-                  ['Visión', 'Ser referente en integración tecnológica para empresas, uniendo infraestructura, automatización e inteligencia.'],
+                  ['Misión', 'Instalar, certificar y optimizar la energía de hogares y empresas con estándar profesional, uniendo electricidad segura y energía renovable que ahorra.'],
+                  ['Visión', 'Ser referente en electricidad certificada y energía renovable en Santiago y la Araucanía, ayudando a cada cliente a gastar menos y depender menos de la red.'],
                 ].map(([t, d]) => (
                   <div key={t} className="about-mv">
                     <p className="about-mv-title">{t}</p>

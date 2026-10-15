@@ -27,16 +27,21 @@ export interface ServiceLandingProps {
 const WA = 'https://wa.me/56966575447';
 
 const ALL_SERVICES = [
-  { slug: 'electricista-santiago', name: 'Instalaciones eléctricas' },
+  // Electricidad
+  { slug: 'electricista-santiago', name: 'Electricista Santiago' },
+  { slug: 'instalaciones-electricas', name: 'Instalaciones eléctricas' },
   { slug: 'tableros-electricos', name: 'Tableros eléctricos' },
+  { slug: 'aumento-de-capacidad-empalme', name: 'Aumento de capacidad' },
   { slug: 'mantencion-electrica', name: 'Mantención eléctrica' },
   { slug: 'certificacion-te1', name: 'Certificación TE1' },
-  { slug: 'camaras-cctv-santiago', name: 'Cámaras CCTV' },
-  { slug: 'control-de-acceso', name: 'Control de acceso' },
-  { slug: 'domotica-santiago', name: 'Domótica' },
-  { slug: 'redes-cableado-estructurado', name: 'Redes y cableado' },
-  { slug: 'pantallas-led', name: 'Pantallas LED' },
-  { slug: 'urgencias-electricas-santiago', name: 'Urgencias 24h' },
+  { slug: 'proyectos-electricos', name: 'Proyectos eléctricos' },
+  { slug: 'urgencias-electricas-santiago', name: 'Urgencias eléctricas' },
+  // Energía renovable
+  { slug: 'paneles-solares-santiago', name: 'Paneles solares' },
+  { slug: 'paneles-solares-netbilling', name: 'Net billing' },
+  { slug: 'baterias-almacenamiento-energia', name: 'Baterías y respaldo' },
+  { slug: 'cargador-auto-electrico', name: 'Cargador de auto eléctrico' },
+  { slug: 'eficiencia-energetica', name: 'Eficiencia energética' },
 ];
 
 export default function ServiceLanding({ slug, serviceName, label, title, intro, bullets, features, waText, bodyTitle, body, faqs, photos, areaCity = 'Santiago', areaLabel = 'Santiago y toda la Región Metropolitana' }: ServiceLandingProps) {
@@ -248,7 +253,7 @@ export default function ServiceLanding({ slug, serviceName, label, title, intro,
         <div className="container">
           <p className="label" style={{ marginBottom: '1.25rem' }}>— Otros servicios</p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            {others.map(o => (
+            {others.slice(0, 6).map(o => (
               <Link key={o.slug} href={`/${o.slug}`} className="btn btn-ghost">
                 {o.name} <ArrowRight size={14} />
               </Link>
