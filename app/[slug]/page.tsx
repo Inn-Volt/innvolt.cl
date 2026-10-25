@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Shell, Photo, Art, FaqList, CtaBand, SecSeal, JsonLd, waLink } from '../_site/ui';
 import { SERVICES, SITE, SIMULADOR_PUBLICO, getService, type Service } from '../_site/content';
+import { guidesForService } from '../_site/guias';
 
 /* Solo existen las páginas definidas en content.ts; cualquier otra ruta es 404 */
 export const dynamicParams = false;
@@ -45,6 +46,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const isTech = s.line === 'tecnologia';
   const parent = isTech ? { name: 'Tecnología', href: '/tecnologia' } : { name: 'Servicios', href: '/servicios' };
   const related = s.related.map(getService).filter((r): r is Service => Boolean(r));
+  const guides = guidesForService(s.slug);
 
   const ld = {
     '@context': 'https://schema.org',
@@ -128,6 +130,20 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <div className="iv-container iv-prose">
             <h2 className="iv-h2"><span className="iv-kicker">En detalle</span>{s.body.title}</h2>
             {s.body.paras.map(p => <p key={p.slice(0, 40)}>{p}</p>)}
+          </div>
+        </section>
+      )}
+
+      {/* GUÍA RELACIONADA */}
+      {guides.length > 0 && (
+        <section className="iv-section" style={{ paddingTop: 0 }}>
+          <div className="iv-container" style={{ display: 'grid', gap: '1rem' }}>
+            {guides.map(gd => (
+              <Link key={gd.slug} href={`/guias/${gd.slug}`} className="iv-card iv-guide-band">
+                <span><span className="iv-kicker" style={{ marginBottom: 0 }}>Guía relacionada</span><strong>{gd.title}</strong></span>
+                <span className="iv-link">Leer guía ({gd.readMin} min) <ArrowUpRight size={14} /></span>
+              </Link>
+            ))}
           </div>
         </section>
       )}

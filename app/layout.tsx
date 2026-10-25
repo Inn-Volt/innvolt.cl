@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     description: DESC,
     images: ['/og-image.png'],
   },
+  ...(SITE.googleVerification ? { verification: { google: SITE.googleVerification } } : {}),
   robots: {
     index: true,
     follow: true,

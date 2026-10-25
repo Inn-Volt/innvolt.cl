@@ -194,6 +194,7 @@ export function Footer() {
             <p className="iv-foot-h">Tecnología</p>
             {TECNOLOGIA.map(s => <Link key={s.slug} href={`/${s.slug}`}>{s.name}</Link>)}
             <Link href="/proyectos">Proyectos</Link>
+            <Link href="/guias">Guías</Link>
           </div>
           <div>
             <p className="iv-foot-h">Contacto</p>

@@ -7,6 +7,7 @@ const LINKS: [string, string][] = [
   ['Servicios', '/servicios'],
   ['Proyectos', '/proyectos'],
   ['Tecnología', '/tecnologia'],
+  ['Guías', '/guias'],
   ['Contacto', '/contacto'],
 ];
 
