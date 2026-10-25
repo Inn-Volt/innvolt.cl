@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 
 /*
   Google Analytics 4 + rastreo de conversiones.
-  Para activarlo: crea una propiedad GA4 y define la variable de entorno
-  NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX  (en .env.local y en tu hosting).
-  Si la variable no está definida, este componente no hace nada.
+  Propiedad "InnVolt" (413358066), flujo web innvolt.cl → ID de medición G-TK9XJFQ2V5.
+  El ID es público (va en el HTML); se puede sobrescribir con NEXT_PUBLIC_GA_ID.
+  En desarrollo (localhost) no se envían datos, para no ensuciar las estadísticas.
 
   Eventos que registra automáticamente:
    - 'whatsapp_click'  → cada clic a un enlace wa.me / WhatsApp
@@ -16,7 +16,7 @@ import { useEffect } from 'react';
    - 'generate_lead'   → envío exitoso del formulario (disparado desde ContactForm)
 */
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+const GA_ID = process.env.NODE_ENV === 'production' ? (process.env.NEXT_PUBLIC_GA_ID || 'G-TK9XJFQ2V5') : '';
 
 declare global {
   interface Window {
