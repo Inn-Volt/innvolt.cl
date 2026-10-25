@@ -32,7 +32,7 @@ export default function Page() {
               <div><strong>WhatsApp / Teléfono</strong>+56 9 6657 5447</div>
               <div><strong>Email</strong>innvolt.cl@gmail.com</div>
               <div><strong>Instagram</strong>@inn.volt</div>
-              <div><strong>Zona</strong>Santiago y Región Metropolitana</div>
+              <div><strong>Zona</strong>Puente Alto y toda la Región Metropolitana</div>
             </div>
           </div>
           <div className="v3-card v3-form">

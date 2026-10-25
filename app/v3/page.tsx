@@ -69,6 +69,21 @@ export default function Page() {
         </div>
       </section>
 
+      {/* NOSOTROS (breve) */}
+      <section className="v3-section v3-alt">
+        <div className="v3-container v3-nos">
+          <div>
+            <span className="v3-kicker">Quiénes somos</span>
+            <h2 className="v3-h2">Electricidad y energía, con respaldo</h2>
+          </div>
+          <p className="v3-lead">
+            En InnVolt resolvemos la electricidad y la energía de tu hogar, comercio o empresa con trabajos
+            certificados SEC, seguros y bajo normativa. Somos especialistas en instalaciones eléctricas y en
+            energía solar fotovoltaica: evaluamos tu caso, te entregamos un presupuesto claro y ejecutamos con respaldo.
+          </p>
+        </div>
+      </section>
+
       {/* CTA band */}
       <section className="v3-ctaband">
         <div className="v3-container">

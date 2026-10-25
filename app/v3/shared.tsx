@@ -64,7 +64,7 @@ export function Footer() {
       <div className="v3-container v3-footer-inner">
         <div>
           <div className="v3-brand"><Bolt size={24} tone="mono" /><span className="v3-brand-name">Inn<span className="v3-y">Volt</span></span></div>
-          <p className="v3-foot-desc">Soluciones eléctricas y energéticas para hogares, comercios y empresas en Santiago.</p>
+          <p className="v3-foot-desc">Soluciones eléctricas y energéticas para hogares, comercios y empresas en Puente Alto y toda la Región Metropolitana.</p>
         </div>
         <div className="v3-foot-cols">
           <div><p className="v3-foot-h">Electricidad y energía</p><Link href="/v3/servicios">Instalaciones</Link><Link href="/v3/servicios">Tableros y mantención</Link><Link href="/v3/servicios">Energía solar</Link><Link href="/v3/proyectos">Proyectos</Link></div>
@@ -169,6 +169,10 @@ export const css = `
 
 /* CARD base */
 .v3-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--r); box-shadow: 4px 4px 0 var(--ink); }
+
+/* NOSOTROS (breve) */
+.v3-nos { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+@media (max-width: 980px) { .v3-nos { grid-template-columns: 1fr; } }
 
 /* QUICK access (home) */
 .v3-quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
