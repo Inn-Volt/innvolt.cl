@@ -3,10 +3,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Shell, Photo, Art, FaqList, CtaBand, SecSeal, JsonLd, waLink } from '../_site/ui';
-import { SERVICES, SITE, getService, type Service } from '../_site/content';
+import { SERVICES, SITE, SIMULADOR_PUBLICO, getService, type Service } from '../_site/content';
 
 /* Solo existen las páginas definidas en content.ts; cualquier otra ruta es 404 */
 export const dynamicParams = false;
+
+/* Páginas que ofrecen el simulador solar como acción secundaria */
+const SOLARES = new Set(['paneles-solares-santiago', 'paneles-solares-netbilling', 'baterias-almacenamiento-energia']);
 
 export function generateStaticParams() {
   return SERVICES.map(s => ({ slug: s.slug }));
@@ -83,7 +86,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <p className="iv-lead">{s.intro}</p>
             <div className="iv-cta-row">
               <Link href="/contacto" className="iv-btn">Cotizar este servicio <ArrowRight size={16} /></Link>
-              <a href={waLink(s.wa)} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-ghost">Consultar por WhatsApp</a>
+              {SIMULADOR_PUBLICO && SOLARES.has(s.slug)
+                ? <Link href="/simulador-solar" className="iv-btn iv-btn-ghost">Simula tus paneles</Link>
+                : <a href={waLink(s.wa)} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-ghost">Consultar por WhatsApp</a>}
             </div>
             {!isTech && <div><SecSeal /></div>}
           </div>

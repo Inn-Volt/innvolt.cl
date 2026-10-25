@@ -226,6 +226,43 @@ textarea.iv-input { resize: vertical; }
 .iv-alert-err { background: #fef2f2; border-color: #b91c1c; color: #7f1d1d; }
 .iv-alert a { color: inherit; }
 
+/* SIMULADOR SOLAR */
+.iv-sim { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 1.6rem; align-items: start; }
+.iv-sim-form, .iv-sim-out { padding: 1.7rem 1.6rem; }
+.iv-sim-h { font-family: var(--fh); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.01em; margin: 0 0 1.3rem; }
+.iv-sim-field { border: 0; padding: 0; margin: 0 0 1.3rem; display: flex; flex-direction: column; gap: 0.45rem; }
+.iv-sim-field strong { color: var(--ink); }
+.iv-opt { text-transform: none; letter-spacing: 0; font-weight: 500; color: #8a8478; }
+.iv-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.iv-seg button { padding: 0.7rem 0.6rem; border: 1.5px solid var(--line); border-radius: 8px; background: #fff; font-family: var(--fh); font-weight: 700; font-size: 0.88rem; color: var(--ink); cursor: pointer; }
+.iv-seg button.is-on { background: var(--y); box-shadow: 2px 2px 0 var(--ink); }
+.iv-sim-range { display: grid; grid-template-columns: 1fr 110px; gap: 0.8rem; align-items: center; }
+.iv-sim-num { padding: 0.6rem 0.7rem; }
+.iv input[type=range] { width: 100%; accent-color: var(--yd); }
+.iv-sim-adv { border-top: 1.5px dashed rgba(26,24,19,0.25); padding-top: 1rem; }
+.iv-sim-adv summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; font-family: var(--fh); font-weight: 700; font-size: 0.92rem; margin-bottom: 0.8rem; }
+.iv-sim-adv summary::-webkit-details-marker { display: none; }
+.iv-sim-adv[open] summary svg { transform: rotate(180deg); }
+.iv-sim-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.iv-kpi { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.9rem 1rem; background: var(--bg); border: 1.5px solid var(--line); border-radius: 9px; }
+.iv-kpi-l { display: flex; align-items: center; gap: 0.4rem; font-family: var(--fh); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.iv-kpi-l svg { color: var(--yd); }
+.iv-kpi-v { font-family: var(--fh); font-weight: 800; font-size: 1.55rem; letter-spacing: -0.02em; }
+.iv-kpi-s { font-size: 0.82rem; color: var(--muted); }
+.iv-sim-save { display: flex; gap: 0.9rem; align-items: center; margin-top: 1rem; padding: 1rem 1.1rem; background: #fff6d6; border: 1.5px solid var(--line); border-radius: 9px; }
+.iv-sim-save-ico { width: 42px; height: 42px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--y); border-radius: 9px; }
+.iv-sim-save-v { font-family: var(--fh); font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; margin: 0; }
+.iv-sim-save-v small { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+.iv-sim-chart { margin: 1.3rem 0 0; }
+.iv-sim-chart svg { width: 100%; height: auto; margin-top: 0.6rem; }
+.iv-sim-legend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--muted); margin: 0.3rem 0 0; }
+.iv-sim-sw { display: inline-block; width: 14px; height: 10px; border-radius: 2px; margin-left: 0.4rem; }
+.iv-sim-sw-y { background: var(--y); border: 1.2px solid var(--ink); }
+.iv-sim-sw-l { border-top: 2px dashed var(--ink); height: 0; }
+.iv-sim-disclaimer { grid-column: 1 / -1; margin-top: 0; }
+@media (max-width: 980px) { .iv-sim { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .iv-sim-kpis { grid-template-columns: 1fr; } .iv-sim-range { grid-template-columns: 1fr 90px; } }
+
 /* RESEÑAS EN GOOGLE */
 .iv-reviews { display: grid; grid-template-columns: auto 1fr auto; gap: 1.2rem 1.5rem; align-items: center; padding: 1.5rem 1.6rem; }
 .iv-reviews-ico { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--y); border: 1.5px solid var(--line); border-radius: 12px; color: var(--ink); }

@@ -19,6 +19,13 @@ export const SITE = {
   googleReview: 'https://g.page/r/CSI8dAAAm68YEBM/review',
 };
 
+/*
+  Interruptor del simulador solar (/simulador-solar).
+  false → la página existe pero está oculta: sin enlaces, fuera del sitemap y con noindex (revisión interna).
+  true  → se publica: aparecen los botones en las páginas solares, entra al sitemap y Google puede indexarla.
+*/
+export const SIMULADOR_PUBLICO = false;
+
 /* Cobertura: se comunica por región, sin listar comunas */
 export const ZONA_CORTA = 'Región Metropolitana · Villarrica y alrededores';
 export const ZONA_LARGA = 'Región Metropolitana y alrededores, y la zona de Villarrica y alrededores en la Región de La Araucanía.';

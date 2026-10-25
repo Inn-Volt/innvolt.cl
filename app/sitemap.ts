@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { SERVICES, SITE } from './_site/content';
+import { SERVICES, SITE, SIMULADOR_PUBLICO } from './_site/content';
 
 /* Fecha real de la última actualización del contenido (no la del build, para no engañar a Google) */
 const LAST_UPDATE = new Date('2026-10-25');
@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page('tecnologia', 0.7),
     page('proyectos', 0.7),
     page('contacto', 0.8),
+    ...(SIMULADOR_PUBLICO ? [page('simulador-solar', 0.8)] : []),
     page('privacidad', 0.2),
   ];
 }
