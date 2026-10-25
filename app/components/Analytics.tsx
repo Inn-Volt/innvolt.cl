@@ -1,6 +1,5 @@
 'use client';
 
-import Script from 'next/script';
 import { useEffect } from 'react';
 
 /*
@@ -36,6 +35,33 @@ export default function Analytics() {
     }
 
     if (!GA_ID) return;
+
+    // gtag disponible de inmediato: los eventos quedan en cola (dataLayer) hasta que cargue el script.
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      // gtag.js necesita el objeto `arguments`, no un arreglo
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer!.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+
+    // El script de Google (~180 KB) se descarga recién con la primera interacción o a los 8 s,
+    // para no bloquear la carga inicial de la página.
+    let loaded = false;
+    const TRIGGERS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      document.head.appendChild(s);
+      TRIGGERS.forEach(t => window.removeEventListener(t, load));
+    };
+    TRIGGERS.forEach(t => window.addEventListener(t, load, { once: true, passive: true }));
+    const timer = window.setTimeout(load, 8000);
+
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement)?.closest?.('a');
       if (!a) return;
@@ -49,21 +75,12 @@ export default function Analytics() {
       }
     };
     document.addEventListener('click', onClick, true);
-    return () => document.removeEventListener('click', onClick, true);
+    return () => {
+      document.removeEventListener('click', onClick, true);
+      TRIGGERS.forEach(t => window.removeEventListener(t, load));
+      window.clearTimeout(timer);
+    };
   }, []);
 
-  if (!GA_ID) return null;
-
-  return (
-    <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
-      <Script id="ga-init" strategy="afterInteractive">
-        {`window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${GA_ID}');`}
-      </Script>
-    </>
-  );
+  return null;
 }

@@ -20,9 +20,19 @@ export function JsonLd({ data }: { data: object }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
-/* Foto que llena su marco, recortada según su punto de enfoque */
+/*
+  Foto que llena su marco, recortada según su punto de enfoque.
+  priority → precarga real + prioridad alta (en Next 16 la prop `priority` quedó obsoleta: se usa `preload`).
+  Calidad 60: las fotos se ven igual en pantalla y pesan bastante menos.
+*/
 export function Photo({ src, alt, sizes, priority = false }: { src: string; alt: string; sizes: string; priority?: boolean }) {
-  return <Image src={src} alt={alt} fill sizes={sizes} priority={priority} style={{ objectFit: 'cover', objectPosition: focus(src) }} />;
+  return (
+    <Image
+      src={src} alt={alt} fill sizes={sizes} quality={60}
+      preload={priority} fetchPriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'}
+      style={{ objectFit: 'cover', objectPosition: focus(src) }}
+    />
+  );
 }
 
 /* Sello de autorización SEC (texto propio, sin usar el logo de la SEC) */
@@ -64,7 +74,7 @@ export function Art({ kind }: { kind: ArtKind }) {
     <div className="iv-art" aria-hidden="true">
       {kind === 'solar' && (
         <svg viewBox="0 0 320 170" fill="none">
-          <circle cx="262" cy="44" r="21" fill="#ffc400" stroke={INK} strokeWidth="2.5" />
+          <circle cx="262" cy="44" r="21" fill="#F6C21C" stroke={INK} strokeWidth="2.5" />
           {[0, 45, 90, 135, 180, 225, 270, 315].map(a => {
             const r = (a * Math.PI) / 180;
             return <line key={a} x1={262 + Math.cos(r) * 29} y1={44 + Math.sin(r) * 29} x2={262 + Math.cos(r) * 38} y2={44 + Math.sin(r) * 38} stroke={INK} strokeWidth="2.5" strokeLinecap="round" />;
@@ -83,10 +93,10 @@ export function Art({ kind }: { kind: ArtKind }) {
         <svg viewBox="0 0 320 170" fill="none">
           <rect x="86" y="38" width="148" height="104" rx="12" fill="#fff" stroke={INK} strokeWidth="2.5" />
           <rect x="234" y="72" width="14" height="36" rx="4" fill={INK} />
-          <rect x="100" y="52" width="36" height="76" rx="5" fill="#ffc400" stroke={INK} strokeWidth="2" />
-          <rect x="142" y="52" width="36" height="76" rx="5" fill="#ffc400" stroke={INK} strokeWidth="2" />
+          <rect x="100" y="52" width="36" height="76" rx="5" fill="#F6C21C" stroke={INK} strokeWidth="2" />
+          <rect x="142" y="52" width="36" height="76" rx="5" fill="#F6C21C" stroke={INK} strokeWidth="2" />
           <rect x="184" y="52" width="36" height="76" rx="5" fill="#f3efe3" stroke={INK} strokeWidth="2" strokeDasharray="5 4" />
-          <path d="M160 18 L148 36 H158 L154 50 L170 30 H160 Z" fill="#ffc400" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+          <path d="M160 18 L148 36 H158 L154 50 L170 30 H160 Z" fill="#F6C21C" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
           <line x1="40" y1="156" x2="280" y2="156" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
         </svg>
       )}
@@ -94,9 +104,9 @@ export function Art({ kind }: { kind: ArtKind }) {
         <svg viewBox="0 0 320 170" fill="none">
           <rect x="34" y="30" width="58" height="98" rx="10" fill="#fff" stroke={INK} strokeWidth="2.5" />
           <rect x="46" y="44" width="34" height="22" rx="4" fill="#23384f" />
-          <path d="M63 76 L55 90 H63 L60 102 L71 86 H63 Z" fill="#ffc400" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+          <path d="M63 76 L55 90 H63 L60 102 L71 86 H63 Z" fill="#F6C21C" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
           <path d="M92 104 C 120 104, 120 132, 150 128" stroke={INK} strokeWidth="3" strokeLinecap="round" />
-          <path d="M140 116 L 160 94 H 236 L 268 116 H 286 V 136 H 128 V 116 Z" fill="#ffc400" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+          <path d="M140 116 L 160 94 H 236 L 268 116 H 286 V 136 H 128 V 116 Z" fill="#F6C21C" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
           <path d="M168 98 L 184 112 H 206 V 98 Z M 214 98 V 112 H 250 L 232 98 Z" fill="#23384f" />
           <circle cx="166" cy="138" r="13" fill="#fff" stroke={INK} strokeWidth="2.5" />
           <circle cx="250" cy="138" r="13" fill="#fff" stroke={INK} strokeWidth="2.5" />

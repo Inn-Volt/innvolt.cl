@@ -5,7 +5,8 @@ import Analytics from './components/Analytics';
 import { SITE, SERVICES } from './_site/content';
 
 /* Tipografías auto-alojadas por Next (sin @import bloqueante) */
-const archivo = Archivo({ subsets: ['latin'], variable: '--font-archivo', display: 'swap' });
+// Eje 'wdth': la guía de marca usa Archivo con ancho 112 % en títulos
+const archivo = Archivo({ subsets: ['latin'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' });
 const barlow = Barlow({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-barlow', display: 'swap' });
 
 export const viewport: Viewport = {
@@ -26,7 +27,12 @@ export const metadata: Metadata = {
   creator: SITE.legalName,
   alternates: { canonical: '/' },
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }],
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
@@ -63,7 +69,7 @@ const businessLd = {
   telephone: SITE.phone,
   email: SITE.email,
   image: `${SITE.url}/og-image.png`,
-  logo: `${SITE.url}/icon-512.png`,
+  logo: `${SITE.url}/logos/innvolt-logo-claro.png`,
   address: { '@type': 'PostalAddress', addressRegion: 'Región Metropolitana', addressCountry: 'CL' },
   areaServed: [
     { '@type': 'AdministrativeArea', name: 'Región Metropolitana de Santiago' },

@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     // Sirve formatos modernos más livianos cuando el navegador los soporta.
     formats: ["image/avif", "image/webp"],
+    // Calidades permitidas (Next 16 exige declararlas): 60 para fotos, 75 por defecto.
+    qualities: [60, 75],
   },
   async redirects() {
     return [

@@ -40,7 +40,7 @@ export default function Page() {
               return (
                 <Link key={s.slug} href={`/${s.slug}`} className="iv-card iv-serv">
                   <div className="iv-serv-media">
-                    {s.img && <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 760px) 100vw, 45vw" />}
+                    {s.img && <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 760px) 92vw, 560px" />}
                     <span className="iv-badge"><Icon size={18} /></span>
                   </div>
                   <div className="iv-serv-body">

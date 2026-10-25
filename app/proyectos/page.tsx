@@ -26,7 +26,7 @@ export default function Page() {
           <div className="iv-proj-grid">
             {PROJECTS.map(p => (
               <Link key={p.img} href={p.href} className="iv-card iv-proj">
-                <div className="iv-proj-img"><Photo src={p.img} alt={p.t} sizes="(max-width: 760px) 100vw, 32vw" /></div>
+                <div className="iv-proj-img"><Photo src={p.img} alt={p.t} sizes="(max-width: 760px) 92vw, (max-width: 980px) 45vw, 370px" /></div>
                 <div className="iv-proj-cap"><span className="iv-proj-cat">{p.cat}</span><span className="iv-proj-t">{p.t}</span></div>
               </Link>
             ))}

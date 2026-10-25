@@ -148,7 +148,7 @@ export default function SolarSimulator() {
               const h = (v / maxBar) * 130;
               return (
                 <g key={MESES[i]}>
-                  <rect x={8 + i * 29} y={140 - h} width={20} height={h} rx={3} fill="#ffc400" stroke="#1a1813" strokeWidth={1.2}>
+                  <rect x={8 + i * 29} y={140 - h} width={20} height={h} rx={3} fill="#F6C21C" stroke="#1a1813" strokeWidth={1.2}>
                     <title>{`${MESES[i]}: ${nf.format(v)} kWh`}</title>
                   </rect>
                   <text x={18 + i * 29} y={156} textAnchor="middle" fontSize="9" fill="#58544b">{MESES[i]}</text>

@@ -48,7 +48,7 @@ export default function Page() {
               return (
                 <Link key={s.slug} href={`/${s.slug}`} className="iv-card iv-serv">
                   <div className="iv-serv-media">
-                    {s.img ? <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 760px) 100vw, 30vw" /> : <Art kind={s.art ?? 'solar'} />}
+                    {s.img ? <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 760px) 92vw, (max-width: 980px) 45vw, 370px" /> : <Art kind={s.art ?? 'solar'} />}
                     <span className="iv-badge"><Icon size={18} /></span>
                   </div>
                   <div className="iv-serv-body">

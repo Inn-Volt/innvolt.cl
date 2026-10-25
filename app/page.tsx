@@ -28,7 +28,7 @@ export default function Page() {
           </div>
           <div className="iv-hero-media">
             <div className="iv-frame">
-              <Photo src="/fotos/tablero-medicion.jpg" alt="Técnico de InnVolt revisando un tablero general con pinza amperimétrica" sizes="(max-width: 980px) 90vw, 44vw" priority />
+              <Photo src="/fotos/tablero-medicion.jpg" alt="Técnico de InnVolt revisando un tablero general con pinza amperimétrica" sizes="(max-width: 980px) 92vw, 520px" priority />
             </div>
             <span className="iv-sticker"><Zap size={16} /> Evaluación + propuesta clara</span>
           </div>
@@ -50,7 +50,7 @@ export default function Page() {
               return (
                 <Link key={c.slug} href={`/${c.slug}`} className="iv-card iv-serv">
                   <div className="iv-serv-media">
-                    {c.img ? <Photo src={c.img} alt={c.title} sizes="(max-width: 760px) 100vw, 44vw" /> : <Art kind="solar" />}
+                    {c.img ? <Photo src={c.img} alt={c.title} sizes="(max-width: 760px) 92vw, 560px" /> : <Art kind="solar" />}
                     <span className="iv-badge"><Icon size={18} /></span>
                   </div>
                   <div className="iv-serv-body">

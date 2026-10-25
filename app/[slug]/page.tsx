@@ -94,7 +94,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </div>
           <div className="iv-svc-media">
             {s.img
-              ? <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 980px) 100vw, 45vw" priority />
+              ? <Photo src={s.img} alt={s.imgAlt} sizes="(max-width: 980px) 92vw, 540px" priority />
               : <Art kind={s.art ?? 'solar'} />}
             <span className="iv-badge" style={{ bottom: 16 }}><Icon size={18} /></span>
           </div>
@@ -166,7 +166,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               return (
                 <Link key={r.slug} href={`/${r.slug}`} className="iv-card iv-serv">
                   <div className="iv-serv-media">
-                    {r.img ? <Photo src={r.img} alt={r.imgAlt} sizes="(max-width: 760px) 100vw, 30vw" /> : <Art kind={r.art ?? 'solar'} />}
+                    {r.img ? <Photo src={r.img} alt={r.imgAlt} sizes="(max-width: 760px) 92vw, (max-width: 980px) 45vw, 370px" /> : <Art kind={r.art ?? 'solar'} />}
                     <span className="iv-badge"><RIcon size={18} /></span>
                   </div>
                   <div className="iv-serv-body">
