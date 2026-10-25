@@ -17,7 +17,7 @@ export default function Nav({ active }: { active?: string }) {
       <div className="v3-container v3-nav-inner">
         <Link href="/v3" className="v3-brand" onClick={() => setOpen(false)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logos/innvolt-5b-oscuro.svg" alt="InnVolt" className="v3-logo-img" />
+          <img src="/logos/innvolt-5b-claro.svg" alt="InnVolt" className="v3-logo-img" />
         </Link>
         <nav className="v3-nav-links">
           {LINKS.map(([l, h]) => (

@@ -64,7 +64,7 @@ export function Footer() {
       <div className="v3-container v3-footer-inner">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <div className="v3-brand"><img src="/logos/innvolt-5b-claro.svg" alt="InnVolt" className="v3-logo-img v3-logo-foot" /></div>
+          <div className="v3-brand"><img src="/logos/innvolt-5b-oscuro.svg" alt="InnVolt" className="v3-logo-img v3-logo-foot" /></div>
           <p className="v3-foot-desc">Soluciones eléctricas y energéticas para hogares, comercios y empresas en Puente Alto y toda la Región Metropolitana.</p>
         </div>
         <div className="v3-foot-cols">
