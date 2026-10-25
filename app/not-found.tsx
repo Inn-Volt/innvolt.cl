@@ -1,28 +1,25 @@
 import Link from 'next/link';
-import Logo from './components/Logo';
 import { ArrowLeft } from 'lucide-react';
+import { Shell, waElec } from './_site/ui';
+import { ENERGIA_PRINCIPAL } from './_site/content';
 
 export default function NotFound() {
   return (
-    <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div style={{ textAlign: 'center', maxWidth: 520 }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2.5rem' }}>
-          <Logo height={40} />
+    <Shell>
+      <section className="iv-404">
+        <div>
+          <p className="iv-404-n">404</p>
+          <h1 className="iv-h2" style={{ margin: '0.6rem 0 1rem' }}>Página no encontrada</h1>
+          <p className="iv-lead" style={{ margin: '0 auto 2rem' }}>La página que buscas no existe o cambió de dirección. Quizás te sirva alguno de estos servicios:</p>
+          <div className="iv-chips" style={{ justifyContent: 'center', marginBottom: '2rem' }}>
+            {ENERGIA_PRINCIPAL.map(s => <Link key={s.slug} href={`/${s.slug}`} className="iv-chip">{s.name}</Link>)}
+          </div>
+          <div className="iv-cta-row" style={{ justifyContent: 'center' }}>
+            <Link href="/" className="iv-btn"><ArrowLeft size={15} /> Volver al inicio</Link>
+            <a href={waElec} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-ghost">WhatsApp</a>
+          </div>
         </div>
-        <p className="display" style={{ fontSize: 'clamp(4rem, 18vw, 9rem)', color: 'var(--y)', lineHeight: 1 }}>404</p>
-        <h1 className="display" style={{ fontSize: 'clamp(1.6rem, 5vw, 2.6rem)', color: '#fff', marginTop: '0.5rem', marginBottom: '1rem' }}>
-          PÁGINA NO ENCONTRADA
-        </h1>
-        <p className="body-sm" style={{ maxWidth: 380, margin: '0 auto 2.25rem' }}>
-          La página que buscas no existe o cambió de dirección. Volvamos a lo importante: tu proyecto eléctrico.
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <Link href="/" className="btn btn-primary"><ArrowLeft size={15} /> VOLVER AL INICIO</Link>
-          <a href="https://wa.me/56966575447?text=Hola%20InnVolt%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-            WHATSAPP
-          </a>
-        </div>
-      </div>
-    </div>
+      </section>
+    </Shell>
   );
 }

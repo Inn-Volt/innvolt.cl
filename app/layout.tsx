@@ -1,47 +1,48 @@
-import type { Metadata, Viewport } from "next";
-import "./globals.css";
-import Analytics from "./components/Analytics";
-import ScrollReveal from "./components/ScrollReveal";
+import type { Metadata, Viewport } from 'next';
+import { Archivo, Barlow } from 'next/font/google';
+import './globals.css';
+import Analytics from './components/Analytics';
+import { SITE, SERVICES } from './_site/content';
+
+/* Tipografías auto-alojadas por Next (sin @import bloqueante) */
+const archivo = Archivo({ subsets: ['latin'], variable: '--font-archivo', display: 'swap' });
+const barlow = Barlow({ subsets: ['latin'], weight: ['300', '400', '500', '600'], variable: '--font-barlow', display: 'swap' });
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: '#1a1813',
 };
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], display: 'swap' });
+const DESC = 'Instaladores autorizados SEC: instalaciones eléctricas, tableros, certificación TE1, paneles solares y eficiencia energética en la RM y Villarrica.';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "Electricistas Certificados SEC en Santiago | INNVOLT",
-    template: "%s | INNVOLT",
+    default: 'InnVolt | Electricidad y energía · Instaladores autorizados SEC',
+    template: '%s | InnVolt',
   },
-  description: "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, aumento de capacidad, certificación TE1, tableros eléctricos, mantenciones y proyectos eléctricos para hogares y empresas. Cotiza gratis por WhatsApp.",
-  keywords: [
-    "electricista Santiago", "electricista certificado SEC", "instalación eléctrica Santiago",
-    "certificación TE1", "tablero eléctrico", "aumento de capacidad eléctrica",
-    "paneles solares Santiago", "instalación fotovoltaica", "net billing Chile",
-    "baterías solares", "cargador auto eléctrico", "eficiencia energética",
-    "electricista Villarrica", "electricista Pucón", "innvolt"
-  ],
-  authors: [{ name: "INNVOLT SpA" }],
-  creator: "INNVOLT SpA",
-  metadataBase: new URL("https://innvolt.cl"),
-  alternates: { canonical: "/" },
-  icons: { icon: '/favicon.svg' },
+  description: DESC,
+  applicationName: 'InnVolt',
+  authors: [{ name: SITE.legalName }],
+  creator: SITE.legalName,
+  alternates: { canonical: '/' },
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }],
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
-    title:"Electricistas Certificados SEC en Santiago | INNVOLT",
-    description:"Cotiza con electricistas certificados SEC. Atención rápida en toda la Región Metropolitana.",
-    url: "https://innvolt.cl",
-    siteName: "INNVOLT",
-    locale: "es_CL",
-    type: "website",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "INNVOLT - Electricidad y Automatización Santiago" }],
+    title: 'InnVolt | Electricidad y energía, pensadas para durar',
+    description: DESC,
+    url: SITE.url,
+    siteName: 'InnVolt',
+    locale: 'es_CL',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'InnVolt — Electricidad y energía, pensadas para durar. Instaladores autorizados SEC.' }],
   },
   twitter: {
-    card: "summary_large_image",
-    title:"Electricistas Certificados SEC en Santiago | INNVOLT",
-    description:"Cotiza con electricistas certificados SEC. Atención rápida en toda la Región Metropolitana.",
-    images: ["/og-image.jpg"],
+    card: 'summary_large_image',
+    title: 'InnVolt | Electricidad y energía, pensadas para durar',
+    description: DESC,
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -50,177 +51,52 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "contactPoint": {
-  "@type": "ContactPoint",
-  "telephone": "+56966575447",
-  "contactType": "customer support",
-  "availableLanguage": "Spanish"
-},
-  "@context": "https://schema.org",
-  "@type": "Electrician",
-  "name": "INNVOLT SpA",
-  "description": "Electricistas certificados SEC en Santiago. Instalaciones eléctricas, domótica, automatización y sistemas de seguridad.",
-  "url": "https://innvolt.cl",
-  "telephone": "+56966575447",
-  "email": "innvolt.cl@gmail.com",
-  "image": "https://innvolt.cl/og-image.jpg",
-  "logo": "https://innvolt.cl/innvolt.png",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Santiago",
-    "addressRegion": "Región Metropolitana",
-    "addressCountry": "CL"
+/* Datos estructurados del negocio: solo información verificada */
+const businessLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Electrician',
+  '@id': `${SITE.url}/#negocio`,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  description: DESC,
+  url: SITE.url,
+  telephone: SITE.phone,
+  email: SITE.email,
+  image: `${SITE.url}/og-image.png`,
+  logo: `${SITE.url}/icon-512.png`,
+  address: { '@type': 'PostalAddress', addressRegion: 'Región Metropolitana', addressCountry: 'CL' },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Región Metropolitana de Santiago' },
+    { '@type': 'AdministrativeArea', name: 'Región de La Araucanía' },
+  ],
+  sameAs: [SITE.instagram],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios',
+    itemListElement: SERVICES.filter(s => s.line !== 'zona').map(s => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.title, url: `${SITE.url}/${s.slug}` },
+    })),
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": -33.4489,
-    "longitude": -70.6693
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-    "opens": "08:00",
-    "closes": "20:00"
-  },
-  "sameAs": ["https://www.instagram.com/inn.volt"],
-  "priceRange": "$$",
-  "currenciesAccepted": "CLP",
-  areaServed:[
-{
- "@type":"City",
- "name":"Santiago"
-},
-{
- "@type":"City",
- "name":"Puente Alto"
-},
-{
- "@type":"City",
- "name":"La Florida"
-},
-{
- "@type":"City",
- "name":"Providencia"
-},
-{
- "@type":"City",
- "name":"Las Condes"
-},
-{
- "@type":"City",
- "name":"Ñuñoa"
-},
-{
- "@type":"City",
- "name":"Maipú"
-},
-{
- "@type":"City",
- "name":"Villarrica"
-},
-{
- "@type":"City",
- "name":"Pucón"
-},
-{
- "@type":"City",
- "name":"Lican Ray"
-},
-{
- "@type":"AdministrativeArea",
- "name":"Región de la Araucanía"
-}
-],
-  "serviceType": [
-    "Electricista certificado SEC",
-    "Instalaciones eléctricas",
-    "Tableros eléctricos",
-    "Aumento de capacidad y cambio de empalme",
-    "Mantención eléctrica",
-    "Certificación TE1",
-    "Proyectos eléctricos",
-    "Urgencias eléctricas",
-    "Instalación de paneles solares",
-    "Net billing (declaración TE4)",
-    "Baterías de almacenamiento de energía",
-    "Cargador de auto eléctrico (declaración TE6)",
-    "Eficiencia energética"
-  ]
 };
 
 const websiteLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "INNVOLT",
-  "alternateName": "INNVOLT SpA",
-  "url": "https://innvolt.cl",
-  "inLanguage": "es-CL",
-  "publisher": {
-    "@type": "Organization",
-    "name": "INNVOLT SpA",
-    "url": "https://innvolt.cl",
-    "logo": "https://innvolt.cl/innvolt.png"
-  }
-};
-
-const faqLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "¿Están certificados por la SEC?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Sí. Somos instaladores eléctricos autorizados y emitimos el certificado TE1 ante la Superintendencia de Electricidad y Combustibles (SEC), dejando tu instalación 100% en regla." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Cómo es el proceso de cotización?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Nos cuentas tu proyecto por el formulario o directo por WhatsApp y te respondemos el mismo día hábil. Según el caso, coordinamos una visita técnica o una evaluación a distancia." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Entregan boleta y factura?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Sí, emitimos boleta y factura por todos nuestros trabajos, con respaldo de materiales y mano de obra." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿En qué zonas trabajan?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Cubrimos Santiago y toda la Región Metropolitana: Providencia, Las Condes, Ñuñoa, La Florida, Maipú, Puente Alto, Santiago Centro y comunas aledañas. Además atendemos Villarrica, Pucón y la Región de la Araucanía, tanto para hogares como para empresas e industria." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Atienden urgencias eléctricas?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Sí. Contamos con soporte técnico y respuesta dentro de 24 horas para fallas, cortes y emergencias eléctricas." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Qué garantía entregan?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Todos nuestros proyectos incluyen garantía sobre materiales y mano de obra. Trabajamos con productos de primera calidad y bajo normativa vigente." }
-    }
-  ]
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#sitio`,
+  name: SITE.name,
+  url: SITE.url,
+  inLanguage: 'es-CL',
+  publisher: { '@id': `${SITE.url}/#negocio` },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-        />
-      </head>
-      <body className={`${inter.className} antialiased`}>
+    <html lang="es-CL" className={`${archivo.variable} ${barlow.variable}`}>
+      <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
         {children}
-        <ScrollReveal />
         <Analytics />
       </body>
     </html>

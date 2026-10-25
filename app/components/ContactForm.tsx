@@ -1,25 +1,16 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import Link from 'next/link';
 import emailjs from '@emailjs/browser';
 
 /*
   ────────────────────────────────────────────────────────────────
   ENVÍO DEL FORMULARIO — EmailJS (https://www.emailjs.com)
-  Permite diseñar la plantilla HTML del correo a tu gusto.
-
-  ⚠️ PASOS PARA ACTIVARLO (con tu propia cuenta, para recibir en innvolt.cl@gmail.com):
-  1. Crea una cuenta gratis en https://www.emailjs.com con innvolt.cl@gmail.com
-  2. Email Services → Add Service → conecta tu Gmail (innvolt.cl@gmail.com). Copia el SERVICE ID.
-  3. Email Templates → Create Template:
-       - En "To Email" pon: innvolt.cl@gmail.com   ← ESTO define el destino
-       - En "Reply To" pon: {{reply_to}}
-       - Diseña el cuerpo usando estas variables:
-         {{nombre}} {{empresa}} {{correo}} {{telefono}} {{servicio}} {{mensaje}}
-       - Copia el TEMPLATE ID.
-  4. Account → General → copia la PUBLIC KEY.
-  5. Pega los 3 valores abajo (o como NEXT_PUBLIC_EMAILJS_* en .env.local).
-  6. En EmailJS: Account → Security → agrega tu dominio (innvolt.cl) a los permitidos.
+  Plantillas en la cuenta de innvolt.cl@gmail.com. Variables disponibles:
+    {{nombre}} {{empresa}} {{correo}} {{telefono}} {{telefono_wsp}} {{servicio}} {{comuna}} {{mensaje}}
+  La comuna también va al inicio de {{mensaje}}, para que llegue aunque la plantilla no use {{comuna}}.
+  Seguridad: en EmailJS → Account → Security, dejar permitido solo el dominio innvolt.cl.
   ────────────────────────────────────────────────────────────────
 */
 const EMAILJS_SERVICE = process.env.NEXT_PUBLIC_EMAILJS_SERVICE || 'service_mlfn0ko';
@@ -31,43 +22,56 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_KEY || '1QTEELvSjsm0C
 
 // Normaliza un teléfono chileno a formato wa.me (solo dígitos, con código país 56).
 function toWaNumber(raw: unknown): string {
-  const d = String(raw || '').replace(/\D/g, ''); // deja solo dígitos
+  const d = String(raw || '').replace(/\D/g, '');
   if (!d) return '';
-  if (d.startsWith('56')) return d;                      // ya trae código país
-  if (d.length === 9 && d.startsWith('9')) return '56' + d; // móvil 9XXXXXXXX
-  if (d.length === 8) return '569' + d;                  // 8 dígitos → asume móvil
-  return d;                                              // fallback: lo que venga
+  if (d.startsWith('56')) return d;
+  if (d.length === 9 && d.startsWith('9')) return '56' + d;
+  if (d.length === 8) return '569' + d;
+  return d;
 }
 
-export default function ContactForm() {
+const TIPOS: { grupo: string; items: string[] }[] = [
+  {
+    grupo: 'Electricidad y energía',
+    items: [
+      'Instalación eléctrica', 'Tablero eléctrico', 'Mantención o reparación', 'Certificación SEC (TE1)',
+      'Energía solar', 'Eficiencia energética', 'Evaluación / proyecto eléctrico', 'Aumento de capacidad / empalme',
+      'Baterías / respaldo de energía', 'Cargador de auto eléctrico', 'Urgencia eléctrica',
+    ],
+  },
+  { grupo: 'Tecnología', items: ['Automatización / domótica', 'CCTV / control de acceso', 'Redes / Wi-Fi', 'Pantallas LED'] },
+];
+
+export default function ContactForm({ defaultService }: { defaultService?: string }) {
   const ref = useRef<HTMLFormElement>(null);
   const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!ref.current) return;
-
     const fd = new FormData(ref.current);
 
     // Anti-spam: si el honeypot viene relleno, es un bot → simulamos éxito y salimos.
     if (fd.get('company_website')) {
       ref.current.reset();
       setSt('ok');
-      setTimeout(() => setSt('idle'), 6000);
       return;
     }
 
     const correo = String(fd.get('correo') || '');
     const telefono = String(fd.get('telefono') || '');
+    const comuna = String(fd.get('comuna') || '').trim();
+    const mensaje = String(fd.get('mensaje') || '');
 
     const params = {
       nombre: fd.get('nombre'),
       empresa: fd.get('empresa'),
       correo,
       telefono,
-      telefono_wsp: toWaNumber(telefono), // teléfono listo para wa.me
+      telefono_wsp: toWaNumber(telefono),
       servicio: fd.get('servicio'),
-      mensaje: fd.get('mensaje'),
+      comuna,
+      mensaje: comuna ? `Comuna: ${comuna}\n\n${mensaje}` : mensaje,
       reply_to: correo,
     };
 
@@ -75,108 +79,86 @@ export default function ContactForm() {
     try {
       // 1) Notificación a INNVOLT (crítico)
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY });
-
       // 2) Auto-respuesta al cliente (best-effort: si falla, no afecta el éxito del envío)
-      emailjs
-        .send(EMAILJS_SERVICE, EMAILJS_AUTOREPLY_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY })
-        .catch(() => {});
+      emailjs.send(EMAILJS_SERVICE, EMAILJS_AUTOREPLY_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY }).catch(() => {});
 
       ref.current.reset();
       setSt('ok');
-      // Evento de conversión para Google Analytics (si está configurado)
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', { method: 'form' });
-      }
-      setTimeout(() => setSt('idle'), 6000);
+      window.gtag?.('event', 'generate_lead', { method: 'form', service: String(params.servicio || '') });
     } catch {
       setSt('err');
-      setTimeout(() => setSt('idle'), 6000);
     }
   }
 
   return (
-    <form ref={ref} onSubmit={send} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-
+    <form ref={ref} onSubmit={send} className="iv-form" noValidate={false}>
       {/* Honeypot anti-spam: oculto para humanos, los bots lo rellenan */}
-      <input
-        type="text"
-        name="company_website"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
-      />
+      <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true"
+        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
 
-      <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Nombre *" name="nombre" required placeholder="Tu nombre" />
-        <Field label="Empresa" name="empresa" placeholder="Opcional" />
+      <div className="iv-row">
+        <Field label="Nombre *" name="nombre" required placeholder="Tu nombre" autoComplete="name" />
+        <Field label="Empresa" name="empresa" placeholder="Opcional" autoComplete="organization" />
+      </div>
+      <div className="iv-row">
+        <Field label="Correo *" name="correo" type="email" required placeholder="tu@correo.cl" autoComplete="email" />
+        <Field label="Teléfono / WhatsApp" name="telefono" type="tel" placeholder="+56 9..." autoComplete="tel" />
+      </div>
+      <div className="iv-row">
+        <Field label="Comuna" name="comuna" placeholder="Ej: Maipú, Villarrica" autoComplete="address-level2" />
+        <div className="iv-field">
+          <label className="iv-label" htmlFor="cf-servicio">Tipo de proyecto</label>
+          <select id="cf-servicio" name="servicio" className="iv-input" defaultValue={defaultService}>
+            {TIPOS.map(g => (
+              <optgroup key={g.grupo} label={g.grupo}>
+                {g.items.map(i => <option key={i}>{i}</option>)}
+              </optgroup>
+            ))}
+            <option>Otro servicio</option>
+          </select>
+        </div>
       </div>
 
-      <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <Field label="Correo *" name="correo" type="email" required placeholder="tu@correo.cl" />
-        <Field label="Teléfono" name="telefono" type="tel" placeholder="+56 9..." />
+      <div className="iv-field">
+        <label className="iv-label" htmlFor="cf-mensaje">Mensaje *</label>
+        <textarea id="cf-mensaje" name="mensaje" required rows={4} placeholder="Cuéntanos sobre tu proyecto..." className="iv-input" />
+        <p className="iv-hint">¿Tienes fotos de la instalación? Envíalas por WhatsApp: nos ayudan a evaluar más rápido.</p>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Servicio</label>
-        <select name="servicio" className="form-input" style={{ color: 'rgba(255,255,255,0.55)' }}>
-          <option>Instalación eléctrica / Certificación SEC</option>
-          <option>Tableros / Aumento de capacidad</option>
-          <option>Mantención eléctrica</option>
-          <option>Paneles solares / Net billing</option>
-          <option>Baterías / Respaldo de energía</option>
-          <option>Cargador de auto eléctrico</option>
-          <option>Eficiencia energética</option>
-          <option>Urgencia eléctrica</option>
-          <option>Otro</option>
-        </select>
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">Mensaje *</label>
-        <textarea name="mensaje" required rows={4} placeholder="Cuéntanos sobre tu proyecto..."
-          className="form-input" style={{ resize: 'vertical' }} />
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-        <button type="submit" disabled={st === 'sending'} className="btn btn-primary"
-          style={{ justifyContent: 'center', opacity: st === 'sending' ? 0.65 : 1, cursor: st === 'sending' ? 'not-allowed' : 'pointer' }}>
-          {st === 'sending' ? 'ENVIANDO...' : '✉ ENVIAR'}
+      <div className="iv-form-actions">
+        <button type="submit" disabled={st === 'sending'} className="iv-btn">
+          {st === 'sending' ? 'Enviando…' : 'Enviar solicitud'}
         </button>
-        <a href="https://wa.me/56966575447" target="_blank" rel="noopener noreferrer"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', background: '#25D366', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.8rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '0.9rem', textDecoration: 'none', clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))' }}>
-          <img src="/whatsapp.svg" alt="" width={14} height={14} style={{ filter: 'brightness(0) invert(1)' }} />
-          WHATSAPP
+        <a href="https://wa.me/56966575447" target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-wa">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/whatsapp.svg" alt="" width={15} height={15} /> WhatsApp
         </a>
       </div>
 
-      <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
-        Al enviar aceptas que InnVolt te contacte para responder tu solicitud. No compartimos tus datos con terceros.
+      <p className="iv-legal">
+        Al enviar aceptas que InnVolt use tus datos solo para responder tu solicitud. No los compartimos con terceros.
+        Más información en nuestra <Link href="/privacidad">política de privacidad</Link>.
       </p>
 
-      {st === 'ok' && (
-        <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', padding: '0.9rem 1rem', color: '#86efac', fontFamily: 'var(--font-display)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em' }}>
-          ✓ MENSAJE ENVIADO — TE CONTACTAMOS A LA BREVEDAD
-        </div>
-      )}
-      {st === 'err' && (
-        <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', padding: '0.9rem 1rem', color: '#fca5a5', fontFamily: 'var(--font-display)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em' }}>
-          ERROR AL ENVIAR — <a href="https://wa.me/56966575447" style={{ color: 'var(--y)' }}>CONTÁCTANOS POR WHATSAPP</a>
-        </div>
-      )}
+      <div aria-live="polite">
+        {st === 'ok' && <div className="iv-alert iv-alert-ok">✓ Mensaje enviado. Te contactaremos a la brevedad.</div>}
+        {st === 'err' && (
+          <div className="iv-alert iv-alert-err">
+            No pudimos enviar el mensaje. Escríbenos por <a href="https://wa.me/56966575447">WhatsApp</a> o a innvolt.cl@gmail.com.
+          </div>
+        )}
+      </div>
     </form>
   );
 }
 
-function Field({ label, name, type = 'text', required = false, placeholder = '' }: {
-  label: string; name: string; type?: string; required?: boolean; placeholder?: string;
+function Field({ label, name, type = 'text', required = false, placeholder = '', autoComplete }: {
+  label: string; name: string; type?: string; required?: boolean; placeholder?: string; autoComplete?: string;
 }) {
   return (
-    <div className="form-group">
-      <label className="form-label">{label}</label>
-      <input name={name} type={type} required={required} placeholder={placeholder} className="form-input"
-        onFocus={e => (e.target as HTMLElement).style.borderColor = 'var(--y)'}
-        onBlur={e => (e.target as HTMLElement).style.borderColor = 'rgba(255,198,0,0.08)'} />
+    <div className="iv-field">
+      <label className="iv-label" htmlFor={`cf-${name}`}>{label}</label>
+      <input id={`cf-${name}`} name={name} type={type} required={required} placeholder={placeholder} autoComplete={autoComplete} className="iv-input" />
     </div>
   );
 }

@@ -1,33 +1,24 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
+import { SERVICES, SITE } from './_site/content';
+
+/* Fecha real de la última actualización del contenido (no la del build, para no engañar a Google) */
+const LAST_UPDATE = new Date('2026-10-25');
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-  // Solo páginas reales e indexables (los #anclas NO son páginas para Google).
-  const paths = [
-    '',
-    'servicios',
-    // Electricidad
-    'electricista-santiago',
-    'instalaciones-electricas',
-    'tableros-electricos',
-    'aumento-de-capacidad-empalme',
-    'mantencion-electrica',
-    'certificacion-te1',
-    'proyectos-electricos',
-    'urgencias-electricas-santiago',
-    // Energía renovable
-    'paneles-solares-santiago',
-    'paneles-solares-netbilling',
-    'baterias-almacenamiento-energia',
-    'cargador-auto-electrico',
-    'eficiencia-energetica',
-    // Ubicación
-    'electricista-villarrica',
-  ];
-  return paths.map((p) => ({
-    url: p ? `https://innvolt.cl/${p}` : 'https://innvolt.cl',
-    lastModified,
+  const page = (path: string, priority: number) => ({
+    url: path ? `${SITE.url}/${path}` : SITE.url,
+    lastModified: LAST_UPDATE,
     changeFrequency: 'monthly' as const,
-    priority: p === '' ? 1 : p === 'servicios' ? 0.9 : 0.8,
-  }));
+    priority,
+  });
+
+  return [
+    page('', 1),
+    page('servicios', 0.9),
+    ...SERVICES.map(s => page(s.slug, s.featured ? 0.9 : s.line === 'tecnologia' ? 0.6 : 0.8)),
+    page('tecnologia', 0.7),
+    page('proyectos', 0.7),
+    page('contacto', 0.8),
+    page('privacidad', 0.2),
+  ];
 }
