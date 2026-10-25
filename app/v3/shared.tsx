@@ -63,7 +63,8 @@ export function Footer() {
     <footer className="v3-footer">
       <div className="v3-container v3-footer-inner">
         <div>
-          <div className="v3-brand"><Bolt size={24} tone="mono" /><span className="v3-brand-name">Inn<span className="v3-y">Volt</span></span></div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <div className="v3-brand"><img src="/logos/innvolt-5b-claro.svg" alt="InnVolt" className="v3-logo-img v3-logo-foot" /></div>
           <p className="v3-foot-desc">Soluciones eléctricas y energéticas para hogares, comercios y empresas en Puente Alto y toda la Región Metropolitana.</p>
         </div>
         <div className="v3-foot-cols">
@@ -103,6 +104,8 @@ export const css = `
 .v3-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
 .v3-brand-name { font-family: var(--fh); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; color: var(--ink); }
 .v3-y { color: var(--yd); }
+.v3-logo-img { height: 32px; width: auto; display: block; }
+.v3-logo-foot { height: 30px; }
 
 /* NAV */
 .v3-nav { position: sticky; top: 0; z-index: 50; background: rgba(250,249,245,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--line); }

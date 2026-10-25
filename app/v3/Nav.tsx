@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Bolt } from './shared';
 
 const LINKS: [string, string][] = [
   ['Inicio', '/v3'],
@@ -17,7 +16,8 @@ export default function Nav({ active }: { active?: string }) {
     <header className="v3-nav">
       <div className="v3-container v3-nav-inner">
         <Link href="/v3" className="v3-brand" onClick={() => setOpen(false)}>
-          <Bolt size={26} /><span className="v3-brand-name">Inn<span className="v3-y">Volt</span></span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logos/innvolt-5b-oscuro.svg" alt="InnVolt" className="v3-logo-img" />
         </Link>
         <nav className="v3-nav-links">
           {LINKS.map(([l, h]) => (
