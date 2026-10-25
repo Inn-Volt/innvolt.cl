@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { Shell, Photo, CtaBand } from '../_site/ui';
+import { Shell, Photo, CtaBand, ReviewsCta } from '../_site/ui';
 import { PROJECTS } from '../_site/content';
 
 export const metadata: Metadata = {
@@ -30,6 +30,9 @@ export default function Page() {
                 <div className="iv-proj-cap"><span className="iv-proj-cat">{p.cat}</span><span className="iv-proj-t">{p.t}</span></div>
               </Link>
             ))}
+          </div>
+          <div style={{ marginTop: '2.5rem' }}>
+            <ReviewsCta title="¿Fuiste parte de alguno de estos proyectos?" />
           </div>
         </div>
       </section>

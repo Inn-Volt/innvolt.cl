@@ -34,7 +34,8 @@ export default function Page() {
               <div><strong>WhatsApp / Teléfono</strong><a href={`tel:${SITE.phone}`}>{SITE.phoneLabel}</a></div>
               <div><strong>Email</strong><a href={`mailto:${SITE.email}`}>{SITE.email}</a></div>
               <div><strong>Instagram</strong><a href={SITE.instagram} target="_blank" rel="noopener noreferrer">{SITE.instagramLabel}</a></div>
-              <div><strong>Cobertura</strong>{ZONA_LARGA}</div>
+              <div><strong>Google</strong><a href={SITE.googleProfile} target="_blank" rel="noopener noreferrer">Ver perfil y reseñas</a></div>
+              <div style={{ gridColumn: '1 / -1' }}><strong>Cobertura</strong>{ZONA_LARGA}</div>
             </div>
             <SecSeal />
           </div>

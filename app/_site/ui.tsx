@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShieldCheck, Receipt, ClipboardCheck, FileText, Plus, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Receipt, ClipboardCheck, FileText, Plus, ArrowRight, Star, ArrowUpRight } from 'lucide-react';
 import Nav from './Nav';
 import { SITE, ZONA_CORTA, ENERGIA_PRINCIPAL, ENERGIA_MAS, TECNOLOGIA, ZONAS, focus, type Faq, type ArtKind } from './content';
 
@@ -127,6 +127,23 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
   );
 }
 
+/* Reseñas en Google (sin puntaje: solo se mostrará cuando haya una cifra real) */
+export function ReviewsCta({ title = '¿Ya trabajaste con nosotros?', text = 'Tu reseña en Google ayuda a que más personas encuentren un instalador eléctrico de confianza.' }: { title?: string; text?: string }) {
+  return (
+    <div className="iv-card iv-reviews">
+      <span className="iv-reviews-ico" aria-hidden="true"><Star size={22} /></span>
+      <div className="iv-reviews-txt">
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </div>
+      <div className="iv-reviews-btns">
+        <a href={SITE.googleReview} target="_blank" rel="noopener noreferrer" className="iv-btn">Dejar una reseña</a>
+        <a href={SITE.googleProfile} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-ghost">Ver en Google <ArrowUpRight size={15} /></a>
+      </div>
+    </div>
+  );
+}
+
 /* Banda de cierre con mensaje propio por página */
 export function CtaBand({ title, text, wa = WA_DEFAULT, id }: { title: string; text?: string; wa?: string; id?: string }) {
   return (
@@ -173,6 +190,8 @@ export function Footer() {
             <a href={waElec} target="_blank" rel="noopener noreferrer">{SITE.phoneLabel}</a>
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">{SITE.instagramLabel}</a>
+            <a href={SITE.googleProfile} target="_blank" rel="noopener noreferrer">InnVolt en Google</a>
+            <a href={SITE.googleReview} target="_blank" rel="noopener noreferrer">Déjanos tu reseña ★</a>
             <Link href="/contacto">Solicitar cotización</Link>
           </div>
         </div>

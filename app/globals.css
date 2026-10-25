@@ -226,6 +226,18 @@ textarea.iv-input { resize: vertical; }
 .iv-alert-err { background: #fef2f2; border-color: #b91c1c; color: #7f1d1d; }
 .iv-alert a { color: inherit; }
 
+/* RESEÑAS EN GOOGLE */
+.iv-reviews { display: grid; grid-template-columns: auto 1fr auto; gap: 1.2rem 1.5rem; align-items: center; padding: 1.5rem 1.6rem; }
+.iv-reviews-ico { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--y); border: 1.5px solid var(--line); border-radius: 12px; color: var(--ink); }
+.iv-reviews-ico svg { fill: var(--ink); }
+.iv-reviews-txt h3 { font-family: var(--fh); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; margin: 0 0 0.3rem; }
+.iv-reviews-txt p { color: var(--muted); font-size: 0.93rem; line-height: 1.5; margin: 0; max-width: 52ch; }
+.iv-reviews-btns { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+@media (max-width: 860px) {
+  .iv-reviews { grid-template-columns: auto 1fr; }
+  .iv-reviews-btns { grid-column: 1 / -1; }
+}
+
 /* BANDA DE CIERRE */
 .iv-ctaband { background: var(--y); border-top: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); padding: clamp(2.5rem,5vw,4rem) 0; text-align: center; }
 .iv-ctaband .iv-cta-row { justify-content: center; }

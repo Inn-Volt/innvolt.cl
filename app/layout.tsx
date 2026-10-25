@@ -69,7 +69,7 @@ const businessLd = {
     { '@type': 'AdministrativeArea', name: 'Región Metropolitana de Santiago' },
     { '@type': 'AdministrativeArea', name: 'Región de La Araucanía' },
   ],
-  sameAs: [SITE.instagram],
+  sameAs: [SITE.instagram, SITE.googleProfile],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Servicios',

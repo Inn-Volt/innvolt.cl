@@ -14,6 +14,9 @@ export const SITE = {
   email: 'innvolt.cl@gmail.com',
   instagram: 'https://instagram.com/inn.volt',
   instagramLabel: '@inn.volt',
+  /* Google Business Profile (zona de servicio, sin dirección pública) */
+  googleProfile: 'https://www.google.com/maps?cid=1778810802144558114',
+  googleReview: 'https://g.page/r/CSI8dAAAm68YEBM/review',
 };
 
 /* Cobertura: se comunica por región, sin listar comunas */

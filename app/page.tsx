@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Zap } from 'lucide-react';
-import { Shell, Photo, SecSeal, TrustStrip, Art, FaqList, CtaBand, waElec } from './_site/ui';
+import { Shell, Photo, SecSeal, TrustStrip, Art, FaqList, CtaBand, ReviewsCta, waElec } from './_site/ui';
 import { CATEGORIES, TECNOLOGIA, ENERGIA_MAS, HOME_FAQS, ZONA_CORTA, SITE } from './_site/content';
 
 export default function Page() {
@@ -110,6 +110,9 @@ export default function Page() {
             </p>
             <Link href="/proyectos" className="iv-link" style={{ marginTop: '1rem' }}>Ver trabajos realizados <ArrowUpRight size={14} /></Link>
           </div>
+        </div>
+        <div className="iv-container" style={{ marginTop: '2.5rem' }}>
+          <ReviewsCta />
         </div>
       </section>
 
