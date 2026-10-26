@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShieldCheck, Receipt, ClipboardCheck, FileText, Plus, ArrowRight, Star, ArrowUpRight } from 'lucide-react';
 import Nav from './Nav';
+import Motion from './Motion';
+import WaGuide from './WaGuide';
 import { SITE, ZONA_CORTA, ENERGIA_PRINCIPAL, ENERGIA_MAS, TECNOLOGIA, ZONAS, focus, type Faq, type ArtKind } from './content';
 
 /* ── WhatsApp ── */
@@ -24,14 +26,17 @@ export function JsonLd({ data }: { data: object }) {
   Foto que llena su marco, recortada según su punto de enfoque.
   priority → precarga real + prioridad alta (en Next 16 la prop `priority` quedó obsoleta: se usa `preload`).
   Calidad 60: las fotos se ven igual en pantalla y pesan bastante menos.
+  Va dentro de .iv-ph (recorte propio) para que el zoom al pasar el mouse no se salga del marco.
 */
 export function Photo({ src, alt, sizes, priority = false }: { src: string; alt: string; sizes: string; priority?: boolean }) {
   return (
-    <Image
-      src={src} alt={alt} fill sizes={sizes} quality={60}
-      preload={priority} fetchPriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'}
-      style={{ objectFit: 'cover', objectPosition: focus(src) }}
-    />
+    <span className="iv-ph">
+      <Image
+        src={src} alt={alt} fill sizes={sizes} quality={60}
+        preload={priority} fetchPriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'}
+        style={{ objectFit: 'cover', objectPosition: focus(src) }}
+      />
+    </span>
   );
 }
 
@@ -222,6 +227,8 @@ export function Shell({ active, wa = WA_DEFAULT, children }: { active?: string; 
       <Nav active={active} />
       <main id="contenido">{children}</main>
       <Footer />
+      <Motion />
+      <WaGuide href={waLink(wa)} />
 
       {/* WhatsApp flotante (escritorio/tablet) */}
       <a href={waLink(wa)} target="_blank" rel="noopener noreferrer" className="iv-wafab" aria-label="Escríbenos por WhatsApp">

@@ -403,7 +403,86 @@ textarea.iv-input { resize: vertical; }
   .iv-foot-cols { grid-template-columns: 1fr; }
   .iv-form-actions { grid-template-columns: 1fr; }
 }
+/* ══ ANIMACIONES ══ sutiles y solo con transform/opacity (no mueven el diseño) */
+@keyframes iv-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes iv-settle { from { transform: scale(1.07); } to { transform: none; } }
+@keyframes iv-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes iv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes iv-ring { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(1.35, 1.6); opacity: 0; } }
+@keyframes iv-glow { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.1; } }
+
+/* Entrada de la cabecera: el texto sube en cascada y la foto se asienta */
+:is(.iv-hero-grid, .iv-svc-grid) > div:first-child > *,
+.iv-page-hero > .iv-container:not(.iv-svc-grid) > * { animation: iv-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+:is(.iv-hero-grid, .iv-svc-grid) > div:first-child > :nth-child(2), .iv-page-hero > .iv-container > :nth-child(2) { animation-delay: 0.08s; }
+:is(.iv-hero-grid, .iv-svc-grid) > div:first-child > :nth-child(3), .iv-page-hero > .iv-container > :nth-child(3) { animation-delay: 0.16s; }
+:is(.iv-hero-grid, .iv-svc-grid) > div:first-child > :nth-child(4), .iv-page-hero > .iv-container > :nth-child(4) { animation-delay: 0.24s; }
+:is(.iv-hero-grid, .iv-svc-grid) > div:first-child > :nth-child(n+5), .iv-page-hero > .iv-container > :nth-child(n+5) { animation-delay: 0.32s; }
+:is(.iv-frame, .iv-svc-media) .iv-ph img { animation: iv-settle 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.iv-mark::after { transform-origin: left; animation: iv-draw 0.8s 0.5s cubic-bezier(0.6, 0, 0.2, 1) both; }
+.iv-sticker { animation: iv-rise 0.6s 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both, iv-float 5s 1.4s ease-in-out infinite; }
+.iv-hero-bolt { animation: iv-glow 6s ease-in-out infinite; }
+
+/* Aparición al hacer scroll (clases que pone Motion.tsx) */
+.iv-rv { opacity: 0; transform: translateY(22px); transition: opacity 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) var(--iv-d, 0ms), transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) var(--iv-d, 0ms) !important; }
+.iv-rv.iv-in { opacity: 1; transform: none; }
+
+/* Fotos: recorte propio + zoom suave al pasar el mouse por la tarjeta */
+.iv-ph { position: absolute; inset: 0; overflow: hidden; display: block; }
+.iv-ph img { transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+:is(.iv-serv, .iv-proj):hover .iv-ph img { transform: scale(1.06); }
+
+/* Flechas que acompañan el hover */
+.iv-btn svg, .iv-link svg, .iv-mini svg:last-child { transition: transform 0.2s; }
+.iv-btn:hover svg { transform: translateX(3px); }
+:is(.iv-serv, .iv-guide-card):hover .iv-link svg, .iv-mini:hover svg:last-child { transform: translate(2px, -2px); }
+
+/* Más detalles al pasar el mouse */
+:is(.iv-serv, .iv-proj) .iv-badge, .iv-step-n { transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.iv-serv:hover .iv-badge, .iv-step:hover .iv-step-n { transform: rotate(-8deg) scale(1.08); }
+.iv-btn:not(.iv-btn-ghost, .iv-btn-wa) { position: relative; overflow: hidden; }
+.iv-btn:not(.iv-btn-ghost, .iv-btn-wa)::before { content: ''; position: absolute; top: 0; bottom: 0; left: -45%; width: 35%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent); transform: skewX(-20deg); pointer-events: none; }
+.iv-btn-dark::before { background: linear-gradient(100deg, transparent, rgba(255,255,255,0.18), transparent) !important; }
+.iv-btn:not(.iv-btn-ghost, .iv-btn-wa):hover::before { transform: skewX(-20deg) translateX(480%); transition: transform 0.7s ease; }
+.iv-nav-links a { position: relative; }
+.iv-nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; background: var(--y); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; }
+.iv-nav-links a:hover::after, .iv-nav-links a.is-active::after { transform: scaleX(1); }
+.iv-faq details[open] > p { animation: iv-rise 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.iv-trust-item { animation: iv-rise 0.6s 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.iv-trust-item:nth-child(2) { animation-delay: 0.43s; }
+.iv-trust-item:nth-child(3) { animation-delay: 0.51s; }
+.iv-trust-item:nth-child(4) { animation-delay: 0.59s; }
+
+/* WhatsApp flotante: un pulso cada pocos segundos */
+.iv-wafab::after { content: ''; position: absolute; inset: -1.5px; border-radius: inherit; border: 2px solid #25D366; pointer-events: none; animation: iv-ring 3.2s 2s ease-out infinite; opacity: 0; }
+
+/* Técnico que señala el WhatsApp (WaGuide.tsx) */
+@keyframes iv-peek { from { transform: translateY(105%); } to { transform: none; } }
+@keyframes iv-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes iv-point { 0%, 60%, 100% { transform: rotate(var(--arm)); } 70%, 90% { transform: rotate(calc(var(--arm) - 9deg)); } 80% { transform: rotate(calc(var(--arm) + 3deg)); } }
+@keyframes iv-blink { 0%, 94%, 100% { transform: none; } 97% { transform: scaleY(0.1); } }
+@keyframes iv-leave { to { transform: translateY(150%); visibility: hidden; } }
+.iv-tech { --arm: 0deg; position: fixed; z-index: 59; right: 172px; bottom: 0; width: 104px; height: 118px; pointer-events: none; }
+.iv-tech-fig { position: absolute; inset: 0; display: block; pointer-events: auto; animation: iv-peek 0.8s 2.5s cubic-bezier(0.2, 0.8, 0.3, 1.1) both; }
+.iv-tech-arm { transform-box: view-box; transform-origin: 88px 116px; transform: rotate(var(--arm)); animation: iv-point 2.6s 3.6s ease-in-out infinite; }
+.iv-tech-eyes { transform-box: fill-box; transform-origin: center; animation: iv-blink 5s 4s infinite; }
+.iv-tech-bubble { position: absolute; right: -12px; bottom: calc(100% + 12px); width: 228px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); padding: 0.75rem 2rem 0.75rem 0.9rem; font-size: 0.86rem; line-height: 1.4; pointer-events: auto; transform-origin: 70% 100%; animation: iv-pop 0.45s 3.3s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+.iv-tech-bubble::after { content: ''; position: absolute; right: 52px; bottom: -8px; width: 14px; height: 14px; background: var(--paper); border-right: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); transform: rotate(45deg); }
+.iv-tech-bubble a { color: var(--ink); text-decoration: none; }
+.iv-tech-bubble strong { display: block; font-family: var(--fh); font-weight: 700; color: #128c4a; }
+.iv-tech-bubble a:hover strong { text-decoration: underline; }
+.iv-tech-x { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border: 0; background: transparent; color: var(--muted); font-size: 1.2rem; line-height: 1; cursor: pointer; border-radius: 6px; }
+.iv-tech-x:hover { background: var(--alt); color: var(--ink); }
+@media (max-width: 760px) {
+  .iv-tech { --arm: 58deg; right: auto; left: 6px; bottom: 52px; width: 66px; height: 75px; animation: iv-leave 0.6s 14s ease-in forwards; }
+  .iv-tech-bubble { right: auto; left: calc(100% - 4px); bottom: 34px; width: 196px; font-size: 0.8rem; transform-origin: 0 100%; }
+  .iv-tech-bubble::after { right: auto; left: -8px; bottom: 14px; transform: rotate(135deg); }
+}
+@media print { .iv-tech { display: none; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .iv * { transition: none !important; }
+  .iv *, .iv *::after { animation: none !important; }
+  .iv-rv { opacity: 1; transform: none; }
 }
