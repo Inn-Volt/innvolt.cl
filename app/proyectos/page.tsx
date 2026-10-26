@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Shell, Photo, CtaBand, ReviewsCta } from '../_site/ui';
 import { PROJECTS } from '../_site/content';
+import GoogleReviews from '../_site/GoogleReviews';
 
 export const metadata: Metadata = {
   title: 'Proyectos y trabajos realizados',
@@ -32,7 +33,7 @@ export default function Page() {
             ))}
           </div>
           <div style={{ marginTop: '2.5rem' }}>
-            <ReviewsCta title="¿Fuiste parte de alguno de estos proyectos?" />
+            <GoogleReviews><ReviewsCta title="¿Fuiste parte de alguno de estos proyectos?" /></GoogleReviews>
           </div>
         </div>
       </section>

@@ -17,6 +17,8 @@ export const SITE = {
   /* Google Business Profile (zona de servicio, sin dirección pública) */
   googleProfile: 'https://www.google.com/maps?cid=1778810802144558114',
   googleReview: 'https://g.page/r/CSI8dAAAm68YEBM/review',
+  /* ID de la ficha en Google (Places API). Es público y se puede guardar; las reseñas no (se piden en cada visita) */
+  googlePlaceId: 'ChIJNVZfLhFyNoYRIjx0AACbrxg',
   /* Código de verificación de Google Search Console (método "Etiqueta HTML"): solo el valor de content="..." */
   googleVerification: '',
 };

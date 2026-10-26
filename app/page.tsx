@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Zap } from 'lucide-react';
 import { Shell, Photo, SecSeal, TrustStrip, Art, FaqList, CtaBand, ReviewsCta, waElec } from './_site/ui';
+import GoogleReviews from './_site/GoogleReviews';
 import { CATEGORIES, TECNOLOGIA, ENERGIA_MAS, HOME_FAQS, ZONA_CORTA, SITE } from './_site/content';
 
 export default function Page() {
@@ -112,7 +113,7 @@ export default function Page() {
           </div>
         </div>
         <div className="iv-container" style={{ marginTop: '2.5rem' }}>
-          <ReviewsCta />
+          <GoogleReviews><ReviewsCta /></GoogleReviews>
         </div>
       </section>
 

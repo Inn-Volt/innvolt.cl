@@ -456,6 +456,34 @@ textarea.iv-input { resize: vertical; }
 /* WhatsApp flotante: un pulso cada pocos segundos */
 .iv-wafab::after { content: ''; position: absolute; inset: -1.5px; border-radius: inherit; border: 2px solid #25D366; pointer-events: none; animation: iv-ring 3.2s 2s ease-out infinite; opacity: 0; }
 
+/* Reseñas de Google en cinta (GoogleReviews.tsx) */
+@keyframes iv-marquee { to { transform: translateX(calc(-50% - 0.625rem)); } }
+.iv-gr { margin-bottom: 2.5rem; }
+.iv-gr-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.2rem 1.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.iv-gr-score { display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.6rem 1rem; background: var(--paper); color: var(--ink); text-decoration: none; border: 1.5px solid var(--line); border-radius: var(--r); box-shadow: 3px 3px 0 var(--ink); }
+.iv-gr-score strong { font-family: var(--fh); font-weight: 800; font-size: 2rem; font-stretch: 112%; line-height: 1; }
+.iv-gr-score small { display: block; margin-top: 0.2rem; color: var(--muted); font-size: 0.8rem; }
+.iv-gr-gm { white-space: nowrap; font-weight: 600; }
+.iv-gr-view { overflow: hidden; padding: 0.3rem 0 0.9rem; -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
+.iv-gr-track { display: flex; gap: 1.25rem; width: max-content; padding-left: 4px; animation: iv-marquee linear infinite; }
+.iv-gr-view:hover .iv-gr-track, .iv-gr-view:focus-within .iv-gr-track { animation-play-state: paused; }
+.iv-gr-static { -webkit-mask-image: none; mask-image: none; }
+.iv-gr-static .iv-gr-track { width: auto; flex-wrap: wrap; animation: none; }
+.iv-gr-card { flex: 0 0 320px; display: flex; flex-direction: column; gap: 0.6rem; padding: 1.3rem 1.3rem 1.1rem; box-shadow: 3px 3px 0 var(--ink); }
+.iv-gr-static .iv-gr-card { flex: 1 1 300px; max-width: 420px; }
+.iv-gr-who { display: flex; align-items: center; gap: 0.7rem; }
+.iv-gr-who img, .iv-gr-ini { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+.iv-gr-ini { display: flex; align-items: center; justify-content: center; background: var(--y); border: 1.5px solid var(--line); font-family: var(--fh); font-weight: 800; }
+.iv-gr-who a, .iv-gr-who b { display: block; font-family: var(--fh); font-weight: 700; font-size: 0.95rem; color: var(--ink); text-decoration: none; }
+.iv-gr-who a:hover { text-decoration: underline; }
+.iv-gr-who small { color: var(--muted); font-size: 0.78rem; }
+.iv-gr-stars { position: relative; display: inline-block; align-self: flex-start; color: #d8d3c4; font-size: 1rem; letter-spacing: 2px; line-height: 1; }
+.iv-gr-stars span + span { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: #e0a800; }
+.iv-gr-card p { margin: 0; color: #3a362c; font-size: 0.92rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.iv-gr-src { margin-top: auto; color: var(--yt); font-size: 0.8rem; font-weight: 600; text-decoration: none; }
+.iv-gr-src:hover { text-decoration: underline; }
+@media (max-width: 760px) { .iv-gr-card { flex-basis: 272px; } }
+
 /* Técnico que señala el WhatsApp (WaGuide.tsx) */
 @keyframes iv-peek { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes iv-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
@@ -485,4 +513,5 @@ textarea.iv-input { resize: vertical; }
   .iv * { transition: none !important; }
   .iv *, .iv *::after { animation: none !important; }
   .iv-rv { opacity: 1; transform: none; }
+  .iv-gr-view { overflow-x: auto; }
 }
