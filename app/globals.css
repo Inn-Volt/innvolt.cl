@@ -297,6 +297,38 @@ textarea.iv-input { resize: vertical; }
 .iv-sim-sw-y { background: var(--y); border: 1.2px solid var(--ink); }
 .iv-sim-sw-l { border-top: 2px dashed var(--ink); height: 0; }
 .iv-sim-disclaimer { grid-column: 1 / -1; margin-top: 0; }
+.iv-seg-sm button { padding: 0.55rem 0.5rem; font-size: 0.82rem; }
+.iv-seg-4 { grid-template-columns: repeat(4, 1fr); }
+.iv-seg-4 button { padding: 0.6rem 0.3rem; font-size: 0.8rem; }
+.iv-row-3 { grid-template-columns: repeat(3, 1fr); }
+.iv-months { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+.iv-month { display: flex; flex-direction: column; gap: 0.2rem; font-family: var(--fh); font-weight: 700; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.iv-month .iv-input, .iv-load .iv-input { padding: 0.45rem 0.5rem; font-size: 0.86rem; }
+.iv-loads { display: grid; gap: 0.45rem; }
+.iv-load { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.85fr) repeat(4, minmax(0, 0.58fr)) 30px; gap: 0.3rem; align-items: center; }
+.iv-load input[type=number] { -moz-appearance: textfield; appearance: textfield; padding: 0.45rem 0.35rem; text-align: center; }
+.iv-load input[type=number]::-webkit-outer-spin-button, .iv-load input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.iv-load-head span { font-family: var(--fh); font-weight: 700; font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.iv-load-cell { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.iv-load-cap { display: none; font-family: var(--fh); font-weight: 700; font-size: 0.62rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.iv-load-del { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); cursor: pointer; }
+.iv-load-del:hover { background: #fde8e8; }
+.iv-sim-calc { margin-top: 1.2rem; border: 1.5px solid var(--line); border-radius: 9px; background: var(--bg); padding: 0.8rem 1rem; }
+.iv-sim-calc summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.5rem; font-family: var(--fh); font-weight: 700; font-size: 0.92rem; }
+.iv-sim-calc summary svg:last-child { margin-left: auto; }
+.iv-sim-calc summary::-webkit-details-marker { display: none; }
+.iv-sim-calc[open] summary svg:last-child { transform: rotate(180deg); }
+.iv-sim-calc ol { margin: 0.9rem 0 0.2rem; padding-left: 1.2rem; display: grid; gap: 0.55rem; font-size: 0.88rem; line-height: 1.5; color: #3d3a33; }
+.iv-sim-sw-c { background: #cfcabd; border: 1.2px solid var(--ink); }
+@media (max-width: 640px) {
+  .iv-months { grid-template-columns: repeat(3, 1fr); }
+  .iv-row-3 { grid-template-columns: 1fr 1fr; }
+  .iv-load-head { display: none; }
+  .iv-load { grid-template-columns: repeat(5, minmax(0, 1fr)) 30px; padding-bottom: 0.6rem; border-bottom: 1px dashed rgba(26,24,19,0.2); }
+  .iv-load > .iv-input:first-child { grid-column: 1 / -1; }
+  .iv-load-cap { display: block; }
+  .iv-load-del { align-self: end; }
+}
 @media (max-width: 980px) { .iv-sim { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .iv-sim-kpis { grid-template-columns: 1fr; } .iv-sim-range { grid-template-columns: 1fr 90px; } }
 
