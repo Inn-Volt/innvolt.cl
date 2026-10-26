@@ -42,6 +42,9 @@ const FOCUS: Record<string, string> = {
   '/fotos/medicion-pinza.jpg': 'center 62%',
   '/domotica-1.jpg': 'center 60%',
   '/acceso-1.jpg': 'center 48%',
+  '/fotos/solar-inversor-hibrido.jpg': 'center 38%',
+  '/fotos/solar-inversor-rotulado.jpg': 'center 40%',
+  '/fotos/solar-inversor-tablero.jpg': 'center 28%',
 };
 export const focus = (src?: string | null) => (src && FOCUS[src]) || 'center';
 
@@ -279,9 +282,8 @@ export const SERVICES: Service[] = [
     metaDesc: 'Evaluación e instalación de paneles solares para hogares y empresas: inversores, baterías y monitoreo según tu consumo. Instaladores autorizados SEC.',
     intro: 'Un sistema solar bien dimensionado te permite generar parte de la energía que consumes. Pero cada inmueble es distinto: por eso partimos evaluando tu consumo, tu techo y tu instalación eléctrica antes de proponer cualquier equipo.',
     icon: Sun,
-    img: null,
-    imgAlt: '',
-    art: 'solar',
+    img: '/fotos/solar-techo.jpg',
+    imgAlt: 'Paneles solares instalados por InnVolt en un techo plano, al atardecer',
     problems: [
       'Tu cuenta de luz es alta y quieres generar parte de tu energía.',
       'Quieres saber si tu techo y tu instalación sirven para paneles.',
@@ -467,9 +469,8 @@ export const SERVICES: Service[] = [
     metaDesc: 'Net billing: inyecta a la red la energía solar que no usas y descuéntala de tu cuenta. Instalación y declaración TE4 ante la SEC (Ley 21.118).',
     intro: 'El net billing te permite inyectar a la red la energía solar que no consumes y recibir un descuento en tu cuenta de luz. Para acogerte, la instalación debe estar bien conectada y declarada ante la SEC.',
     icon: SunMedium,
-    img: null,
-    imgAlt: '',
-    art: 'solar',
+    img: '/fotos/solar-paneles-reflejo.jpg',
+    imgAlt: 'Paneles fotovoltaicos instalados en un techo, reflejando el atardecer',
     problems: [
       'Tienes o quieres paneles solares y aprovechar los excedentes.',
       'Instalaste paneles y nunca se declararon ante la SEC.',
@@ -512,9 +513,8 @@ export const SERVICES: Service[] = [
     metaDesc: 'Baterías de almacenamiento y sistemas solares híbridos: respaldo ante cortes de luz y uso de tu energía solar de noche, dimensionados según lo que necesitas respaldar.',
     intro: 'Agrega baterías a tu sistema solar para tener respaldo ante cortes de luz y usar tu propia energía de noche. Instalamos sistemas híbridos (solar + batería) dimensionados según lo que realmente quieres respaldar.',
     icon: BatteryCharging,
-    img: null,
-    imgAlt: '',
-    art: 'bateria',
+    img: '/fotos/solar-inversor-hibrido.jpg',
+    imgAlt: 'Inversor híbrido instalado por InnVolt, con los procedimientos de encendido y apagado rotulados',
     problems: [
       'Los cortes de luz afectan tu casa o tu negocio.',
       'Generas energía de día y quieres usarla de noche.',
@@ -874,18 +874,24 @@ export const ZONAS = SERVICES.filter(s => s.line === 'zona');
 export const CATEGORIES = [
   { slug: 'instalaciones-electricas', title: 'Instalaciones eléctricas', desc: 'Domiciliarias, comerciales e industriales: nuevas, ampliaciones y modificaciones.', img: '/fotos/instalacion-tda.jpg', icon: Zap },
   { slug: 'mantencion-electrica', title: 'Tableros, mantención y normalización', desc: 'Tableros bien dimensionados, mantención preventiva y reparación de fallas.', img: '/fotos/termografia-tablero.jpg', icon: Gauge },
-  { slug: 'paneles-solares-santiago', title: 'Energía solar y eficiencia', desc: 'Proyectos fotovoltaicos y gestión de energía, según la evaluación de tu consumo.', img: null, icon: Sun },
+  { slug: 'paneles-solares-santiago', title: 'Energía solar y eficiencia', desc: 'Proyectos fotovoltaicos y gestión de energía, según la evaluación de tu consumo.', img: '/fotos/solar-paneles-atardecer.jpg', icon: Sun },
   { slug: 'proyectos-electricos', title: 'Evaluación y proyectos', desc: 'Levantamientos técnicos, proyectos eléctricos y certificación SEC (TE1).', img: '/fotos/te1-planos.jpg', icon: ClipboardCheck },
 ];
 
 /* Trabajos con fotos reales de InnVolt (sin duplicados) */
 export const PROJECTS = [
+  { img: '/fotos/solar-techo.jpg', cat: 'Energía solar', t: 'Sistema fotovoltaico en techo plano', href: '/paneles-solares-santiago' },
+  { img: '/fotos/solar-inversor-hibrido.jpg', cat: 'Respaldo', t: 'Inversor híbrido con baterías y procedimientos rotulados', href: '/baterias-almacenamiento-energia' },
+  { img: '/fotos/solar-bateria.jpg', cat: 'Baterías', t: 'Batería de litio para respaldo de energía', href: '/baterias-almacenamiento-energia' },
   { img: '/fotos/instalacion-tda.jpg', cat: 'Instalación', t: 'Instalación eléctrica en vivienda nueva', href: '/instalaciones-electricas' },
   { img: '/fotos/tablero-medicion.jpg', cat: 'Tableros', t: 'Revisión de tablero general', href: '/tableros-electricos' },
   { img: '/fotos/termografia-tablero.jpg', cat: 'Mantención', t: 'Mantención preventiva con medición de temperatura', href: '/mantencion-electrica' },
   { img: '/fotos/empalme-poste-abierto.jpg', cat: 'Empalme', t: 'Empalme y protección en exterior', href: '/aumento-de-capacidad-empalme' },
   { img: '/fotos/te1-planos.jpg', cat: 'Certificación', t: 'Proyecto y declaración TE1', href: '/certificacion-te1' },
   { img: '/fotos/medicion-pinza.jpg', cat: 'Eficiencia', t: 'Medición de consumo en tablero', href: '/eficiencia-energetica' },
+  { img: '/fotos/solar-inversor-tablero.jpg', cat: 'Energía solar', t: 'Montaje de inversor y tablero fotovoltaico', href: '/paneles-solares-santiago' },
+  { img: '/fotos/solar-inversor-rotulado.jpg', cat: 'Energía solar', t: 'Inversor con encendido y apagado de emergencia rotulados', href: '/paneles-solares-santiago' },
+  { img: '/fotos/solar-paneles-reflejo.jpg', cat: 'Energía solar', t: 'Arreglo de paneles fotovoltaicos', href: '/paneles-solares-netbilling' },
   { img: '/pantallas-1.jpg', cat: 'Tecnología', t: 'Pantalla LED en acceso comercial', href: '/pantallas-led' },
   { img: '/acceso-1.jpg', cat: 'Tecnología', t: 'Control de acceso biométrico', href: '/camaras-cctv-santiago' },
   { img: '/redes-1.jpg', cat: 'Tecnología', t: 'Controladora de accesos y cableado', href: '/redes-cableado-estructurado' },

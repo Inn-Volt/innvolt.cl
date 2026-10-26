@@ -6,7 +6,7 @@ import { PROJECTS } from '../_site/content';
 
 export const metadata: Metadata = {
   title: 'Proyectos y trabajos realizados',
-  description: 'Trabajos de InnVolt en instalaciones eléctricas, tableros, mantención, empalmes, certificación TE1 y soluciones tecnológicas.',
+  description: 'Trabajos de InnVolt en instalaciones eléctricas, energía solar y baterías, tableros, mantención, empalmes, certificación TE1 y soluciones tecnológicas.',
   alternates: { canonical: '/proyectos' },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
         <div className="iv-container">
           <Link href="/" className="iv-crumb"><ArrowLeft size={13} /> Inicio</Link>
           <h1>Proyectos y trabajos</h1>
-          <p className="iv-lead">Una selección de trabajos en electricidad y tecnología. Iremos sumando más proyectos con su descripción y alcance.</p>
+          <p className="iv-lead">Una selección de trabajos en electricidad, energía solar y tecnología. Iremos sumando más proyectos con su descripción y alcance.</p>
         </div>
       </section>
 

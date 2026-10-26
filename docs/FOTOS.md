@@ -13,11 +13,13 @@ Nada de fotos de internet presentadas como trabajos propios.
 | `tableros.jpg` | Tablero abierto, terminado, con rotulado | Puedes hacer un "antes / después" (dos fotos con el mismo encuadre) |
 | `evaluacion.jpg` | Medición con instrumento (multímetro, pinza) o revisión de planos | Las manos trabajando funcionan muy bien |
 
-## 2. Energía solar (página propia)
-- `solar-techo.jpg` — vista general del sistema en el techo
-- `solar-inversor.jpg` — inversor instalado, con el cableado ordenado
-- `solar-bateria.jpg` — baterías / respaldo (si han instalado)
+## 2. Energía solar (página propia) ✅ recibidas (oct 2026)
+En `public/fotos/`: `solar-techo`, `solar-paneles-reflejo`, `solar-paneles-atardecer`,
+`solar-inversor-hibrido`, `solar-inversor-rotulado`, `solar-inversor-tablero`, `solar-bateria`.
+Aún faltan:
+- Paneles **de día** con cielo despejado (para variar el atardecer)
 - `solar-monitoreo.jpg` — pantalla o app mostrando la generación (vertical sirve)
+- Cargador de auto eléctrico instalado (la página usa una ilustración)
 
 ## 3. Por servicio (una por página)
 - `mantencion.jpg` — revisión preventiva o reemplazo de componentes
