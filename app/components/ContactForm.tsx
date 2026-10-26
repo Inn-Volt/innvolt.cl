@@ -2,33 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import emailjs from '@emailjs/browser';
-
-/*
-  ────────────────────────────────────────────────────────────────
-  ENVÍO DEL FORMULARIO — EmailJS (https://www.emailjs.com)
-  Plantillas en la cuenta de innvolt.cl@gmail.com. Variables disponibles:
-    {{nombre}} {{empresa}} {{correo}} {{telefono}} {{telefono_wsp}} {{servicio}} {{comuna}} {{mensaje}}
-  La comuna también va al inicio de {{mensaje}}, para que llegue aunque la plantilla no use {{comuna}}.
-  Seguridad: en EmailJS → Account → Security, dejar permitido solo el dominio innvolt.cl.
-  ────────────────────────────────────────────────────────────────
-*/
-const EMAILJS_SERVICE = process.env.NEXT_PUBLIC_EMAILJS_SERVICE || 'service_mlfn0ko';
-// Plantilla 1 — notificación a INNVOLT (To Email = innvolt.cl@gmail.com)
-const EMAILJS_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE || 'template_sslbsye';
-// Plantilla 2 — auto-respuesta al cliente (To Email = {{correo}})
-const EMAILJS_AUTOREPLY_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY || 'template_831bjze';
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_KEY || '1QTEELvSjsm0CRIff';
-
-// Normaliza un teléfono chileno a formato wa.me (solo dígitos, con código país 56).
-function toWaNumber(raw: unknown): string {
-  const d = String(raw || '').replace(/\D/g, '');
-  if (!d) return '';
-  if (d.startsWith('56')) return d;
-  if (d.length === 9 && d.startsWith('9')) return '56' + d;
-  if (d.length === 8) return '569' + d;
-  return d;
-}
+import { sendLead } from '../_site/emailjs';
 
 const TIPOS: { grupo: string; items: string[] }[] = [
   {
@@ -58,33 +32,21 @@ export default function ContactForm({ defaultService }: { defaultService?: strin
       return;
     }
 
-    const correo = String(fd.get('correo') || '');
-    const telefono = String(fd.get('telefono') || '');
-    const comuna = String(fd.get('comuna') || '').trim();
-    const mensaje = String(fd.get('mensaje') || '');
-
-    const params = {
-      nombre: fd.get('nombre'),
-      empresa: fd.get('empresa'),
-      correo,
-      telefono,
-      telefono_wsp: toWaNumber(telefono),
-      servicio: fd.get('servicio'),
-      comuna,
-      mensaje: comuna ? `Comuna: ${comuna}\n\n${mensaje}` : mensaje,
-      reply_to: correo,
-    };
-
+    const servicio = String(fd.get('servicio') || '');
     setSt('sending');
     try {
-      // 1) Notificación a INNVOLT (crítico)
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY });
-      // 2) Auto-respuesta al cliente (best-effort: si falla, no afecta el éxito del envío)
-      emailjs.send(EMAILJS_SERVICE, EMAILJS_AUTOREPLY_TEMPLATE, params, { publicKey: EMAILJS_PUBLIC_KEY }).catch(() => {});
-
+      await sendLead({
+        nombre: String(fd.get('nombre') || ''),
+        empresa: String(fd.get('empresa') || ''),
+        correo: String(fd.get('correo') || ''),
+        telefono: String(fd.get('telefono') || ''),
+        servicio,
+        comuna: String(fd.get('comuna') || ''),
+        mensaje: String(fd.get('mensaje') || ''),
+      });
       ref.current.reset();
       setSt('ok');
-      window.gtag?.('event', 'generate_lead', { method: 'form', service: String(params.servicio || '') });
+      window.gtag?.('event', 'generate_lead', { method: 'form', service: servicio });
     } catch {
       setSt('err');
     }

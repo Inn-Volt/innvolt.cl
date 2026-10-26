@@ -2,7 +2,17 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Sun, Zap, LayoutGrid, Percent, Wallet, ChevronDown, BatteryCharging, Cpu, Plus, Trash2, Calculator } from 'lucide-react';
+import { Sun, Zap, LayoutGrid, Percent, Wallet, ChevronDown, BatteryCharging, Cpu, Plus, Trash2, Calculator, Send, ClipboardList } from 'lucide-react';
+import { sendLead } from './emailjs';
+
+/* Preguntas para que InnVolt sepa qué requiere el cliente antes de llamarlo (todas opcionales) */
+const PREGUNTAS = {
+  inmueble: { label: 'Tipo de inmueble', opciones: ['Casa', 'Departamento / condominio', 'Comercio u oficina', 'Industria / bodega', 'Campo o cabaña'] },
+  techo: { label: 'Tipo de techo', opciones: ['Zinc / planchas metálicas', 'Teja', 'Losa (techo plano)', 'Otro / no sé'] },
+  objetivo: { label: 'Objetivo principal', opciones: ['Bajar la cuenta de luz', 'Respaldo ante cortes', 'Independizarme de la red', 'Cargar un auto eléctrico'] },
+  empalme: { label: 'Empalme', opciones: ['Monofásico', 'Trifásico', 'No sé'] },
+} as const;
+type PreguntaKey = keyof typeof PREGUNTAS;
 
 /*
   Simulador basado en el método de cálculo de InnVolt (planilla "CÁLCULOS PROYECTO FV"):
@@ -74,6 +84,11 @@ export default function SolarSimulator() {
   const [voltaje, setVoltaje] = useState(48);
   const [dod, setDod] = useState(0.8);
   const [modulo, setModulo] = useState(5);
+  /* Requerimientos del cliente y envío */
+  const [extra, setExtra] = useState<Record<PreguntaKey, string>>({ inmueble: '', techo: '', objetivo: '', empalme: '' });
+  const [cortes, setCortes] = useState('');
+  const [contacto, setContacto] = useState({ nombre: '', telefono: '', correo: '', comuna: '', nota: '' });
+  const [envio, setEnvio] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
 
   const r = useMemo(() => {
     const z = ZONAS[zona];
@@ -147,10 +162,59 @@ export default function SolarSimulator() {
   const nuevaCarga = () =>
     setCargas(cs => [...cs, { id: Math.max(0, ...cs.map(c => c.id)) + 1, nombre: 'Nuevo equipo', w: 100, cant: 1, horas: 1, uso: 1, fp: 1 }]);
 
-  const waMsg =
-    `Hola, usé el simulador solar de innvolt.cl. Sistema ${modo === 'red' ? 'conectado a la red' : 'aislado (sin red)'}, zona ${ZONAS[zona].label}. ` +
-    `Consumo: ${nf1.format(r.diaria)} kWh/día. Resultado: ${nf1.format(r.kwp)} kWp (${r.paneles} paneles de ${panelW} W)` +
-    (r.bateriaKwh > 0 ? `, baterías ${nf1.format(r.bateriaKwh)} kWh` : '') + '. Quiero una evaluación real.';
+  /* ── Ficha de requerimiento: todo lo que el cliente ingresó + el resultado, para que InnVolt cotice con claridad ── */
+  const ficha = (() => {
+    const L: string[] = [];
+    L.push('SIMULACIÓN SOLAR · innvolt.cl');
+    L.push(`Tipo de sistema: ${modo === 'red' ? 'Con red (net billing)' : 'Sin red (aislado)'}`);
+    L.push(`Zona: ${ZONAS[zona].label}`);
+    const req = (Object.keys(PREGUNTAS) as PreguntaKey[]).filter(k => extra[k]).map(k => `${PREGUNTAS[k].label}: ${extra[k]}`);
+    if (cortes) req.push(`Cortes de luz frecuentes: ${cortes}`);
+    if (req.length) L.push(...req);
+    L.push('', 'CONSUMO');
+    if (modo === 'red') {
+      L.push(porMes
+        ? `Mes a mes (kWh): ${MESES.map((m, i) => `${m} ${nf.format(meses[i])}`).join(', ')}`
+        : `Promedio mensual: ${nf.format(consumo)} kWh`);
+      if (extraDia !== '' && extraDia > 0) L.push(`Consumo extra proyectado: ${nf1.format(extraDia)} kWh/día`);
+      if (boleta !== '') L.push(`Total boleta: $${nf.format(boleta)}${r.precioKwh ? ` (≈ $${nf.format(r.precioKwh)} por kWh)` : ''}`);
+    } else {
+      L.push('Equipos:');
+      cargas.forEach(c => L.push(`- ${c.nombre}: ${nf.format(c.w)} W × ${c.cant}, ${nf1.format(c.horas)} h/día, uso ${nf2.format(c.uso)}, FP ${nf2.format(c.fp)}`));
+    }
+    L.push(`Energía diaria: ${nf2.format(r.diaria)} kWh (${nf2.format(r.diariaDiseno)} con holgura ${holgura}%)`);
+    L.push('', 'RESULTADO REFERENCIAL');
+    L.push(`Sistema: ${nf2.format(r.kwp)} kWp (${r.paneles} paneles de ${panelW} W) · techo aprox. ${nf.format(r.superficie)} m²${techo !== '' ? ` (disponible: ${nf.format(techo)} m²)` : ''}`);
+    L.push(`HSP de diseño: ${nf2.format(r.hsp)} (${hspManual !== '' ? 'manual' : r.disenoInvierno ? 'peor mes, PVGIS' : 'promedio anual, PVGIS'})`);
+    L.push(`Generación estimada: ${nf.format(r.prodAnual)} kWh/año · consumo ${nf.format(r.consumoAnual)} kWh/año${modo === 'red' ? ` · cubre ${nf.format(r.cobertura)}%` : ''}`);
+    L.push(`Inversor: ≥ ${nf1.format(r.inversorKw)} ${modo === 'aislado' ? 'kVA' : 'kW'}`);
+    L.push(r.bateriaKwh > 0
+      ? `Baterías: ${nf1.format(r.bateriaKwh)} kWh (${r.dias} día(s) de autonomía, ${QUIMICAS[quimica].label}) → ${r.modulos} módulo(s) de ${nf1.format(modulo)} kWh`
+      : 'Baterías: no');
+    if (r.ahorroMensual !== null) L.push(`Ahorro referencial: hasta $${nf.format(Math.round(r.ahorroMensual / 100) * 100)} al mes`);
+    if (contacto.nota.trim()) L.push('', `Comentario del cliente: ${contacto.nota.trim()}`);
+    return L.join('\n');
+  })();
+
+  const waMsg = `Hola, quiero una evaluación con mi simulación solar.\n\n${ficha}`;
+
+  async function enviarCorreo(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    if (fd.get('company_website')) { setEnvio('ok'); return; } // antispam (honeypot)
+    setEnvio('sending');
+    try {
+      await sendLead({
+        nombre: contacto.nombre, correo: contacto.correo, telefono: contacto.telefono, comuna: contacto.comuna,
+        servicio: `Simulación solar · ${modo === 'red' ? 'con red' : 'sin red'}`,
+        mensaje: ficha,
+      });
+      setEnvio('ok');
+      window.gtag?.('event', 'generate_lead', { method: 'simulador', modo, kwp: r.kwp });
+    } catch {
+      setEnvio('err');
+    }
+  }
 
   return (
     <div className="iv-sim">
@@ -280,6 +344,27 @@ export default function SolarSimulator() {
             onChange={e => setTecho(e.target.value === '' ? '' : num(e.target.value))} />
         </div>
 
+        <fieldset className="iv-sim-field">
+          <legend className="iv-label">Cuéntanos más <span className="iv-opt">opcional · nos ayuda a preparar tu evaluación</span></legend>
+          <div className="iv-row">
+            {(Object.keys(PREGUNTAS) as PreguntaKey[]).map(k => (
+              <div key={k} className="iv-field">
+                <label className="iv-label" htmlFor={`sim-q-${k}`}>{PREGUNTAS[k].label}</label>
+                <select id={`sim-q-${k}`} className="iv-input" value={extra[k]} onChange={e => setExtra(x => ({ ...x, [k]: e.target.value }))}>
+                  <option value="">—</option>
+                  {PREGUNTAS[k].opciones.map(o => <option key={o}>{o}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+          <div className="iv-field" style={{ marginTop: '0.8rem' }}>
+            <label className="iv-label" htmlFor="sim-cortes">¿Tienes cortes de luz frecuentes?</label>
+            <select id="sim-cortes" className="iv-input" value={cortes} onChange={e => setCortes(e.target.value)}>
+              <option value="">—</option><option>Sí</option><option>No</option><option>A veces</option>
+            </select>
+          </div>
+        </fieldset>
+
         <details className="iv-sim-adv">
           <summary>Supuestos técnicos <ChevronDown size={16} /></summary>
           <div className="iv-row">
@@ -400,15 +485,55 @@ export default function SolarSimulator() {
         </details>
 
         <div className="iv-cta-row" style={{ marginTop: '1.4rem' }}>
-          <a
-            href={`https://wa.me/56966575447?text=${encodeURIComponent(waMsg)}`}
-            target="_blank" rel="noopener noreferrer" className="iv-btn"
-            onClick={() => window.gtag?.('event', 'simulator_cta', { modo, kwp: r.kwp, zona })}
-          >
-            Pedir evaluación con estos datos
-          </a>
+          <a href="#sim-enviar" className="iv-btn"><Send size={15} /> Enviar mi simulación</a>
           <Link href="/paneles-solares-santiago" className="iv-btn iv-btn-ghost">Cómo trabajamos la energía solar</Link>
         </div>
+      </section>
+
+      {/* ══════════ ENVÍO DE LA SIMULACIÓN ══════════ */}
+      <section id="sim-enviar" className="iv-card iv-sim-send">
+        <div className="iv-sim-send-head">
+          <h2 className="iv-sim-h">3. Recibe una evaluación con estos datos</h2>
+          <p className="iv-hint">Nos llega tu simulación completa (consumo, equipos y resultado), así te contactamos sabiendo exactamente qué necesitas.</p>
+        </div>
+
+        {envio === 'ok' ? (
+          <div className="iv-alert iv-alert-ok">✓ Recibimos tu simulación. Te contactaremos a la brevedad{contacto.correo ? `; te enviamos una copia a ${contacto.correo}` : ''}.</div>
+        ) : (
+          <form className="iv-form" onSubmit={enviarCorreo}>
+            <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true"
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
+            <div className="iv-row iv-row-4">
+              <Txt id="sim-nombre" label="Nombre *" required value={contacto.nombre} autoComplete="name" onChange={v => setContacto(c => ({ ...c, nombre: v }))} />
+              <Txt id="sim-tel" label="Teléfono / WhatsApp" type="tel" value={contacto.telefono} autoComplete="tel" onChange={v => setContacto(c => ({ ...c, telefono: v }))} />
+              <Txt id="sim-correo" label="Correo *" type="email" required value={contacto.correo} autoComplete="email" onChange={v => setContacto(c => ({ ...c, correo: v }))} />
+              <Txt id="sim-comuna" label="Comuna" value={contacto.comuna} autoComplete="address-level2" onChange={v => setContacto(c => ({ ...c, comuna: v }))} />
+            </div>
+            <div className="iv-field">
+              <label className="iv-label" htmlFor="sim-nota">Comentario <span className="iv-opt">opcional</span></label>
+              <textarea id="sim-nota" className="iv-input" rows={2} placeholder="Ej: tengo el techo con sombra en la tarde, quiero incluir un cargador…" value={contacto.nota}
+                onChange={e => setContacto(c => ({ ...c, nota: e.target.value }))} />
+            </div>
+
+            <details className="iv-sim-calc">
+              <summary><ClipboardList size={16} /> Ver lo que nos llega <ChevronDown size={16} /></summary>
+              <pre className="iv-sim-ficha">{ficha}</pre>
+            </details>
+
+            <div className="iv-cta-row" style={{ marginTop: '0.4rem' }}>
+              <button type="submit" className="iv-btn" disabled={envio === 'sending'}><Send size={15} /> {envio === 'sending' ? 'Enviando…' : 'Enviar por correo'}</button>
+              <a href={`https://wa.me/56966575447?text=${encodeURIComponent(waMsg)}`} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-wa"
+                onClick={() => window.gtag?.('event', 'simulator_cta', { metodo: 'whatsapp', modo, kwp: r.kwp, zona })}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/whatsapp.svg" alt="" width={15} height={15} /> Enviar por WhatsApp
+              </a>
+            </div>
+            {envio === 'err' && (
+              <div className="iv-alert iv-alert-err">No pudimos enviar el correo. Usa el botón de WhatsApp o escríbenos a innvolt.cl@gmail.com.</div>
+            )}
+            <p className="iv-legal">Usamos tus datos solo para responder tu solicitud. Más información en nuestra <Link href="/privacidad">política de privacidad</Link>.</p>
+          </form>
+        )}
       </section>
 
       <p className="iv-note iv-sim-disclaimer">
@@ -428,6 +553,17 @@ function Kpi({ icon, label, value, sub }: { icon: React.ReactNode; label: string
       <span className="iv-kpi-l">{icon} {label}</span>
       <span className="iv-kpi-v">{value}</span>
       <span className="iv-kpi-s">{sub}</span>
+    </div>
+  );
+}
+
+function Txt({ id, label, value, onChange, type = 'text', required = false, autoComplete }: {
+  id: string; label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; autoComplete?: string;
+}) {
+  return (
+    <div className="iv-field">
+      <label className="iv-label" htmlFor={id}>{label}</label>
+      <input id={id} className="iv-input" type={type} required={required} autoComplete={autoComplete} value={value} onChange={e => onChange(e.target.value)} />
     </div>
   );
 }
