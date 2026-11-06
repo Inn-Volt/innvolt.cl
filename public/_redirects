@@ -5,3 +5,7 @@
 # Esa regla es para apps SPA estáticas y ROMPE el enrutado/SSR de Next.js.
 # Next.js gestiona su propio enrutamiento (en Vercel este archivo se ignora;
 # en Netlify usar @netlify/plugin-nextjs).
+
+# Demo del Sistema de Gestión VSX (página estática, sin enlaces desde el sitio)
+/demo-vsx   /demo-vsx/            301
+/demo-vsx/  /demo-vsx/index.html  200
