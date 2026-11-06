@@ -221,6 +221,12 @@ textarea.iv-input { resize: vertical; }
 .iv-hint { font-size: 0.78rem; color: var(--muted); margin: 0.15rem 0 0; }
 .iv-form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .iv-form-actions .iv-btn { justify-content: center; }
+[id] { scroll-margin-top: 84px; }
+.iv-qq { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.iv-qq-form { position: relative; display: flex; flex-direction: column; gap: 1rem; padding: 1.8rem; }
+.iv-qq-form .iv-btn { justify-content: center; }
+.iv-opt { color: var(--muted); font-weight: 400; }
+@media (max-width: 860px) { .iv-qq { grid-template-columns: 1fr; } }
 .iv-legal { font-size: 0.76rem; color: var(--muted); line-height: 1.5; margin: 0; }
 .iv-legal a { color: var(--yt); }
 .iv-alert { padding: 0.9rem 1rem; border-radius: 8px; border: 1.5px solid; font-family: var(--fh); font-weight: 600; font-size: 0.88rem; }
@@ -490,11 +496,14 @@ textarea.iv-input { resize: vertical; }
 @keyframes iv-point { 0%, 60%, 100% { transform: rotate(var(--arm)); } 70%, 90% { transform: rotate(calc(var(--arm) - 9deg)); } 80% { transform: rotate(calc(var(--arm) + 3deg)); } }
 @keyframes iv-blink { 0%, 94%, 100% { transform: none; } 97% { transform: scaleY(0.1); } }
 @keyframes iv-leave { to { transform: translateY(150%); visibility: hidden; } }
-.iv-tech { --arm: 0deg; position: fixed; z-index: 59; right: 172px; bottom: 0; width: 104px; height: 118px; pointer-events: none; }
+@keyframes iv-fade { to { opacity: 0; visibility: hidden; } }
+.iv-tech { --arm: 0deg; position: fixed; z-index: 59; right: 172px; bottom: 0; width: 104px; height: 118px; pointer-events: none; transition: transform 0.45s ease, opacity 0.3s; }
+.iv-tech.is-quiet { transform: translateY(150%); opacity: 0; }
+.iv-tech.is-quiet * { pointer-events: none !important; }
 .iv-tech-fig { position: absolute; inset: 0; display: block; pointer-events: auto; animation: iv-peek 0.8s 2.5s cubic-bezier(0.2, 0.8, 0.3, 1.1) both; }
 .iv-tech-arm { transform-box: view-box; transform-origin: 88px 116px; transform: rotate(var(--arm)); animation: iv-point 2.6s 3.6s ease-in-out infinite; }
 .iv-tech-eyes { transform-box: fill-box; transform-origin: center; animation: iv-blink 5s 4s infinite; }
-.iv-tech-bubble { position: absolute; right: -12px; bottom: calc(100% + 12px); width: 228px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); padding: 0.75rem 2rem 0.75rem 0.9rem; font-size: 0.86rem; line-height: 1.4; pointer-events: auto; transform-origin: 70% 100%; animation: iv-pop 0.45s 3.3s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+.iv-tech-bubble { position: absolute; right: -12px; bottom: calc(100% + 12px); width: 228px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); padding: 0.75rem 2rem 0.75rem 0.9rem; font-size: 0.86rem; line-height: 1.4; pointer-events: auto; transform-origin: 70% 100%; animation: iv-pop 0.45s 3.3s cubic-bezier(0.3, 1.5, 0.5, 1) both, iv-fade 0.5s 16s forwards; }
 .iv-tech-bubble::after { content: ''; position: absolute; right: 52px; bottom: -8px; width: 14px; height: 14px; background: var(--paper); border-right: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); transform: rotate(45deg); }
 .iv-tech-bubble a { color: var(--ink); text-decoration: none; }
 .iv-tech-bubble strong { display: block; font-family: var(--fh); font-weight: 700; color: #128c4a; }

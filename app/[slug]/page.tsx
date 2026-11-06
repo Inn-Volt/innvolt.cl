@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Shell, Photo, Art, FaqList, CtaBand, SecSeal, JsonLd, waLink } from '../_site/ui';
+import QuickQuote from '../_site/QuickQuote';
 import { SERVICES, SITE, SIMULADOR_PUBLICO, getService, type Service } from '../_site/content';
 import { guidesForService } from '../_site/guias';
 
@@ -87,7 +88,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <h1>{s.title}</h1>
             <p className="iv-lead">{s.intro}</p>
             <div className="iv-cta-row">
-              <Link href="/contacto" className="iv-btn">Cotizar este servicio <ArrowRight size={16} /></Link>
+              <a href="#cotizar" className="iv-btn">Cotizar este servicio <ArrowRight size={16} /></a>
               {SIMULADOR_PUBLICO && SOLARES.has(s.slug)
                 ? <Link href="/simulador-solar" className="iv-btn iv-btn-ghost">Simula tus paneles</Link>
                 : <a href={waLink(s.wa)} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-ghost">Consultar por WhatsApp</a>}
@@ -161,6 +162,24 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* COTIZACIÓN RÁPIDA */}
+      <section className="iv-section" id="cotizar">
+        <div className="iv-container iv-qq">
+          <div>
+            <span className="iv-kicker">Cotiza sin vueltas</span>
+            <h2 className="iv-h2">Déjanos tu teléfono y te contactamos</h2>
+            <p className="iv-lead iv-mt">
+              Solo nombre y teléfono. Te llamamos o escribimos por WhatsApp para entender tu caso y coordinar la evaluación.
+            </p>
+            <a href={waLink(s.wa)} target="_blank" rel="noopener noreferrer" className="iv-btn iv-btn-wa iv-mt">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/whatsapp.svg" alt="" width={15} height={15} /> Prefiero escribir por WhatsApp
+            </a>
+          </div>
+          <QuickQuote servicio={s.name} pagina={`innvolt.cl/${s.slug}`} />
         </div>
       </section>
 

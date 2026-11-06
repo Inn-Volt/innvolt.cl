@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
   Técnico que aparece junto al botón de WhatsApp (escritorio) o sobre la barra inferior (móvil)
   y lo señala con un globo de texto. Se puede cerrar y queda cerrado en ese navegador.
   La entrada es solo CSS (con retraso), así que no afecta la carga de la página.
+  Mientras haya un formulario en pantalla se hace a un lado para no tapar el botón de enviar.
 */
 const KEY = 'iv-guia-off';
 
@@ -16,6 +17,18 @@ export default function WaGuide({ href }: { href: string }) {
   // Si ya lo cerró antes, se oculta antes de que alcance a aparecer (la entrada parte a los 2,5 s)
   useEffect(() => {
     try { if (localStorage.getItem(KEY) && ref.current) ref.current.hidden = true; } catch {}
+  }, []);
+
+  useEffect(() => {
+    const forms = document.querySelectorAll('form');
+    if (!forms.length || !('IntersectionObserver' in window)) return;
+    const visibles = new Set<Element>();
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) { if (e.isIntersecting) visibles.add(e.target); else visibles.delete(e.target); }
+      ref.current?.classList.toggle('is-quiet', visibles.size > 0);
+    });
+    forms.forEach(f => io.observe(f));
+    return () => io.disconnect();
   }, []);
 
   if (off) return null;

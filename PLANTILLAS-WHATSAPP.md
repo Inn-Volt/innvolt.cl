@@ -1,67 +1,80 @@
-# Plantillas de WhatsApp — INNVOLT
+# Plantillas de WhatsApp — InnVolt (actualizadas nov 2026)
 
-Mensajes listos para copiar y pegar. La idea es responder **rápido** (el que responde primero suele ganar el trabajo) y **pedir reseña siempre**. Personaliza lo que está entre [corchetes].
+Mensajes para copiar y pegar. Responder **rápido** suele ganar el trabajo, y **pedir reseña siempre** hace crecer la ficha de Google. Cambia lo que está entre [corchetes].
+
+Reglas: no prometer plazos que no puedan cumplir, no ofrecer garantía, no dar precios sin evaluar.
 
 ---
 
-## 1. Respuesta a una cotización entrante (lo antes posible)
+## 1. Respuesta a una consulta nueva
+> ¡Hola [nombre]! Gracias por escribir a InnVolt ⚡
+> Para orientarte bien, cuéntame:
+> 1. ¿Qué necesitas? (instalación, tablero, falla, TE1, paneles solares…)
+> 2. ¿En qué comuna?
+> 3. Si puedes, mándame fotos o un video del tablero o del lugar 📸
+> Con eso te digo cómo seguimos.
 
-> ¡Hola [nombre]! 👋 Gracias por escribir a InnVolt.
-> Para cotizarte al tiro, cuéntame:
-> 1️⃣ ¿Qué necesitas? (instalación, falla, cámaras, certificado SEC…)
-> 2️⃣ ¿En qué comuna?
-> 3️⃣ Si puedes, mándame una foto o video del lugar 📸
-> Con eso te dejo un presupuesto claro hoy mismo. 💛
+## 2. Consulta de paneles solares
+> ¡Hola [nombre]! Gracias por tu interés en energía solar ☀️
+> Para dimensionar bien tu sistema necesito:
+> 1. Una foto de tu boleta de luz (idealmente de un mes de verano y uno de invierno)
+> 2. Fotos del techo y del tablero
+> 3. ¿Buscas ahorrar en la cuenta, tener respaldo ante cortes, o ambas?
+> 4. ¿En qué comuna estás?
+> Con eso preparamos una propuesta según tu consumo real.
 
-## 2. Envío de presupuesto
+## 3. Consulta de certificado TE1
+> ¡Hola [nombre]! Te ayudamos con el TE1 📄
+> Cuéntame: ¿es para un empalme nuevo, un aumento de capacidad, una ampliación o para regularizar una instalación existente? ¿En qué comuna?
+> Primero revisamos que la instalación cumpla la norma; luego preparamos planos y la declaración ante la SEC.
 
-> Listo [nombre], acá va tu presupuesto para [trabajo]:
-> 💰 Valor: $[monto] (incluye materiales y mano de obra)
-> 🧾 Con boleta o factura
-> 🛡️ Garantía por escrito
-> 📅 Lo podríamos hacer el [día].
-> ¿Lo agendamos? Cualquier duda me dices. 😊
+## 4. Envío de propuesta
+> [nombre], te envío la propuesta para [trabajo]:
+> • Alcance: [qué incluye]
+> • Valor: $[monto] ([con/sin] materiales)
+> • Boleta o factura
+> • Fecha posible: [día]
+> ¿Lo agendamos? Cualquier duda la vemos.
 
-## 3. Confirmación de visita / agenda
+## 5. Pedir reseña al terminar (¡siempre, el mismo día!)
+> ¡Listo [nombre]! Quedó funcionando 💪 Gracias por confiar en InnVolt.
+> ¿Nos ayudarías con una reseña en Google? Toma menos de un minuto y nos ayuda mucho a que otras personas nos encuentren 🙏
+> https://g.page/r/CSI8dAAAm68YEBM/review
 
-> ¡Perfecto [nombre]! Te confirmo:
+## 6. Pedir reseña a clientes anteriores
+> ¡Hola [nombre]! Te saluda [tu nombre] de InnVolt ⚡ Hace un tiempo hicimos [trabajo] en tu [casa/local].
+> Estamos juntando opiniones de clientes en Google. Si quedaste conforme, ¿nos dejarías una reseña? Nos ayuda mucho:
+> https://g.page/r/CSI8dAAAm68YEBM/review
+> ¡Gracias! Y si necesitas algo, aquí estamos.
+
+## 7. Confirmación de visita
+> Te confirmo, [nombre]:
 > 📅 [día] a las [hora]
-> 📍 [dirección]
-> 👷 Va nuestro técnico certificado SEC.
-> Si necesitas reagendar, avísame con tiempo. ¡Nos vemos!
+> 📍 [comuna]
+> Va [nombre del técnico], instalador autorizado SEC.
+> Si necesitas cambiar la hora, avísame con tiempo.
 
-## 4. Seguimiento (si no responde en 1–2 días)
+## 8. Seguimiento (si no responde en 2–3 días)
+> Hola [nombre], ¿alcanzaste a revisar la propuesta? Si quieres ajustar algo del alcance lo vemos sin problema.
 
-> Hola [nombre], ¿alcanzaste a ver el presupuesto que te envié? 😊
-> Si tienes alguna duda o quieres ajustar algo, lo vemos sin problema. Quedo atento. 💛
+## 9. Permiso para fotos del trabajo
+> [nombre], ¿te molesta si tomamos un par de fotos del trabajo terminado para nuestra web y redes? Solo la instalación: sin tu dirección ni nada personal.
 
-## 5. Pedir reseña al terminar el trabajo (¡SIEMPRE!)
+## 10. Reactivar cliente (cada 6–12 meses)
+> ¡Hola [nombre]! Somos InnVolt ⚡ Hace un tiempo trabajamos en [trabajo].
+> Te recordamos que hacemos mantención de tableros, paneles solares y baterías. Si necesitas una revisión, escríbenos.
 
-> ¡Listo [nombre]! Quedó funcionando 💪 Fue un gusto ayudarte.
-> ¿Nos ayudarías con una reseña en Google? Nos toma solo 30 segundos y nos ayuda un montón a que más gente nos conozca 🙏
-> Acá el link directo: https://g.page/r/CRa4ejtbBBcyEAI/review
-> ¡Gracias! Cualquier cosa a futuro, aquí estamos. 💛
+## 11. Urgencia
+> Hola [nombre], entiendo que es urgente. Por seguridad: si hay olor a quemado, chispas o un tablero caliente, **baja el automático general** y no toques cables.
+> Cuéntame qué pasa y en qué comuna estás, y vemos cómo te atendemos.
 
-## 6. Pedir permiso para foto del trabajo
-
-> [nombre], ¿te molesta si tomo un par de fotos del trabajo terminado para mostrar en nuestras redes? No sale nada tuyo ni tu dirección, solo la instalación. ¡Gracias! 📸
-
-## 7. Reactivar cliente antiguo (cada 6–12 meses)
-
-> ¡Hola [nombre]! Somos InnVolt ⚡ Te ayudamos con [trabajo] hace un tiempo.
-> Pasamos a saludar y recordarte que hacemos mantención eléctrica, cámaras y domótica. Si necesitas una revisión o tienes algún proyecto, aquí estamos. 💛
-
-## 8. Respuesta a una urgencia
-
-> ¡Hola [nombre]! Entiendo que es urgente ⚡ Cuéntame rápido:
-> ¿Qué está pasando? (corte total, olor a quemado, chispas, tablero…) y ¿en qué comuna estás?
-> Por seguridad, si hay olor a quemado o chispas, corta la luz desde el automático principal. Vamos coordinando de inmediato. 🚨
+## 12. Lead del formulario de la web (llega por correo con nombre y teléfono)
+> ¡Hola [nombre]! Te escribo de InnVolt: dejaste tus datos en innvolt.cl para [servicio].
+> ¿Me cuentas un poco más de tu caso? Si puedes, envíame fotos del lugar o del tablero.
 
 ---
 
-### Tips de oro
-- ⏱️ **Responde rápido.** Idealmente en minutos. La velocidad vende más que el precio.
-- 📸 Pide siempre **foto/video** antes de cotizar: cotizas mejor y filtras curiosos.
-- ⭐ Pide la reseña **el mismo día** que terminas, cuando el cliente está feliz.
-- 💾 Guarda estos mensajes como **respuestas rápidas** en WhatsApp Business (Ajustes → Herramientas → Respuestas rápidas).
-- 🏷️ Usa **etiquetas** en WhatsApp Business (Nuevo, Cotizado, Agendado, Cerrado) para no perder ningún lead.
+### En WhatsApp Business
+- Guarda estas plantillas como **respuestas rápidas** (Herramientas para la empresa → Respuestas rápidas), por ejemplo `/solar`, `/te1`, `/resena`.
+- Usa **etiquetas**: Nuevo · Evaluación · Propuesta enviada · Agendado · Terminado · Reseña pedida.
+- Activa el **mensaje de bienvenida** con la plantilla 1 y el **mensaje de ausencia** fuera de horario.

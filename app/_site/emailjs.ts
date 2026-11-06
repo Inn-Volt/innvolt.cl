@@ -13,7 +13,7 @@ const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_KEY || '1QTEELvSjsm0CRIff';
 export type Lead = {
   nombre: string;
   empresa?: string;
-  correo: string;
+  correo?: string;            // opcional en la cotización rápida (solo teléfono)
   telefono?: string;
   servicio: string;
   comuna?: string;
@@ -30,21 +30,22 @@ export function toWaNumber(raw: unknown): string {
   return d;
 }
 
-/* Envía la notificación a InnVolt (si falla, lanza error) y la respuesta automática al cliente (best-effort). */
+/* Envía la notificación a InnVolt (si falla, lanza error) y, si hay correo, la respuesta automática al cliente (best-effort). */
 export async function sendLead(lead: Lead) {
   const comuna = (lead.comuna || '').trim();
   const params = {
     nombre: lead.nombre,
     empresa: lead.empresa || '',
-    correo: lead.correo,
+    correo: lead.correo || '',
     telefono: lead.telefono || '',
     telefono_wsp: toWaNumber(lead.telefono),
     servicio: lead.servicio,
     comuna,
     // La comuna va también dentro del mensaje para que llegue aunque la plantilla no use {{comuna}}
     mensaje: comuna ? `Comuna: ${comuna}\n\n${lead.mensaje}` : lead.mensaje,
-    reply_to: lead.correo,
+    reply_to: lead.correo || 'innvolt.cl@gmail.com',
   };
   await emailjs.send(SERVICE, TEMPLATE, params, { publicKey: PUBLIC_KEY });
-  emailjs.send(SERVICE, AUTOREPLY, params, { publicKey: PUBLIC_KEY }).catch(() => {});
+  // La respuesta automática solo se manda si el cliente dejó su correo
+  if (lead.correo) emailjs.send(SERVICE, AUTOREPLY, params, { publicKey: PUBLIC_KEY }).catch(() => {});
 }

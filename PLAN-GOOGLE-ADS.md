@@ -1,83 +1,80 @@
-# Plan de Google Ads — Urgencias eléctricas (INNVOLT)
+# Plan de Google Ads — InnVolt (actualizado nov 2026)
 
-Objetivo: captar al cliente de **alta intención** que busca un electricista AHORA. Ese busca, elige rápido y no regatea. Es el mejor tráfico para empezar a pagar publicidad.
+Objetivo: aparecer cuando alguien busca **ahora** un electricista, un TE1 o paneles solares, y llevarlo a la página del servicio, que ya trae WhatsApp, llamada y un formulario corto (solo nombre y teléfono).
 
-> ⚠️ Antes de gastar en Ads: configura la conversión (ver sección 6) y activa Google Analytics (`NEXT_PUBLIC_GA_ID`). Sin medición, no sabes qué funciona.
+> **Antes de gastar:** en GA4 marca como *eventos clave* `generate_lead`, `whatsapp_click` y `call_click` (Administrar → Eventos → activar "Marcar como evento clave"), y vincula GA4 con Google Ads. Sin eso no sabes qué aviso trae clientes.
 
----
-
-## 1. Tipo de campaña
-- **Campaña de Búsqueda (Search)**, no Display.
-- Objetivo: **Clientes potenciales / Llamadas**.
-- Ubicación: **Región Metropolitana** (o solo las comunas que atiendes).
-- Idioma: Español.
-- Horario: idealmente cuando puedas contestar. Si atiendes urgencias 24/7, déjalo todo el día.
-
-## 2. Landing page (ya está lista)
-Envía TODOS los avisos a:
-`https://innvolt.cl/urgencias-electricas-santiago`
-(no a la home — la página de urgencias convierte mejor para esta intención).
-
-## 3. Palabras clave (alta intención)
-Usa **concordancia de frase** `"..."` o exacta `[...]`:
-- "electricista urgente santiago"
-- "electricista de urgencia"
-- "electricista 24 horas santiago"
-- "electricista a domicilio santiago"
-- "emergencia eléctrica santiago"
-- "se cortó la luz en mi casa" / "no tengo luz en la casa"
-- "electricista certificado sec santiago"
-- "reparación eléctrica santiago"
-- Por comuna: "electricista [Providencia / Las Condes / Ñuñoa / Maipú / La Florida…]"
-
-## 4. Palabras clave NEGATIVAS (para no quemar plata)
-Agrégalas para NO aparecer en búsquedas que no compran:
-- gratis, curso, cursos, estudiar, carrera
-- empleo, trabajo, sueldo, se necesita, cv, vacante
-- diy, "cómo hacer", tutorial, youtube
-- repuestos, comprar (si no vendes productos)
-- usado, segunda mano
-
-## 5. Textos de aviso (Responsive Search Ad)
-
-**Títulos (headlines) — pon 8–10, Google los combina:**
-- Electricista Urgencia Santiago
-- Atendemos Hoy · 24 Horas
-- Certificados SEC (TE1)
-- Corte de Luz o Falla Eléctrica
-- Presupuesto Sin Costo
-- Precio Justo y Garantía
-- Boleta y Factura
-- Llámanos Ahora ⚡
-- Técnicos a Domicilio RM
-
-**Descripciones (pon 3–4):**
-- ¿Corte de luz, olor a quemado o tablero fallando? Te atendemos el mismo día. Certificados SEC.
-- Electricistas certificados en Santiago. Precio justo, garantía por escrito y boleta/factura.
-- Respuesta rápida por WhatsApp o teléfono. Cotización sin costo. ¡Escríbenos ahora!
-
-## 6. Recursos / Extensiones (súbelos todos — mejoran el aviso gratis)
-- **Extensión de llamada** con tu número: +56 9 8920 3902 (permite llamar directo desde el aviso).
-- **Extensión de enlaces**: Electricista SEC, Cámaras CCTV, Domótica, Contacto.
-- **Extensión de texto destacado**: "24 horas", "Certificados SEC", "Boleta y factura", "Garantía".
-- **Extensión de ubicación**: vincula tu Ficha de Google (Perfil de Empresa).
-
-## 7. Medición de conversiones (CLAVE)
-- En Google Ads: crea conversiones para **Llamadas desde el aviso** y **clics a WhatsApp**.
-- Vincula Google Ads con Google Analytics (GA4) e importa los eventos que ya trae el sitio: `whatsapp_click`, `call_click`, `generate_lead`.
-- Así sabes cuánto te cuesta cada lead real (no solo el clic).
-
-## 8. Presupuesto y pujas (para partir)
-- Estrategia de puja: **Maximizar clics** al inicio (1–2 semanas) para juntar datos; luego cambia a **Maximizar conversiones**.
-- Presupuesto de prueba: **$8.000–$15.000 CLP/día**. Con eso ya mides qué palabras traen clientes.
-- Revisa a los 7 días: pausa las keywords que gastan y no convierten, sube presupuesto en las que sí.
-
-## 9. Errores a evitar
-- ❌ Mandar los avisos a la home en vez de la página de urgencias.
-- ❌ No poner keywords negativas (te llenas de clics de gente buscando empleo o cursos).
-- ❌ No medir conversiones (gastas a ciegas).
-- ❌ Pausar la campaña a los 3 días: dale al menos 2 semanas para aprender.
+> **Reglas de contenido (las mismas del sitio):** no prometer tiempos ("24 horas", "mismo día", "al tiro"), no ofrecer garantía, no inventar cifras ni precios. "Presupuesto sin costo" solo si de verdad lo ofrecen.
 
 ---
 
-**Orden recomendado:** 1) optimiza tu Ficha de Google (gratis) → 2) junta las primeras reseñas → 3) recién ahí prende Google Ads de urgencias con presupuesto chico y escala lo que funcione.
+## 1. Estructura
+
+| Campaña | Grupo de anuncios | Página de destino |
+|---|---|---|
+| **RM · Electricidad** (Búsqueda) | Electricista / instalaciones | `https://innvolt.cl/instalaciones-electricas` |
+| | Tableros y fallas | `https://innvolt.cl/tableros-electricos` |
+| | Certificación TE1 | `https://innvolt.cl/certificacion-te1` |
+| **RM · Energía solar** (Búsqueda) | Paneles solares | `https://innvolt.cl/paneles-solares-santiago` |
+| | Baterías / respaldo | `https://innvolt.cl/baterias-almacenamiento-energia` |
+| **Villarrica** (Búsqueda, aparte) | Electricista + solar | `https://innvolt.cl/electricista-villarrica` |
+
+- Ubicación: **Región Metropolitana** en las campañas RM; **Villarrica y alrededores** (radio desde Villarrica) en la otra. Opción: "Presencia: personas que están o están habitualmente en la zona".
+- Idioma: español. Horario: cuando puedan contestar el teléfono y WhatsApp.
+- Nunca enviar avisos a la portada: cada grupo va a su página.
+
+## 2. Palabras clave (concordancia de frase "…" o exacta […])
+
+**Electricista / instalaciones:** "electricista santiago", "electricista autorizado sec", "electricista certificado", "instalación eléctrica casa", "instalación eléctrica local comercial", "ampliación eléctrica"
+
+**Tableros y fallas:** "tablero eléctrico", "cambiar tablero eléctrico", "salta el automático", "se corta la luz en mi casa", "normalizar instalación eléctrica"
+
+**TE1:** "certificado te1", "declaración te1", "te1 sec", "certificado eléctrico sec", "regularizar instalación eléctrica"
+
+**Paneles solares:** "paneles solares santiago", "instalación paneles solares", "paneles solares casa", "net billing", "sistema fotovoltaico"
+
+**Baterías:** "baterías paneles solares", "respaldo energía cortes de luz", "sistema solar híbrido"
+
+**Villarrica:** "electricista villarrica", "electricista pucón", "paneles solares villarrica", "paneles solares araucanía"
+
+## 3. Palabras clave negativas (agrégalas en todas las campañas)
+gratis, curso, cursos, capacitación, estudiar, carrera, empleo, trabajo, sueldo, se necesita, vacante, cv, tutorial, "cómo hacer", youtube, pdf, manual, usado, segunda mano, mercado libre, sodimac, easy, precio panel, venta paneles, mayorista
+
+## 4. Textos de anuncio (Responsive Search Ads)
+Títulos: máx. 30 caracteres. Descripciones: máx. 90. Todos revisados con las reglas de arriba.
+
+**Electricidad — títulos:** Electricista Autorizado SEC · Instalaciones Eléctricas RM · Tableros y Normalización · Certificación TE1 ante la SEC · Evaluación Técnica en Terreno · Propuesta Clara y Detallada · Boleta y Factura · Hogares, Comercios y Empresas · Escríbenos por WhatsApp · InnVolt · Electricidad
+
+**Energía solar — títulos:** Paneles Solares en Santiago · Instaladores Autorizados SEC · Net Billing y Declaración TE4 · Baterías y Respaldo Solar · Dimensionado a tu Consumo · Sistemas con Red o Aislados · Propuesta Clara y Detallada · Hogares y Empresas · InnVolt · Energía Solar
+
+**TE1 — títulos:** Certificado TE1 en Santiago · Declaración TE1 ante la SEC · Instaladores Autorizados SEC · Planos y Diagrama Unilineal · Regulariza tu Instalación · Para Empalmes y Ampliaciones · Revisamos tu Instalación · Boleta y Factura
+
+**Descripciones (elige 3–4 por grupo):**
+- Instaladores eléctricos autorizados SEC en la Región Metropolitana. Pide tu evaluación.
+- Evaluamos tu instalación y te entregamos una propuesta con el alcance definido.
+- Cotiza por WhatsApp: envíanos fotos de tu tablero o instalación y te orientamos.
+- Paneles solares dimensionados según tu boleta y tu techo. Gestionamos net billing y TE4.
+- Preparamos y declaramos tu TE1 ante la SEC con planos y diagrama unilineal.
+- Con red, híbridos o aislados, con baterías. Evaluamos tu consumo antes de proponer.
+
+## 5. Recursos (antes "extensiones")
+- **Llamada:** +56 9 6657 5447.
+- **Mensaje / WhatsApp:** el mismo número.
+- **Enlaces de sitio:** Certificación TE1 (`/certificacion-te1`), Paneles solares (`/paneles-solares-santiago`), Tableros (`/tableros-electricos`), Proyectos (`/proyectos`).
+- **Textos destacados:** Autorizados SEC · Boleta y factura · Evaluación técnica · Propuesta detallada.
+- **Ubicación:** vincula el Perfil de Empresa de Google (InnVolt).
+- **Imágenes:** las fotos reales de `public/fotos/` (solar-techo, tablero-medicion, instalacion-tda…).
+
+## 6. Presupuesto y pujas para partir
+- Arranque: **Maximizar clics** 1–2 semanas (con puja máxima por clic) para juntar datos; luego **Maximizar conversiones** cuando haya al menos ~15 conversiones.
+- Presupuesto de prueba sugerido: **$8.000–$15.000 CLP/día** repartido entre Electricidad y Solar. Villarrica con menos (ej. $3.000/día).
+- Cada semana: revisa **Términos de búsqueda**, agrega negativas y pausa palabras que gastan sin convertir.
+- Dale al menos 3–4 semanas antes de juzgar.
+
+## 7. Errores a evitar
+- Mandar los avisos a la portada.
+- No poner negativas (te llenas de gente buscando empleo, cursos o comprar paneles sueltos).
+- No medir conversiones.
+- Prometer en el aviso algo que el sitio no dice (Google y el cliente lo notan).
+
+**Orden recomendado:** 1) Perfil de Google completo (ver `GUIA-GOOGLE-BUSINESS.md`) → 2) primeras 5–10 reseñas reales → 3) Ads con presupuesto chico y escalar lo que convierte.
